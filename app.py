@@ -122,6 +122,29 @@ def main():
             min-width: 0 !important;
         }
         
+        /* Inline label styling for stTextArea inside stElementContainer siblings */
+        div.stElementContainer:has(.inline-inputs) ~ div.stElementContainer > div[data-testid="stTextArea"] {
+            display: flex !important;
+            flex-direction: row !important;
+            align-items: flex-start !important;
+            gap: 12px !important;
+        }
+        div.stElementContainer:has(.inline-inputs) ~ div.stElementContainer > div[data-testid="stTextArea"] label {
+            min-width: 120px !important;
+            margin-top: 8px !important;
+            margin-bottom: 0 !important;
+            text-align: right !important;
+            font-weight: 600 !important;
+        }
+        div.stElementContainer:has(.inline-inputs) ~ div.stElementContainer > div[data-testid="stTextArea"] div[data-testid="stWidgetLabel"] {
+            margin-bottom: 0 !important;
+        }
+        div.stElementContainer:has(.inline-inputs) ~ div.stElementContainer > div[data-testid="stTextArea"] > div {
+            flex-grow: 1 !important;
+            min-width: 0 !important;
+            width: 100% !important;
+        }
+        
         /* Sticky top tabs area */
         div[data-testid="stTabs"] [role="tablist"] {
             position: sticky !important;
@@ -425,6 +448,7 @@ def main():
                 new_neg_trait = st.text_input("Negative Trait", value=traits.get("negative_trait") or "")
             new_flair = st.text_input("Flair", value=traits.get("flair") or "")
             new_goal = st.text_input("Adventuring Goal", value=traits.get("adventuring_goal") or "")
+            new_notes = st.text_area("Gear", value=notes, height=80)
             st.markdown('</div>', unsafe_allow_html=True)
 
         with col_t2:
@@ -649,7 +673,6 @@ def main():
                 "block_active": block_act,
                 "dodge_active": dodge_act
             }
-            new_notes = st.text_area("Campaign Notes & Character Lore 📖", value=notes, height=130)
 
         st.markdown("---")
         # Bottom Layout: Powers (Left) & Magic Items (Right)
