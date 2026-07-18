@@ -510,26 +510,107 @@ def main():
         st.markdown("---")
         st.markdown("### 🎲 Attributes & Proficiencies")
         
-        # Attributes Row
-        col_attr_h1, col_attr_h2, col_attr_h3, col_attr_h4, col_attr_h5 = st.columns(5)
-        ratings = ["d4", "d6", "d8", "d10", "d12"]
-        with col_attr_h1:
-            new_might = st.selectbox("Might 💪 Rating", ratings, index=ratings.index(char_state.get("might", "d4")), help=ATR_DIE_NOTE)
-        with col_attr_h2:
-            new_motion = st.selectbox("Motion 🏃 Rating", ratings, index=ratings.index(char_state.get("motion", "d4")), help=ATR_DIE_NOTE)
-        with col_attr_h3:
-            new_mind = st.selectbox("Mind 👁️ Rating", ratings, index=ratings.index(char_state.get("mind", "d4")), help=ATR_DIE_NOTE)
-        with col_attr_h4:
-            new_magic = st.selectbox("Magic ✨ Rating", ratings, index=ratings.index(char_state.get("magic", "d4")), help=ATR_DIE_NOTE)
-        with col_attr_h5:
-            new_moxie = st.selectbox("Moxie 🫀 Rating", ratings, index=ratings.index(char_state.get("moxie", "d4")), help=ATR_DIE_NOTE)
-            
+        # Segment dynamic and current character skills by attribute suffix emojis
+        might_skills_options = [s for s in all_possible_skills if "💪" in s]
+        motion_skills_options = [s for s in all_possible_skills if "🏃" in s]
+        mind_skills_options = [s for s in all_possible_skills if any(sym in s for sym in ["👁️", "👁"])]
+        magic_skills_options = [s for s in all_possible_skills if "✨" in s]
+        moxie_skills_options = [s for s in all_possible_skills if any(sym in s for sym in ["🫀", "💖", "🧠"])]
+        
         current_skills = char_state.get("skills", [])
-        new_skills = st.multiselect(
-            "Active Proficient Skills:",
-            options=all_possible_skills + current_skills,
-            default=current_skills
-        )
+        
+        might_skills_selected = [s for s in current_skills if "💪" in s]
+        motion_skills_selected = [s for s in current_skills if "🏃" in s]
+        mind_skills_selected = [s for s in current_skills if any(sym in s for sym in ["👁️", "👁"])]
+        magic_skills_selected = [s for s in current_skills if "✨" in s]
+        moxie_skills_selected = [s for s in current_skills if any(sym in s for sym in ["🫀", "💖", "🧠"])]
+        
+        # Ensure any custom selected skills are present in option lists
+        for cs in might_skills_selected:
+            if cs not in might_skills_options:
+                might_skills_options.append(cs)
+        for cs in motion_skills_selected:
+            if cs not in motion_skills_options:
+                motion_skills_options.append(cs)
+        for cs in mind_skills_selected:
+            if cs not in mind_skills_options:
+                mind_skills_options.append(cs)
+        for cs in magic_skills_selected:
+            if cs not in magic_skills_options:
+                magic_skills_options.append(cs)
+        for cs in moxie_skills_selected:
+            if cs not in moxie_skills_options:
+                moxie_skills_options.append(cs)
+                
+        # Header Row
+        col_hdr1, col_hdr2, col_hdr3, col_hdr4 = st.columns([1.5, 1.2, 4.0, 5.0], vertical_alignment="center")
+        with col_hdr1:
+            st.markdown("**✅ Atr**")
+        with col_hdr2:
+            st.markdown("**Die 🎲**")
+        with col_hdr3:
+            st.markdown("**Notes**")
+        with col_hdr4:
+            st.markdown("**🎓 Skilled at**")
+            
+        ratings = ["d4", "d6", "d8", "d10", "d12"]
+        
+        # Might Row
+        col_m1, col_m2, col_m3, col_m4 = st.columns([1.5, 1.2, 4.0, 5.0], vertical_alignment="center")
+        with col_m1:
+            st.markdown("**Might 💪**")
+        with col_m2:
+            new_might = st.selectbox("Might Rating", ratings, index=ratings.index(char_state.get("might", "d4")), key="sb_might", label_visibility="collapsed", help=ATR_DIE_NOTE)
+        with col_m3:
+            st.write("melee weapons, Block Def, armor 🛡️, shields 🛡️, physical strength")
+        with col_m4:
+            new_might_skills = st.multiselect("Might Skills", options=might_skills_options, default=might_skills_selected, key="ms_might", label_visibility="collapsed")
+            
+        # Motion Row
+        col_mo1, col_mo2, col_mo3, col_mo4 = st.columns([1.5, 1.2, 4.0, 5.0], vertical_alignment="center")
+        with col_mo1:
+            st.markdown("**Motion 🏃**")
+        with col_mo2:
+            new_motion = st.selectbox("Motion Rating", ratings, index=ratings.index(char_state.get("motion", "d4")), key="sb_motion", label_visibility="collapsed", help=ATR_DIE_NOTE)
+        with col_mo3:
+            st.write("Nish 🚩, dodge, hurled weapons, athletics, dexterity, balance")
+        with col_mo4:
+            new_motion_skills = st.multiselect("Motion Skills", options=motion_skills_options, default=motion_skills_selected, key="ms_motion", label_visibility="collapsed")
+            
+        # Mind Row
+        col_mi1, col_mi2, col_mi3, col_mi4 = st.columns([1.5, 1.2, 4.0, 5.0], vertical_alignment="center")
+        with col_mi1:
+            st.markdown("**Mind 👁️**")
+        with col_mi2:
+            new_mind = st.selectbox("Mind Rating", ratings, index=ratings.index(char_state.get("mind", "d4")), key="sb_mind", label_visibility="collapsed", help=ATR_DIE_NOTE)
+        with col_mi3:
+            st.write("shot weapons, intelligence, personality, awareness, wit, charm, persuade")
+        with col_mi4:
+            new_mind_skills = st.multiselect("Mind Skills", options=mind_skills_options, default=mind_skills_selected, key="ms_mind", label_visibility="collapsed")
+            
+        # Magic Row
+        col_ma1, col_ma2, col_ma3, col_ma4 = st.columns([1.5, 1.2, 4.0, 5.0], vertical_alignment="center")
+        with col_ma1:
+            st.markdown("**Magic ✨**")
+        with col_ma2:
+            new_magic = st.selectbox("Magic Rating", ratings, index=ratings.index(char_state.get("magic", "d4")), key="sb_magic", label_visibility="collapsed", help=ATR_DIE_NOTE)
+        with col_ma3:
+            st.write("Saves/Resistances, arcane power")
+        with col_ma4:
+            new_magic_skills = st.multiselect("Magic Skills", options=magic_skills_options, default=magic_skills_selected, key="ms_magic", label_visibility="collapsed")
+            
+        # Moxie Row
+        col_mx1, col_mx2, col_mx3, col_mx4 = st.columns([1.5, 1.2, 4.0, 5.0], vertical_alignment="center")
+        with col_mx1:
+            st.markdown("**Moxie 🫀**")
+        with col_mx2:
+            new_moxie = st.selectbox("Moxie Rating", ratings, index=ratings.index(char_state.get("moxie", "d4")), key="sb_moxie", label_visibility="collapsed", help=ATR_DIE_NOTE)
+        with col_mx3:
+            st.write("Resist Saves, Death Checks, Stamina, Body")
+        with col_mx4:
+            new_moxie_skills = st.multiselect("Moxie Skills", options=moxie_skills_options, default=moxie_skills_selected, key="ms_moxie", label_visibility="collapsed")
+            
+        new_skills = sorted(list(set(new_might_skills + new_motion_skills + new_mind_skills + new_magic_skills + new_moxie_skills)))
 
         st.markdown("---")
         # Middle Layout: Weapons Grid (Left) & Armor Card (Right)
