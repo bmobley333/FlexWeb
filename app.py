@@ -785,12 +785,12 @@ def main():
                 with col_p1:
                     p_sel = st.checkbox("Sel", value=slot.get("select", False), key=f"p_sel_{i}", label_visibility="collapsed")
                 with col_p2:
-                    current_name = slot.get("name") or "Custom / None"
+                    current_name = slot.get("name") or ""
                     
                     # Construct preset options list showing short name for current selection and dropdown fields for other choices
                     preset_options = [current_name]
-                    if current_name != "Custom / None":
-                        preset_options.append("Custom / None")
+                    if current_name != "":
+                        preset_options.append("")
                     for p in filtered_powers_list:
                         p_drop = p.get("dropdown")
                         p_name = p.get("name")
@@ -803,7 +803,7 @@ def main():
                 
                 # Preset changed trigger
                 if p_name_sel != current_name:
-                    new_slot = GameEngine.update_power_or_item_slot(slot, p_name_sel if p_name_sel != "Custom / None" else "", powers)
+                    new_slot = GameEngine.update_power_or_item_slot(slot, p_name_sel if p_name_sel != "" else "", powers)
                     powers_slots[i] = new_slot
                     sheet_data["powers"] = powers_slots
                     sheet_data["weapons"] = updated_weapons
@@ -853,7 +853,7 @@ def main():
                     
                 updated_powers_slots.append({
                     "select": p_sel,
-                    "name": p_name_sel if p_name_sel != "Custom / None" else slot.get("name", ""),
+                    "name": p_name_sel if p_name_sel != "" else slot.get("name", ""),
                     "action": p_act,
                     "usage": p_use,
                     "effect": p_eff
@@ -874,20 +874,20 @@ def main():
                 st.write("**Effect Description**")
                 
             updated_items_slots = []
-            item_names = ["Custom / None"] + [m["name"] for m in magic_items]
+            item_names = [""] + [m["name"] for m in magic_items]
             
             for i, slot in enumerate(magic_items_slots):
                 col_m1, col_m2, col_m3, col_m4, col_m5 = st.columns([0.8, 3, 1.2, 1.5, 3.5])
                 with col_m1:
                     m_sel = st.checkbox("Sel", value=slot.get("select", False), key=f"m_sel_{i}", label_visibility="collapsed")
                 with col_m2:
-                    current_name = slot.get("name") or "Custom / None"
+                    current_name = slot.get("name") or ""
                     preset_options = [current_name] + item_names if current_name not in item_names else item_names
                     m_name_sel = st.selectbox("Preset", preset_options, index=preset_options.index(current_name), key=f"m_name_sel_{i}", label_visibility="collapsed")
                 
                 # Preset changed trigger
                 if m_name_sel != current_name:
-                    new_slot = GameEngine.update_power_or_item_slot(slot, m_name_sel if m_name_sel != "Custom / None" else "", magic_items)
+                    new_slot = GameEngine.update_power_or_item_slot(slot, m_name_sel if m_name_sel != "" else "", magic_items)
                     magic_items_slots[i] = new_slot
                     sheet_data["magic_items"] = magic_items_slots
                     sheet_data["weapons"] = updated_weapons
@@ -937,7 +937,7 @@ def main():
                     
                 updated_items_slots.append({
                     "select": m_sel,
-                    "name": m_name_sel if m_name_sel != "Custom / None" else slot.get("name", ""),
+                    "name": m_name_sel if m_name_sel != "" else slot.get("name", ""),
                     "action": m_act,
                     "usage": m_use,
                     "effect": m_eff
