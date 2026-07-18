@@ -578,6 +578,8 @@ def main():
             st.markdown('<div style="font-size: 0.85rem; line-height: 1.25; color: rgba(255,255,255,0.75);">melee weapons, Block Def, armor 🛡️, shields 🛡️, physical strength</div>', unsafe_allow_html=True)
         with col_m4:
             skills_str = ", ".join(skilled_at["Might"])
+            if skills_str:
+                skills_str = "💪 " + skills_str
             st.markdown(f'<div style="background-color: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 4px; padding: 6px 12px; min-height: 42px; max-height: 70px; overflow-y: auto; width: 100%; font-size: 0.85rem; line-height: 1.35; color: rgba(255,255,255,0.95);">{skills_str}</div>', unsafe_allow_html=True)
             
         # Motion Row
@@ -590,6 +592,8 @@ def main():
             st.markdown('<div style="font-size: 0.85rem; line-height: 1.25; color: rgba(255,255,255,0.75);">Nish 🚩, dodge, hurled weapons, athletics, dexterity, balance</div>', unsafe_allow_html=True)
         with col_mo4:
             skills_str = ", ".join(skilled_at["Motion"])
+            if skills_str:
+                skills_str = "🏃 " + skills_str
             st.markdown(f'<div style="background-color: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 4px; padding: 6px 12px; min-height: 42px; max-height: 70px; overflow-y: auto; width: 100%; font-size: 0.85rem; line-height: 1.35; color: rgba(255,255,255,0.95);">{skills_str}</div>', unsafe_allow_html=True)
             
         # Mind Row
@@ -602,6 +606,8 @@ def main():
             st.markdown('<div style="font-size: 0.85rem; line-height: 1.25; color: rgba(255,255,255,0.75);">shot weapons, intelligence, personality, awareness, wit, charm, persuade</div>', unsafe_allow_html=True)
         with col_mi4:
             skills_str = ", ".join(skilled_at["Mind"])
+            if skills_str:
+                skills_str = "👁️ " + skills_str
             st.markdown(f'<div style="background-color: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 4px; padding: 6px 12px; min-height: 42px; max-height: 70px; overflow-y: auto; width: 100%; font-size: 0.85rem; line-height: 1.35; color: rgba(255,255,255,0.95);">{skills_str}</div>', unsafe_allow_html=True)
             
         # Magic Row
@@ -614,6 +620,8 @@ def main():
             st.markdown('<div style="font-size: 0.85rem; line-height: 1.25; color: rgba(255,255,255,0.75);">Saves/Resistances, arcane power</div>', unsafe_allow_html=True)
         with col_ma4:
             skills_str = ", ".join(skilled_at["Magic"])
+            if skills_str:
+                skills_str = "✨ " + skills_str
             st.markdown(f'<div style="background-color: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 4px; padding: 6px 12px; min-height: 42px; max-height: 70px; overflow-y: auto; width: 100%; font-size: 0.85rem; line-height: 1.35; color: rgba(255,255,255,0.95);">{skills_str}</div>', unsafe_allow_html=True)
             
         # Moxie Row
@@ -626,6 +634,8 @@ def main():
             st.markdown('<div style="font-size: 0.85rem; line-height: 1.25; color: rgba(255,255,255,0.75);">Resist Saves, Death Checks, Stamina, Body</div>', unsafe_allow_html=True)
         with col_mx4:
             skills_str = ", ".join(skilled_at["Moxie"])
+            if skills_str:
+                skills_str = "🫀 " + skills_str
             st.markdown(f'<div style="background-color: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 4px; padding: 6px 12px; min-height: 42px; max-height: 70px; overflow-y: auto; width: 100%; font-size: 0.85rem; line-height: 1.35; color: rgba(255,255,255,0.95);">{skills_str}</div>', unsafe_allow_html=True)
             
         new_skills = char_state.get("skills", [])
