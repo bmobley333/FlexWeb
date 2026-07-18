@@ -412,15 +412,19 @@ def main():
         
         if db_choice == "Powers ⚡":
             if powers:
-                df_powers = pd.DataFrame(powers)[["name", "usage", "action", "effect", "source"]]
-                st.dataframe(df_powers, use_container_width=True)
+                df_powers = pd.DataFrame(powers)
+                cols_to_show = ["name", "sub", "table_name", "usage", "action", "effect", "source", "dropdown"]
+                cols_present = [c for c in cols_to_show if c in df_powers.columns]
+                st.dataframe(df_powers[cols_present], use_container_width=True)
             else:
                 st.info("No powers found in database.")
                 
         elif db_choice == "Magic Items 🍺":
             if magic_items:
-                df_items = pd.DataFrame(magic_items)[["name", "usage", "action", "effect", "source"]]
-                st.dataframe(df_items, use_container_width=True)
+                df_items = pd.DataFrame(magic_items)
+                cols_to_show = ["name", "sub", "table_name", "usage", "action", "effect", "source", "dropdown"]
+                cols_present = [c for c in cols_to_show if c in df_items.columns]
+                st.dataframe(df_items[cols_present], use_container_width=True)
             else:
                 st.info("No magic items found in database.")
                 
@@ -430,11 +434,20 @@ def main():
                 for s in skillsets:
                     skills_list = s.get("skills", [])
                     skills_str = ", ".join(skills_list) if isinstance(skills_list, list) else str(skills_list)
-                    formatted_sets.append({
+                    
+                    row_data = {
                         "Name": s.get("name"),
                         "Included Skills": skills_str,
                         "Source": s.get("source")
-                    })
+                    }
+                    if "sub" in s:
+                        row_data["Sub"] = s.get("sub")
+                    if "table_name" in s:
+                        row_data["Table Name"] = s.get("table_name")
+                    if "dropdown" in s:
+                        row_data["Dropdown"] = s.get("dropdown")
+                        
+                    formatted_sets.append(row_data)
                 st.dataframe(pd.DataFrame(formatted_sets), use_container_width=True)
             else:
                 st.info("No skillsets found in database.")
