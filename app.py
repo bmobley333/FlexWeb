@@ -33,54 +33,19 @@ def main():
     # Render logo at top of left sidebar
     st.sidebar.image("logo.png")
     
-    # --- 1. Dyslexia-Friendly Spacing / View Mode Settings ---
-    if "view_mode" not in st.session_state:
-        st.session_state.view_mode = False # False = Compact, True = Expanded
-        
-    st.sidebar.header("⚙️ Interface Settings")
-    
-    col_left, col_toggle, col_right = st.sidebar.columns([3, 2, 3])
-    
-    with col_toggle:
-        # Streamlit toggle switch
-        view_mode = st.toggle("view_toggle", value=st.session_state.view_mode, label_visibility="collapsed")
-        st.session_state.view_mode = view_mode
-        
-    with col_left:
-        opacity = "1.0" if not view_mode else "0.4"
-        st.markdown(f"<div style='text-align: right; font-weight: bold; color: #f8fafc; opacity: {opacity}; transition: opacity 0.3s;'>Compact</div>", unsafe_allow_html=True)
-        
-    with col_right:
-        opacity = "1.0" if view_mode else "0.4"
-        st.markdown(f"<div style='text-align: left; font-weight: bold; color: #f8fafc; opacity: {opacity}; transition: opacity 0.3s;'>Expanded</div>", unsafe_allow_html=True)
-
-    # Dynamic Spacing CSS Injection
-    if not view_mode:
-        st.markdown("""
-            <style>
-            div[data-testid="stVerticalBlock"] > div {
-                padding-top: 0.1rem !important;
-                padding-bottom: 0.1rem !important;
-            }
-            .block-container {
-                padding-top: 2rem !important;
-                padding-bottom: 2rem !important;
-            }
-            </style>
-        """, unsafe_allow_html=True)
-    else:
-        st.markdown("""
-            <style>
-            div[data-testid="stVerticalBlock"] > div {
-                padding-top: 0.8rem !important;
-                padding-bottom: 0.8rem !important;
-            }
-            .block-container {
-                padding-top: 4rem !important;
-                padding-bottom: 4rem !important;
-            }
-            </style>
-        """, unsafe_allow_html=True)
+    # Spacing CSS Injection (Locked to Compact Layout)
+    st.markdown("""
+        <style>
+        div[data-testid="stVerticalBlock"] > div {
+            padding-top: 0.1rem !important;
+            padding-bottom: 0.1rem !important;
+        }
+        .block-container {
+            padding-top: 2rem !important;
+            padding-bottom: 2rem !important;
+        }
+        </style>
+    """, unsafe_allow_html=True)
 
     # Premium Glassmorphic Styles
     st.markdown("""
