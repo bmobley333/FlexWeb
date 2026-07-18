@@ -344,9 +344,10 @@ def main():
     all_possible_skills = sorted(list(all_possible_skills))
 
     # --- 4. Main Dashboard Tabs ---
-    tab_char, tab_rolls, tab_inv, tab_rules, tab_codex, tab_sharing = st.tabs([
+    tab_char, tab_rolls, tab_build, tab_inv, tab_rules, tab_codex, tab_sharing = st.tabs([
         "🛡️ Character Sheet", 
         "🎲 Action Console", 
+        "⚙️ Build Customizer",
         "🧰 Inventory Editor",
         "📜 Adventure Logs",
         "📖 Codex Search",
@@ -732,7 +733,12 @@ def main():
                 st.write("**Effect Description**")
                 
             updated_powers_slots = []
-            power_names = ["Custom / None"] + [p["name"] for p in powers]
+            selected_power_tables = sheet_data.get("selected_power_tables") or []
+            if selected_power_tables:
+                filtered_powers_list = [p for p in powers if p.get("table_name") in selected_power_tables]
+            else:
+                filtered_powers_list = powers
+            power_names = ["Custom / None"] + [p["name"] for p in filtered_powers_list]
             
             for i, slot in enumerate(powers_slots):
                 col_p1, col_p2, col_p3, col_p4, col_p5 = st.columns([0.8, 3, 1.2, 1.5, 3.5])
@@ -880,7 +886,8 @@ def main():
                 })
 
         # Save updates if changes made on other fields
-        compiled_sheet_data = {
+        compiled_sheet_data = dict(sheet_data)
+        compiled_sheet_data.update({
             "traits": {
                 "positive_trait": new_pos_trait,
                 "negative_trait": new_neg_trait,
@@ -908,7 +915,7 @@ def main():
                 "mr_shield": new_mr_shield
             },
             "active_skillset": selected_set
-        }
+        })
 
         updated_db_data = {
             "class": new_class.strip() or None,
@@ -1035,7 +1042,163 @@ def main():
                 current_logs.append(result_str)
                 repo.save_character(player_name, {"log": current_logs})
                 st.rerun()
-    # --- TAB 3: INVENTORY GRID EDITOR ---
+
+    # --- TAB 3: BUILD CUSTOMIZER ---
+    with tab_build:
+        st.markdown("<div class='glass-panel'>", unsafe_allow_html=True)
+        st.subheader("⚙️ Build Customizer")
+        st.write("Configure your character's Power Tables and known Skill Sets. These selections filter the options available during active play.")
+        
+        # Load selections or defaults
+        selected_power_tables = sheet_data.get("selected_power_tables") or []
+        known_skillsets = sheet_data.get("known_skillsets") or []
+
+        # Sync/initialize checkbox state keys in st.session_state
+        power_combos = set()
+        for p in powers:
+            p_sub = p.get("sub") or "Other"
+            p_table = p.get("table_name") or ""
+            if p_table and p_table != "TableName":
+                power_combos.add((p_sub, p_table))
+        sorted_combos = sorted(list(power_combos), key=lambda x: (str(x[0]), str(x[1])))
+        
+        for sub, table in sorted_combos:
+            key = f"chk_pt_{sub}_{table}"
+            if key not in st.session_state:
+                st.session_state[key] = (table in selected_power_tables)
+
+        col_b1, col_b2 = st.columns([1, 1])
+
+        with col_b1:
+            st.markdown("#### ⚡ Power Tables Selection")
+            st.write("Select the Power Tables your character has permission to learn from. Typically, you select at least one per category.")
+            
+            # Action buttons
+            col_act1, col_act2 = st.columns(2)
+            with col_act1:
+                if st.button("Select All Tables 🌌", key="select_all_powers_btn", use_container_width=True):
+                    selected_power_tables = [c[1] for c in sorted_combos]
+                    sheet_data["selected_power_tables"] = selected_power_tables
+                    # Force session state values to True
+                    for sub, table in sorted_combos:
+                        st.session_state[f"chk_pt_{sub}_{table}"] = True
+                    char_state["sheet_data"] = sheet_data
+                    if repo.save_character(player_name, char_state):
+                        st.toast("Selected all power tables!")
+                        st.rerun()
+                    else:
+                        st.error("⚠️ Failed to save power tables.")
+            with col_act2:
+                if st.button("Clear All Tables 🗑️", key="clear_all_powers_btn", use_container_width=True):
+                    selected_power_tables = []
+                    sheet_data["selected_power_tables"] = selected_power_tables
+                    # Force session state values to False
+                    for sub, table in sorted_combos:
+                        st.session_state[f"chk_pt_{sub}_{table}"] = False
+                    char_state["sheet_data"] = sheet_data
+                    if repo.save_character(player_name, char_state):
+                        st.toast("Cleared all power tables!")
+                        st.rerun()
+                    else:
+                        st.error("⚠️ Failed to clear power tables.")
+                    
+            st.write("") # Spacing
+            
+            # Render grouped by Sub Category
+            grouped_combos = {}
+            for sub, table in sorted_combos:
+                if sub not in grouped_combos:
+                    grouped_combos[sub] = []
+                grouped_combos[sub].append(table)
+                
+            emoji_map = {
+                "Class": "🗡️",
+                "Combat Style": "⚔️",
+                "Luck": "🍀",
+                "Race": "🧝"
+            }
+            
+            new_selected_power_tables = []
+            for sub, tables in grouped_combos.items():
+                emoji = emoji_map.get(sub, "🔮")
+                st.markdown(f"### {emoji} {sub} Tables")
+                for table in tables:
+                    key = f"chk_pt_{sub}_{table}"
+                    checked = st.checkbox(table, key=key)
+                    if checked:
+                        new_selected_power_tables.append(table)
+                        
+            # Save if selections changed
+            if set(new_selected_power_tables) != set(selected_power_tables):
+                sheet_data["selected_power_tables"] = new_selected_power_tables
+                char_state["sheet_data"] = sheet_data
+                if repo.save_character(player_name, char_state):
+                    st.rerun()
+                else:
+                    st.error("⚠️ Failed to auto-save power tables.")
+
+        with col_b2:
+            st.markdown("#### 🎓 Known Skill Sets")
+            st.write("Add or remove entire prepackaged Skill Sets to your character.")
+            
+            # Display current known skillsets
+            if known_skillsets:
+                for ks_name in known_skillsets:
+                    col_ks_text, col_ks_del = st.columns([8, 1])
+                    with col_ks_text:
+                        # Find skillset details from list
+                        ks_detail = next((s for s in skillsets if s["name"] == ks_name), None)
+                        if ks_detail:
+                            st.write(f"**{ks_detail.get('dropdown')}**")
+                        else:
+                            st.write(f"**{ks_name}**")
+                    with col_ks_del:
+                        if st.button("🗑️", key=f"del_ks_{ks_name}"):
+                            new_ks_list = [k for k in known_skillsets if k != ks_name]
+                            sheet_data["known_skillsets"] = new_ks_list
+                            char_state["sheet_data"] = sheet_data
+                            if repo.save_character(player_name, char_state):
+                                st.toast(f"Removed Skill Set: {ks_name}")
+                                st.rerun()
+                            else:
+                                st.error("⚠️ Failed to remove skillset.")
+            else:
+                st.info("No skill sets selected yet. Choose one from the dropdown below to add it.")
+                
+            st.markdown("---")
+            st.write("**Add a Skill Set:**")
+            
+            # Exclude already added ones from options and sort alphabetically by dropdown text
+            available_skillsets = [s for s in skillsets if s["name"] not in known_skillsets]
+            available_skillsets = sorted(available_skillsets, key=lambda s: s.get("dropdown", ""))
+            dropdown_options = ["Select a Skill Set to add..."] + [s["dropdown"] for s in available_skillsets]
+            
+            selected_dropdown = st.selectbox(
+                "Skill Set Dropdown",
+                dropdown_options,
+                index=0,
+                key="add_skillset_dropdown",
+                label_visibility="collapsed"
+            )
+            
+            if selected_dropdown != "Select a Skill Set to add...":
+                # Find matching skillset name
+                matched_ks = next((s for s in available_skillsets if s["dropdown"] == selected_dropdown), None)
+                if matched_ks:
+                    new_ks_list = list(known_skillsets) + [matched_ks["name"]]
+                    sheet_data["known_skillsets"] = new_ks_list
+                    char_state["sheet_data"] = sheet_data
+                    if repo.save_character(player_name, char_state):
+                        st.toast(f"Added Skill Set: {matched_ks['name']}")
+                        st.rerun()
+                    else:
+                        st.error("⚠️ Failed to add skillset.")
+                else:
+                    st.error("⚠️ Selected skill set not found in database.")
+                    
+        st.markdown("</div>", unsafe_allow_html=True)
+
+    # --- TAB 4: INVENTORY GRID EDITOR ---
     with tab_inv:
         
         # Load inventory
