@@ -4,7 +4,12 @@
 
 import streamlit as st
 import pandas as pd
+import importlib
+import repositories
+importlib.reload(repositories)
 from repositories import GameRepository
+import game_engine
+importlib.reload(game_engine)
 from game_engine import GameEngine
 
 @st.dialog("⚠️ Character Creation Error")
