@@ -6,23 +6,29 @@ import pandas as pd
 import streamlit as st
 from supabase import create_client, Client
 
-# Initialize runtime-only sandbox memory block in Streamlit Session State as fallback
-if "player_character" not in st.session_state:
-    st.session_state.player_character = {
-        "name": "Blake",
-        "class": None,
-        "race": None,
-        "hp": 10,
-        "inventory": [],
-        "log": []
-    }
-
 class GameRepository:
     def __init__(self, data_dir="data"):
         self.data_dir = data_dir
         self.classes_df = None
         self.abilities_df = None
         self.client = None
+        
+        # Initialize runtime-only sandbox memory block in Streamlit Session State as fallback
+        if "player_character" not in st.session_state:
+            st.session_state.player_character = {
+                "name": "Blake",
+                "class": None,
+                "race": None,
+                "hp": 10,
+                "might": "d4",
+                "motion": "d4",
+                "mind": "d4",
+                "magic": "d4",
+                "moxie": "d4",
+                "skills": [],
+                "inventory": [],
+                "log": []
+            }
         
         # Try to connect to Supabase
         try:
@@ -73,6 +79,12 @@ class GameRepository:
                         "class": char_data.get("class"),
                         "race": char_data.get("race"),
                         "hp": char_data.get("hp"),
+                        "might": char_data.get("might") or "d4",
+                        "motion": char_data.get("motion") or "d4",
+                        "mind": char_data.get("mind") or "d4",
+                        "magic": char_data.get("magic") or "d4",
+                        "moxie": char_data.get("moxie") or "d4",
+                        "skills": char_data.get("skills") or [],
                         "inventory": char_data.get("inventory", []),
                         "log": char_data.get("log", [])
                     }
@@ -93,6 +105,12 @@ class GameRepository:
                     "class": data.get("class"),
                     "race": data.get("race"),
                     "hp": int(data.get("hp", 10)),
+                    "might": data.get("might") or "d4",
+                    "motion": data.get("motion") or "d4",
+                    "mind": data.get("mind") or "d4",
+                    "magic": data.get("magic") or "d4",
+                    "moxie": data.get("moxie") or "d4",
+                    "skills": data.get("skills") or [],
                     "inventory": data.get("inventory", []),
                     "log": data.get("log", [])
                 }
@@ -106,3 +124,33 @@ class GameRepository:
             except Exception as e:
                 st.error(f"⚠️ Supabase Save failed: {e}")
         return False
+
+    def get_all_powers(self) -> list:
+        """Fetches all powers from Supabase. Falls back to empty list."""
+        if self.client:
+            try:
+                res = self.client.table("powers").select("*").order("name").execute()
+                return res.data or []
+            except Exception:
+                pass
+        return []
+
+    def get_all_magic_items(self) -> list:
+        """Fetches all magic items from Supabase. Falls back to empty list."""
+        if self.client:
+            try:
+                res = self.client.table("magic_items").select("*").order("name").execute()
+                return res.data or []
+            except Exception:
+                pass
+        return []
+
+    def get_all_skillsets(self) -> list:
+        """Fetches all skillsets from Supabase. Falls back to empty list."""
+        if self.client:
+            try:
+                res = self.client.table("skillsets").select("*").order("name").execute()
+                return res.data or []
+            except Exception:
+                pass
+        return []
