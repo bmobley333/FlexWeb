@@ -658,7 +658,7 @@ def main():
             st.markdown('<div class="inline-inputs">', unsafe_allow_html=True)
             
             st.markdown("#### 🧥 Armor")
-            arm_name = st.text_input("Name", value=armor_shield.get("armor_name", ""))
+            arm_name = st.text_input("Name", value=armor_shield.get("armor_name", ""), key="arm_name_input")
             
             arm_ratings = ["4", "6", "8", "10", "12"]
             current_block = armor_shield.get("block_active")
@@ -673,21 +673,21 @@ def main():
                 
             col_a1, col_a2, col_a3 = st.columns([1, 1, 1], vertical_alignment="center")
             with col_a1:
-                block_act = st.selectbox("Block💪", arm_ratings, index=arm_ratings.index(current_block))
+                block_act = st.selectbox("Block💪", arm_ratings, index=arm_ratings.index(current_block), key="arm_block_select")
             with col_a2:
-                dodge_act = st.selectbox("Dodge🏃", arm_ratings, index=arm_ratings.index(current_dodge))
+                dodge_act = st.selectbox("Dodge🏃", arm_ratings, index=arm_ratings.index(current_dodge), key="arm_dodge_select")
             with col_a3:
-                arm_ar = st.selectbox("AR🧥", arm_ratings, index=arm_ratings.index(current_ar))
+                arm_ar = st.selectbox("AR🧥", arm_ratings, index=arm_ratings.index(current_ar), key="arm_ar_select")
                 
             st.markdown("#### 🛡️ Shield")
             
             col_sh1, col_sh2, col_sh3 = st.columns([1.2, 4.8, 4.0], vertical_alignment="center")
             with col_sh1:
-                sh_sk = st.checkbox("Sk", value=armor_shield.get("shield_sk", False))
+                sh_sk = st.checkbox("Sk", value=armor_shield.get("shield_sk", False), key="sh_sk_checkbox")
             with col_sh2:
-                sh_name = st.text_input("Name", value=armor_shield.get("shield_name", ""))
+                sh_name = st.text_input("Name", value=armor_shield.get("shield_name", ""), key="sh_name_input")
             with col_sh3:
-                sh_max_block = st.text_input("Max Block🛡️", value=armor_shield.get("shield_max_block", ""))
+                sh_max_block = st.text_input("Max Block🛡️", value=armor_shield.get("shield_max_block", ""), key="sh_max_block_input")
                 
             st.markdown('</div>', unsafe_allow_html=True)
             
