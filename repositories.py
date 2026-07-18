@@ -86,7 +86,8 @@ class GameRepository:
                         "moxie": char_data.get("moxie") or "d4",
                         "skills": char_data.get("skills") or [],
                         "inventory": char_data.get("inventory", []),
-                        "log": char_data.get("log", [])
+                        "log": char_data.get("log", []),
+                        "owner_email": char_data.get("owner_email")
                     }
             except Exception:
                 pass
@@ -95,7 +96,8 @@ class GameRepository:
     def save_character(self, name: str, data: dict):
         """Saves character to Supabase table (upsert). Falls back to session state."""
         # Update local session state first
-        st.session_state.player_character.update(data)
+        if st.session_state.player_character.get("name") == name:
+            st.session_state.player_character.update(data)
         
         if self.client:
             try:
@@ -114,6 +116,11 @@ class GameRepository:
                     "inventory": data.get("inventory", []),
                     "log": data.get("log", [])
                 }
+                if "owner_email" in data:
+                    db_data["owner_email"] = data["owner_email"]
+                elif "player_email" in st.session_state:
+                    db_data["owner_email"] = st.session_state.player_email
+
                 # Check if record exists to decide insert vs update
                 exists = self.client.table("characters").select("id").eq("name", name).execute()
                 if exists.data:
@@ -154,3 +161,79 @@ class GameRepository:
             except Exception:
                 pass
         return []
+
+    def create_player(self, email: str, first_name: str, last_name: str) -> bool:
+        """Inserts a new player into the players table."""
+        if self.client:
+            try:
+                self.client.table("players").insert({
+                    "email": email,
+                    "first_name": first_name,
+                    "last_name": last_name
+                }).execute()
+                return True
+            except Exception as e:
+                st.error(f"⚠️ Failed to create player: {e}")
+        return False
+
+    def get_player(self, email: str) -> dict:
+        """Retrieves player profile by email."""
+        if self.client:
+            try:
+                res = self.client.table("players").select("*").eq("email", email).execute()
+                return res.data[0] if res.data else None
+            except Exception:
+                pass
+        return None
+
+    def get_characters_by_owner(self, owner_email: str) -> list:
+        """Fetches all characters owned by a specific email."""
+        if self.client:
+            try:
+                res = self.client.table("characters").select("*").eq("owner_email", owner_email).execute()
+                return res.data or []
+            except Exception:
+                pass
+        # Fallback to session state if it matches the current email and offline
+        if "player_email" in st.session_state and st.session_state.player_email == owner_email:
+            return [st.session_state.player_character]
+        return []
+
+    def get_other_players(self, current_email: str) -> list:
+        """Retrieves all players except the current logged-in one."""
+        if self.client:
+            try:
+                res = self.client.table("players").select("*").neq("email", current_email).execute()
+                return res.data or []
+            except Exception:
+                pass
+        return []
+
+    def character_exists(self, name: str) -> bool:
+        """Checks if a character name already exists in Supabase."""
+        if self.client:
+            try:
+                res = self.client.table("characters").select("id").eq("name", name).execute()
+                return bool(res.data)
+            except Exception:
+                pass
+        return False
+
+    def create_character(self, name: str, owner_email: str) -> bool:
+        """Initializes a new character for an owner."""
+        default_data = {
+            "owner_email": owner_email,
+            "class": "None",
+            "race": "None",
+            "hp": 10,
+            "might": "d4",
+            "motion": "d4",
+            "mind": "d4",
+            "magic": "d4",
+            "moxie": "d4",
+            "skills": [],
+            "inventory": [],
+            "log": ["Character created."]
+        }
+        return self.save_character(name, default_data)
+

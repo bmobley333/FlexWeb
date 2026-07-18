@@ -113,15 +113,79 @@ def main():
     st.write("Welcome to the Chromebook-compatible S-Tier rules sandbox.")
 
     # --- 2. Player Login / Selection ---
-    st.sidebar.markdown("---")
-    st.sidebar.subheader("👤 Player Identity")
-    player_name = st.sidebar.text_input("Enter Character Name:", value="Blake").strip()
-    
-    if not player_name:
-        st.warning("Please enter a character name to begin.")
-        return
+    if "player_email" not in st.session_state:
+        st.markdown("<div class='glass-panel'>", unsafe_allow_html=True)
+        st.subheader("👤 Playtest Account Access")
+        email = st.text_input("Enter your playtest email:").strip().lower()
         
-    # Fetch active character state from Supabase
+        if email:
+            player = repo.get_player(email)
+            if player:
+                st.session_state.player_email = email
+                st.session_state.player_first = player["first_name"]
+                st.session_state.player_last = player["last_name"]
+                st.success(f"Welcome back, {player['first_name']}!")
+                st.rerun()
+            else:
+                st.info("First-time login detected. Please create your profile:")
+                first_name = st.text_input("First Name:")
+                last_name = st.text_input("Last Name:")
+                if st.button("Register & Log In 🚀"):
+                    if first_name.strip() and last_name.strip():
+                        repo.create_player(email, first_name.strip(), last_name.strip())
+                        st.session_state.player_email = email
+                        st.session_state.player_first = first_name.strip()
+                        st.session_state.player_last = last_name.strip()
+                        st.success("Profile created successfully!")
+                        st.rerun()
+                    else:
+                        st.error("Please fill in both first and last name.")
+        st.markdown("</div>", unsafe_allow_html=True)
+        return
+
+    st.sidebar.markdown(f"**Logged in as:**  \n{st.session_state.player_first} {st.session_state.player_last}  \n`({st.session_state.player_email})`")
+    if st.sidebar.button("Logout 🚪"):
+        del st.session_state.player_email
+        if "player_first" in st.session_state:
+            del st.session_state.player_first
+        if "player_last" in st.session_state:
+            del st.session_state.player_last
+        st.rerun()
+
+    st.sidebar.markdown("---")
+    st.sidebar.subheader("👤 Your Characters")
+    
+    my_characters = repo.get_characters_by_owner(st.session_state.player_email)
+    char_names = [c["name"] for c in my_characters]
+    
+    if not char_names:
+        st.sidebar.warning("No characters found. Create one below to begin:")
+        with st.sidebar.form("create_first_char_form", clear_on_submit=True):
+            new_char_name = st.text_input("New Character Name:").strip()
+            submitted = st.form_submit_button("Create Character 🛠️")
+            if submitted and new_char_name:
+                if repo.character_exists(new_char_name):
+                    st.sidebar.error("Character name already taken.")
+                else:
+                    repo.create_character(new_char_name, st.session_state.player_email)
+                    st.sidebar.success(f"Character '{new_char_name}' created!")
+                    st.rerun()
+        return
+
+    selected_char_name = st.sidebar.selectbox("Select Active Character:", char_names)
+    
+    with st.sidebar.expander("➕ Make New Character"):
+        new_char_name = st.text_input("New Character Name:", key="new_char_input").strip()
+        if st.button("Create Character 🛠️", key="create_new_char_btn"):
+            if new_char_name:
+                if repo.character_exists(new_char_name):
+                    st.sidebar.error("Character name already taken.")
+                else:
+                    repo.create_character(new_char_name, st.session_state.player_email)
+                    st.sidebar.success(f"Character '{new_char_name}' created!")
+                    st.rerun()
+
+    player_name = selected_char_name
     char_state = repo.get_character(player_name)
     
     # --- 3. Sidebar Biometrics & Stats Display ---
@@ -162,12 +226,13 @@ def main():
     all_possible_skills = sorted(list(all_possible_skills))
 
     # --- 4. Main Dashboard Tabs ---
-    tab_char, tab_rolls, tab_inv, tab_rules, tab_codex = st.tabs([
+    tab_char, tab_rolls, tab_inv, tab_rules, tab_codex, tab_sharing = st.tabs([
         "🛡️ Character Sheet", 
         "🎲 Action Console", 
         "🧰 Inventory Editor",
         "📜 Adventure Logs",
-        "📖 Codex Search"
+        "📖 Codex Search",
+        "👥 Player Directory"
     ])
     
     # --- TAB 1: CHARACTER SHEET EDITOR ---
@@ -451,6 +516,79 @@ def main():
                 st.dataframe(pd.DataFrame(formatted_sets), use_container_width=True)
             else:
                 st.info("No skillsets found in database.")
+        st.markdown("</div>", unsafe_allow_html=True)
+
+    # --- TAB 6: PLAYER DIRECTORY & SHARING ---
+    with tab_sharing:
+        st.markdown("<div class='glass-panel'>", unsafe_allow_html=True)
+        st.subheader("Explore Other Players' Characters")
+        
+        other_players = repo.get_other_players(st.session_state.player_email)
+        if not other_players:
+            st.info("No other registered players found in this playtest yet.")
+        else:
+            player_options = {f"{p['first_name']} {p['last_name']} ({p['email']})": p['email'] for p in other_players}
+            selected_player_label = st.selectbox("Select Player:", list(player_options.keys()))
+            
+            if selected_player_label:
+                target_email = player_options[selected_player_label]
+                peer_chars = repo.get_characters_by_owner(target_email)
+                
+                if not peer_chars:
+                    st.info("This player has not created any characters yet.")
+                else:
+                    peer_char_name = st.selectbox("Select Character to View/Clone:", [c["name"] for c in peer_chars])
+                    # Find character data
+                    peer_char_data = next((c for c in peer_chars if c["name"] == peer_char_name), None)
+                    
+                    if peer_char_data:
+                        col_view1, col_view2 = st.columns(2)
+                        with col_view1:
+                            st.markdown(f"### 🛡️ {peer_char_data['name']}")
+                            st.markdown(f"**Class:** {peer_char_data.get('class') or 'None'}")
+                            st.markdown(f"**Race:** {peer_char_data.get('race') or 'None'}")
+                            st.markdown(f"**HP:** {peer_char_data.get('hp', 10)}")
+                            st.markdown("**Skills:**")
+                            st.write(peer_char_data.get("skills") or [])
+                        with col_view2:
+                            st.markdown("### 📊 Attributes")
+                            st.metric("Might 💪", (peer_char_data.get("might") or "d4").upper())
+                            st.metric("Motion 🏃", (peer_char_data.get("motion") or "d4").upper())
+                            st.metric("Mind 👁️", (peer_char_data.get("mind") or "d4").upper())
+                            st.metric("Magic ✨", (peer_char_data.get("magic") or "d4").upper())
+                            st.metric("Moxie 🫀", (peer_char_data.get("moxie") or "d4").upper())
+                        
+                        st.markdown("---")
+                        # Inventory View (Read Only)
+                        st.markdown("### 🧰 Inventory (Read Only)")
+                        peer_inv = peer_char_data.get("inventory", [])
+                        if peer_inv:
+                            st.dataframe(pd.DataFrame(peer_inv), use_container_width=True)
+                        else:
+                            st.write("Inventory is empty.")
+                        
+                        st.markdown("---")
+                        # Clone action
+                        if st.button("📋 Clone Character to My Account"):
+                            clone_name = f"{peer_char_name} (Copy)"
+                            suffix = 1
+                            while repo.character_exists(clone_name):
+                                clone_name = f"{peer_char_name} (Copy {suffix})"
+                                suffix += 1
+                            
+                            cloned_data = peer_char_data.copy()
+                            cloned_data["name"] = clone_name
+                            cloned_data["owner_email"] = st.session_state.player_email
+                            
+                            # Remove the database ID if present to avoid unique constraint clash on insert
+                            if "id" in cloned_data:
+                                del cloned_data["id"]
+                                
+                            if repo.save_character(clone_name, cloned_data):
+                                st.success(f"Successfully cloned '{peer_char_name}' as '{clone_name}'!")
+                                st.rerun()
+                            else:
+                                st.error("Failed to clone character.")
         st.markdown("</div>", unsafe_allow_html=True)
 
 if __name__ == "__main__":
