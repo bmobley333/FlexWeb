@@ -91,14 +91,16 @@ def main():
 
         /* Compact inline label styling for 3-column rows (Movement Rate & Vitality) */
         div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:has(> div[data-testid="stColumn"]:nth-child(3)) div[data-testid="stTextInput"],
-        div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:has(> div[data-testid="stColumn"]:nth-child(3)) div[data-testid="stNumberInput"] {
+        div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:has(> div[data-testid="stColumn"]:nth-child(3)) div[data-testid="stNumberInput"],
+        div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:has(> div[data-testid="stColumn"]:nth-child(3)) div[data-testid="stSelectbox"] {
             display: flex !important;
             flex-direction: row !important;
             align-items: center !important;
             gap: 6px !important;
         }
         div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:has(> div[data-testid="stColumn"]:nth-child(3)) div[data-testid="stTextInput"] label,
-        div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:has(> div[data-testid="stColumn"]:nth-child(3)) div[data-testid="stNumberInput"] label {
+        div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:has(> div[data-testid="stColumn"]:nth-child(3)) div[data-testid="stNumberInput"] label,
+        div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:has(> div[data-testid="stColumn"]:nth-child(3)) div[data-testid="stSelectbox"] label {
             min-width: 65px !important;
             margin-bottom: 0 !important;
             text-align: right !important;
@@ -107,17 +109,20 @@ def main():
             white-space: nowrap !important;
         }
         div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:has(> div[data-testid="stColumn"]:nth-child(3)) div[data-testid="stTextInput"] div[data-testid="stWidgetLabel"],
-        div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:has(> div[data-testid="stColumn"]:nth-child(3)) div[data-testid="stNumberInput"] div[data-testid="stWidgetLabel"] {
+        div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:has(> div[data-testid="stColumn"]:nth-child(3)) div[data-testid="stNumberInput"] div[data-testid="stWidgetLabel"],
+        div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:has(> div[data-testid="stColumn"]:nth-child(3)) div[data-testid="stSelectbox"] div[data-testid="stWidgetLabel"] {
             margin-bottom: 0 !important;
         }
         div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:has(> div[data-testid="stColumn"]:nth-child(3)) div[data-testid="stTextInput"] > div,
-        div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:has(> div[data-testid="stColumn"]:nth-child(3)) div[data-testid="stNumberInput"] > div {
+        div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:has(> div[data-testid="stColumn"]:nth-child(3)) div[data-testid="stNumberInput"] > div,
+        div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:has(> div[data-testid="stColumn"]:nth-child(3)) div[data-testid="stSelectbox"] > div {
             flex-grow: 1 !important;
             min-width: 0 !important;
             width: 100% !important;
         }
         div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:has(> div[data-testid="stColumn"]:nth-child(3)) div[data-testid="stTextInput"] div[data-testid="stTextInputRootElement"],
-        div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:has(> div[data-testid="stColumn"]:nth-child(3)) div[data-testid="stNumberInput"] div[data-testid="stNumberInputContainer"] {
+        div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:has(> div[data-testid="stColumn"]:nth-child(3)) div[data-testid="stNumberInput"] div[data-testid="stNumberInputContainer"],
+        div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:has(> div[data-testid="stColumn"]:nth-child(3)) div[data-testid="stSelectbox"] div[data-rac=""] {
             width: 100% !important;
             min-width: 0 !important;
         }
@@ -650,28 +655,52 @@ def main():
                 })
 
         with col_mid2:
-            st.markdown("#### 🛡️ Armor, Shield & Ratings")
-            col_arm1, col_arm2 = st.columns(2)
-            with col_arm1:
-                arm_name = st.text_input("Armor Name", value=armor_shield.get("armor_name", ""))
-                arm_def = st.text_input("Def Rating", value=armor_shield.get("armor_def", ""))
-                arm_ar = st.text_input("AR Value", value=armor_shield.get("armor_ar", ""))
-                dodge_act = st.text_input("Dodge Active", value=armor_shield.get("dodge_active", ""))
-            with col_arm2:
-                sh_name = st.text_input("Shield Name", value=armor_shield.get("shield_name", ""))
-                sh_max_block = st.text_input("Shield Max Block", value=armor_shield.get("shield_max_block", ""))
-                st.write("") # layout spacers
-                st.write("")
-                block_act = st.text_input("Block Active", value=armor_shield.get("block_active", ""))
+            st.markdown('<div class="inline-inputs">', unsafe_allow_html=True)
+            
+            st.markdown("#### 🧥 Armor")
+            col_a1, col_a2, col_a3, col_a4 = st.columns([1.8, 1.1, 1.1, 1.0], vertical_alignment="center")
+            with col_a1:
+                arm_name = st.text_input("Name", value=armor_shield.get("armor_name", ""))
+            
+            arm_ratings = ["4", "6", "8", "10", "12"]
+            current_block = armor_shield.get("block_active")
+            if current_block not in arm_ratings:
+                current_block = "4"
+            current_dodge = armor_shield.get("dodge_active")
+            if current_dodge not in arm_ratings:
+                current_dodge = "4"
+            current_ar = armor_shield.get("armor_ar")
+            if current_ar not in arm_ratings:
+                current_ar = "4"
                 
+            with col_a2:
+                block_act = st.selectbox("Block💪", arm_ratings, index=arm_ratings.index(current_block))
+            with col_a3:
+                dodge_act = st.selectbox("Dodge🏃", arm_ratings, index=arm_ratings.index(current_dodge))
+            with col_a4:
+                arm_ar = st.selectbox("AR🧥", arm_ratings, index=arm_ratings.index(current_ar))
+                
+            st.write("") # tiny spacer
+            
+            col_sh1, col_sh2, col_sh3 = st.columns([1.2, 4.8, 4.0], vertical_alignment="center")
+            with col_sh1:
+                sh_sk = st.checkbox("Sk", value=armor_shield.get("shield_sk", False))
+            with col_sh2:
+                sh_name = st.text_input("Shield Name🛡️", value=armor_shield.get("shield_name", ""))
+            with col_sh3:
+                sh_max_block = st.text_input("Max Block🛡️", value=armor_shield.get("shield_max_block", ""))
+                
+            st.markdown('</div>', unsafe_allow_html=True)
+            
             new_armor_shield = {
                 "armor_name": arm_name,
-                "armor_def": arm_def,
+                "armor_def": "",  # deprecated/removed from UI
                 "armor_ar": arm_ar,
                 "shield_name": sh_name,
                 "shield_max_block": sh_max_block,
                 "block_active": block_act,
-                "dodge_active": dodge_act
+                "dodge_active": dodge_act,
+                "shield_sk": sh_sk
             }
 
         st.markdown("---")
