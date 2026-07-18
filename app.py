@@ -30,6 +30,9 @@ def main():
     # Initialize repository
     repo = GameRepository()
     
+    # Render logo at top of left sidebar
+    st.sidebar.image("logo.png")
+    
     # --- 1. Dyslexia-Friendly Spacing / View Mode Settings ---
     if "view_mode" not in st.session_state:
         st.session_state.view_mode = False # False = Compact, True = Expanded
@@ -143,9 +146,6 @@ def main():
         </style>
     """, unsafe_allow_html=True)
 
-    st.title("🌌 FlexWeb Playtest Console")
-    st.write("Welcome to the Chromebook-compatible S-Tier rules sandbox.")
-
     # --- 2. Player Login / Selection ---
     if "player_email" not in st.session_state:
         st.markdown("<div class='glass-panel'>", unsafe_allow_html=True)
@@ -235,27 +235,6 @@ def main():
     player_name = selected_char_name
     char_state = repo.get_character(player_name)
     
-    # --- 3. Sidebar Biometrics & Stats Display ---
-    st.sidebar.markdown("---")
-    st.sidebar.subheader("📊 Active Biometrics")
-    
-    col_bio1, col_bio2 = st.sidebar.columns(2)
-    with col_bio1:
-        st.metric("Class", char_state.get("class") or "None")
-        st.metric("Hit Points (HP)", char_state.get("hp", 10))
-    with col_bio2:
-        st.metric("Race", char_state.get("race") or "None")
-        
-    st.sidebar.markdown("**Core Attribute dice**")
-    col_atr1, col_atr2 = st.sidebar.columns(2)
-    with col_atr1:
-        st.metric("Might 💪", char_state.get("might", "d4").upper())
-        st.metric("Motion 🏃", char_state.get("motion", "d4").upper())
-        st.metric("Mind 👁️", char_state.get("mind", "d4").upper())
-    with col_atr2:
-        st.metric("Magic ✨", char_state.get("magic", "d4").upper())
-        st.metric("Moxie 🫀", char_state.get("moxie", "d4").upper())
-
     # Load dynamic options from Supabase
     powers = repo.get_all_powers()
     magic_items = repo.get_all_magic_items()
