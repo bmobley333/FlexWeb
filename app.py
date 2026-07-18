@@ -7,6 +7,14 @@ import pandas as pd
 from repositories import GameRepository
 from game_engine import GameEngine
 
+@st.dialog("⚠️ Character Creation Error")
+def show_error_dialog(message):
+    st.markdown(f"**{message}**")
+    if st.button("OK", key="close_dialog_btn", use_container_width=True):
+        if "dialog_to_show" in st.session_state:
+            del st.session_state.dialog_to_show
+        st.rerun()
+
 # Configure widescreen layout
 st.set_page_config(
     page_title="FlexWeb Playtest Console",
@@ -16,6 +24,9 @@ st.set_page_config(
 )
 
 def main():
+    if "dialog_to_show" in st.session_state:
+        show_error_dialog(st.session_state.dialog_to_show)
+
     # Initialize repository
     repo = GameRepository()
     
@@ -95,6 +106,29 @@ def main():
             color: #0f172a !important;
             background-color: #ffffff !important;
         }
+        /* Fix sidebar button contrast issues */
+        section[data-testid="stSidebar"] button {
+            background-color: #1e293b !important;
+            border: 1px solid #334155 !important;
+            color: #f8fafc !important;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+        }
+        section[data-testid="stSidebar"] button:hover {
+            background-color: #334155 !important;
+            border-color: #475569 !important;
+        }
+        section[data-testid="stSidebar"] button p,
+        section[data-testid="stSidebar"] button span {
+            color: #f8fafc !important;
+        }
+        /* Fix sidebar expander header contrast issues */
+        section[data-testid="stSidebar"] details[data-testid="stExpander"] summary {
+            color: #0f172a !important;
+        }
+        section[data-testid="stSidebar"] details[data-testid="stExpander"] summary p,
+        section[data-testid="stSidebar"] details[data-testid="stExpander"] summary span {
+            color: #0f172a !important;
+        }
         /* Dashboard Container styling */
         .glass-panel {
             background: rgba(30, 41, 59, 0.4);
@@ -163,8 +197,11 @@ def main():
         with st.sidebar.form("create_first_char_form", clear_on_submit=True):
             new_char_name = st.text_input("New Character Name:").strip()
             submitted = st.form_submit_button("Create Character 🛠️")
-            if submitted and new_char_name:
-                if repo.character_exists(new_char_name):
+            if submitted:
+                if not new_char_name:
+                    st.session_state.dialog_to_show = "Character name cannot be blank."
+                    st.rerun()
+                elif repo.character_exists(new_char_name):
                     st.sidebar.error("Character name already taken.")
                 else:
                     repo.create_character(new_char_name, st.session_state.player_email)
@@ -172,18 +209,28 @@ def main():
                     st.rerun()
         return
 
-    selected_char_name = st.sidebar.selectbox("Select Active Character:", char_names)
+    if "active_char_name" not in st.session_state or st.session_state.active_char_name not in char_names:
+        st.session_state.active_char_name = char_names[0]
+        
+    selected_char_name = st.sidebar.selectbox(
+        "Select Active Character:",
+        char_names,
+        index=char_names.index(st.session_state.active_char_name)
+    )
+    st.session_state.active_char_name = selected_char_name
     
     with st.sidebar.expander("➕ Make New Character"):
         new_char_name = st.text_input("New Character Name:", key="new_char_input").strip()
         if st.button("Create Character 🛠️", key="create_new_char_btn"):
-            if new_char_name:
-                if repo.character_exists(new_char_name):
-                    st.sidebar.error("Character name already taken.")
-                else:
-                    repo.create_character(new_char_name, st.session_state.player_email)
-                    st.sidebar.success(f"Character '{new_char_name}' created!")
-                    st.rerun()
+            if not new_char_name:
+                st.session_state.dialog_to_show = "Character name cannot be blank."
+                st.rerun()
+            elif repo.character_exists(new_char_name):
+                st.sidebar.error("Character name already taken.")
+            else:
+                repo.create_character(new_char_name, st.session_state.player_email)
+                st.sidebar.success(f"Character '{new_char_name}' created!")
+                st.rerun()
 
     player_name = selected_char_name
     char_state = repo.get_character(player_name)
@@ -277,24 +324,33 @@ def main():
             default=current_skills
         )
         
-        if st.button("Save Character Sheet 💾"):
-            updated_data = {
-                "class": new_class.strip() or None,
-                "race": new_race.strip() or None,
-                "hp": int(new_hp),
-                "might": new_might,
-                "motion": new_motion,
-                "mind": new_mind,
-                "magic": new_magic,
-                "moxie": new_moxie,
-                "skills": new_skills
-            }
+        # Check for changes and auto-save
+        updated_data = {
+            "class": new_class.strip() or None,
+            "race": new_race.strip() or None,
+            "hp": int(new_hp),
+            "might": new_might,
+            "motion": new_motion,
+            "mind": new_mind,
+            "magic": new_magic,
+            "moxie": new_moxie,
+            "skills": new_skills
+        }
+        
+        # Compare key-by-key to avoid saving identical data
+        has_changes = False
+        for key, val in updated_data.items():
+            if char_state.get(key) != val:
+                has_changes = True
+                break
+                
+        if has_changes:
             if repo.save_character(player_name, updated_data):
-                st.success("Character sheet synced to Supabase database!")
+                st.toast("⚡ Changes saved automatically!")
                 st.rerun()
             else:
-                st.info("Character state saved locally (offline fallback).")
-                st.rerun()
+                st.error("⚠️ Failed to auto-save character data.")
+                
         st.markdown("</div>", unsafe_allow_html=True)
 
     # --- TAB 2: ACTION & ROLL CONSOLE ---
@@ -427,19 +483,20 @@ def main():
         edited_list = edited_df.to_dict("records")
         total_weight = GameEngine.calculate_encumbrance(edited_list)
         
-        col_weight, col_save = st.columns([4, 1])
-        with col_weight:
-            st.metric("Total Weight Encumbrance (lbs)", f"{total_weight} lbs")
-            
-        with col_save:
-            if st.button("Save Inventory 💾"):
-                # Clean up empty rows
-                cleaned_inv = [item for item in edited_list if item.get("Item Name")]
-                if repo.save_character(player_name, {"inventory": cleaned_inv}):
-                    st.success("Inventory synced to Supabase database!")
-                    st.rerun()
-                else:
-                    st.error("Failed to save inventory.")
+        # Clean up empty rows
+        cleaned_inv = [item for item in edited_list if item.get("Item Name")]
+        
+        # Compare cleaned inventory with raw inventory to see if they differ
+        raw_cleaned = [item for item in raw_inventory if item.get("Item Name")]
+        
+        if cleaned_inv != raw_cleaned:
+            if repo.save_character(player_name, {"inventory": cleaned_inv}):
+                st.toast("⚡ Inventory saved automatically!")
+                st.rerun()
+            else:
+                st.error("⚠️ Failed to auto-save inventory.")
+                
+        st.metric("Total Weight Encumbrance (lbs)", f"{total_weight} lbs")
         st.markdown("</div>", unsafe_allow_html=True)
 
     # --- TAB 4: ADVENTURE & ACTION LOGS ---

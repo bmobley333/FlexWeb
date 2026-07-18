@@ -102,18 +102,30 @@ class GameRepository:
         if self.client:
             try:
                 # Upsert record in Supabase
+                # Parse hp, skills and inventory safely
+                try:
+                    hp_val = int(data.get("hp", 10))
+                except (ValueError, TypeError):
+                    hp_val = 10
+
+                skills_val = data.get("skills")
+                skills_list = list(skills_val) if isinstance(skills_val, list) else []
+
+                inv_val = data.get("inventory")
+                inv_list = list(inv_val) if isinstance(inv_val, list) else []
+
                 db_data = {
                     "name": name,
                     "class": data.get("class"),
                     "race": data.get("race"),
-                    "hp": int(data.get("hp", 10)),
+                    "hp": hp_val,
                     "might": data.get("might") or "d4",
                     "motion": data.get("motion") or "d4",
                     "mind": data.get("mind") or "d4",
                     "magic": data.get("magic") or "d4",
                     "moxie": data.get("moxie") or "d4",
-                    "skills": data.get("skills") or [],
-                    "inventory": data.get("inventory", []),
+                    "skills": skills_list,
+                    "inventory": inv_list,
                     "log": data.get("log", [])
                 }
                 if "owner_email" in data:
@@ -223,8 +235,8 @@ class GameRepository:
         """Initializes a new character for an owner."""
         default_data = {
             "owner_email": owner_email,
-            "class": "None",
-            "race": "None",
+            "class": None,
+            "race": None,
             "hp": 10,
             "might": "d4",
             "motion": "d4",
