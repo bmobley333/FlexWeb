@@ -38,6 +38,16 @@ def main():
     # Render logo at top of left sidebar
     st.sidebar.image("logo.png")
     
+    # Master Zoom UI Scale control
+    zoom_level = st.sidebar.slider("UI Zoom Scale 🔍", min_value=0.75, max_value=1.25, value=1.0, step=0.05, key="master_zoom_slider")
+    st.markdown(f"""
+        <style>
+        .block-container {{
+            zoom: {zoom_level} !important;
+        }}
+        </style>
+    """, unsafe_allow_html=True)
+    
     # Spacing CSS Injection (Locked to Compact Layout)
     st.markdown("""
         <style>
@@ -48,6 +58,7 @@ def main():
         .block-container {
             padding-top: 2rem !important;
             padding-bottom: 2rem !important;
+            min-width: 1200px !important;
         }
         /* Inline label styling for dense form layouts (2-column & 1-column) */
         div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:not(:has(> div[data-testid="stColumn"]:nth-child(3))) div[data-testid="stTextInput"],
