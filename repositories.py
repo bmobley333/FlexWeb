@@ -7,6 +7,66 @@ import streamlit as st
 from supabase import create_client, Client
 
 class GameRepository:
+    def get_default_sheet_data(self) -> dict:
+        return {
+            "traits": {
+                "positive_trait": "",
+                "negative_trait": "",
+                "flair": "",
+                "adventuring_goal": "",
+                "appearance": "",
+                "hgt_wgt_age": ""
+            },
+            "money": {
+                "gold": 0,
+                "silver": 0
+            },
+            "weapons": [
+                {"sk": False, "m_h_s": "M", "name": "", "atk": "", "dmg": "", "max_block": ""},
+                {"sk": False, "m_h_s": "M", "name": "", "atk": "", "dmg": "", "max_block": ""},
+                {"sk": False, "m_h_s": "M", "name": "", "atk": "", "dmg": "", "max_block": ""},
+                {"sk": False, "m_h_s": "M", "name": "", "atk": "", "dmg": "", "max_block": ""},
+                {"sk": False, "m_h_s": "M", "name": "", "atk": "", "dmg": "", "max_block": ""}
+            ],
+            "armor_shield": {
+                "armor_name": "",
+                "armor_def": "",
+                "armor_ar": "",
+                "shield_name": "",
+                "shield_max_block": "",
+                "block_active": "",
+                "dodge_active": ""
+            },
+            "powers": [
+                {"select": False, "usage": "", "action": "", "name": "", "effect": ""},
+                {"select": False, "usage": "", "action": "", "name": "", "effect": ""},
+                {"select": False, "usage": "", "action": "", "name": "", "effect": ""},
+                {"select": False, "usage": "", "action": "", "name": "", "effect": ""},
+                {"select": False, "usage": "", "action": "", "name": "", "effect": ""},
+                {"select": False, "usage": "", "action": "", "name": "", "effect": ""},
+                {"select": False, "usage": "", "action": "", "name": "", "effect": ""},
+                {"select": False, "usage": "", "action": "", "name": "", "effect": ""},
+                {"select": False, "usage": "", "action": "", "name": "", "effect": ""},
+                {"select": False, "usage": "", "action": "", "name": "", "effect": ""}
+            ],
+            "magic_items": [
+                {"select": False, "usage": "", "action": "", "name": "", "effect": ""},
+                {"select": False, "usage": "", "action": "", "name": "", "effect": ""},
+                {"select": False, "usage": "", "action": "", "name": "", "effect": ""},
+                {"select": False, "usage": "", "action": "", "name": "", "effect": ""},
+                {"select": False, "usage": "", "action": "", "name": "", "effect": ""}
+            ],
+            "notes": "",
+            "vitals": {
+                "max_hp": 10,
+                "current_hp": 10,
+                "wounds": 0,
+                "mr_base": 0,
+                "mr_armored": "",
+                "mr_shield": ""
+            }
+        }
+
     def __init__(self, data_dir="data"):
         self.data_dir = data_dir
         self.classes_df = None
@@ -27,7 +87,8 @@ class GameRepository:
                 "moxie": "d4",
                 "skills": [],
                 "inventory": [],
-                "log": []
+                "log": [],
+                "sheet_data": self.get_default_sheet_data()
             }
         
         # Try to connect to Supabase
@@ -74,6 +135,14 @@ class GameRepository:
                 if response.data:
                     char_data = response.data[0]
                     # Map database fields to standard schema
+                    loaded_sheet_data = char_data.get("sheet_data")
+                    sheet_data = self.get_default_sheet_data()
+                    if isinstance(loaded_sheet_data, dict):
+                        for k, v in loaded_sheet_data.items():
+                            if isinstance(v, dict) and k in sheet_data:
+                                sheet_data[k].update(v)
+                            else:
+                                sheet_data[k] = v
                     return {
                         "name": char_data.get("name"),
                         "class": char_data.get("class"),
@@ -87,7 +156,8 @@ class GameRepository:
                         "skills": char_data.get("skills") or [],
                         "inventory": char_data.get("inventory", []),
                         "log": char_data.get("log", []),
-                        "owner_email": char_data.get("owner_email")
+                        "owner_email": char_data.get("owner_email"),
+                        "sheet_data": sheet_data
                     }
             except Exception:
                 pass
@@ -126,7 +196,8 @@ class GameRepository:
                     "moxie": data.get("moxie") or "d4",
                     "skills": skills_list,
                     "inventory": inv_list,
-                    "log": data.get("log", [])
+                    "log": data.get("log", []),
+                    "sheet_data": data.get("sheet_data") or self.get_default_sheet_data()
                 }
                 if "owner_email" in data:
                     db_data["owner_email"] = data["owner_email"]
@@ -245,7 +316,8 @@ class GameRepository:
             "moxie": "d4",
             "skills": [],
             "inventory": [],
-            "log": ["Character created."]
+            "log": ["Character created."],
+            "sheet_data": self.get_default_sheet_data()
         }
         return self.save_character(name, default_data)
 

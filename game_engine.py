@@ -152,3 +152,77 @@ class GameEngine:
             
         return round(total_weight, 2)
 
+    @staticmethod
+    def parse_skill_name_and_count(skill_str: str) -> tuple:
+        """Parses a skill string like '2_Melee 💪' or 'Melee 💪' into (base_name, count)."""
+        skill_str = skill_str.strip()
+        if not skill_str:
+            return "", 0
+        match = re.match(r'^(\d+)_(.+)$', skill_str)
+        if match:
+            return match.group(2).strip(), int(match.group(1))
+        return skill_str, 1
+
+    @staticmethod
+    def format_skill_string(base_name: str, count: int) -> str:
+        """Formats base_name and count into 'count_base_name' or 'base_name' if count <= 1."""
+        if count > 1:
+            return f"{count}_{base_name}"
+        return base_name
+
+    @staticmethod
+    def update_skills_list(current_skills: list, remove_skills: list, add_skills: list) -> list:
+        """
+        Updates the character's skill list by removing a list of skills and adding another list.
+        Cleanly handles count increments (e.g., '2_Melee 💪') just like the Apps Script.
+        """
+        # Parse current skills into a dict: base_name -> count
+        skills_dict = {}
+        for s in current_skills:
+            base, count = GameEngine.parse_skill_name_and_count(s)
+            if base:
+                skills_dict[base] = skills_dict.get(base, 0) + count
+
+        # Process removals
+        for s in remove_skills:
+            base, count_to_remove = GameEngine.parse_skill_name_and_count(s)
+            if base in skills_dict:
+                skills_dict[base] -= count_to_remove
+                if skills_dict[base] <= 0:
+                    del skills_dict[base]
+
+        # Process additions
+        for s in add_skills:
+            base, count_to_add = GameEngine.parse_skill_name_and_count(s)
+            if base:
+                skills_dict[base] = skills_dict.get(base, 0) + count_to_add
+
+        # Re-serialize to list of formatted strings
+        updated_skills = []
+        for base, count in skills_dict.items():
+            updated_skills.append(GameEngine.format_skill_string(base, count))
+        return sorted(updated_skills)
+
+    @staticmethod
+    def update_power_or_item_slot(slot: dict, selected_name: str, db_items: list) -> dict:
+        """
+        Looks up selected_name in db_items list (from Supabase) and populates 
+        usage, action, name, and effect in the slot dict. Clears the slot if empty.
+        """
+        # Clear slot first
+        updated_slot = {
+            "select": slot.get("select", False),
+            "usage": "",
+            "action": "",
+            "name": "",
+            "effect": ""
+        }
+        if selected_name:
+            match = next((item for item in db_items if item.get("name") == selected_name), None)
+            if match:
+                updated_slot["name"] = match.get("name") or ""
+                updated_slot["usage"] = match.get("usage") or ""
+                updated_slot["action"] = match.get("action") or ""
+                updated_slot["effect"] = match.get("effect") or ""
+        return updated_slot
+

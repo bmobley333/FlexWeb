@@ -228,73 +228,514 @@ def main():
     
     # --- TAB 1: CHARACTER SHEET EDITOR ---
     with tab_char:
+        # Load tooltips
+        LEVEL_NOTE = (
+            "⭐ Step 1 — Level⭐ and AP🧩\n"
+            "At the end of each large encounter at GM’s discretion, every player receives 1 Level⭐ and 1 Advancement Point (AP🧩). "
+            "Thus, a character’s Level⭐ ALWAYS matches the total AP🧩 that character has ever received.\n\n"
+            "🎲 Step 2 — Vit💖 Roll And Atr🧩 Die\n"
+            "All of step 2 below is AP🧩 free and costs no AP🧩.\n\n"
+            "Level   Vit Max Roll                                    Atr Die\n"
+            "1-3             10+1d(Moxie🫀)+(AP🧩*2)               d4, d4, d4, d6, d8\n"
+            "4-8             10+2d(Moxie🫀)+(AP🧩*2)               d4, d4, d6, d6, d8\n"
+            "9-15          10+3d(Moxie🫀)+(AP🧩*2)               d4, d6, d6, d6, d8\n"
+            "16-24        10+4d(Moxie🫀)+(AP🧩*2)               d4, d6, d6, d8, d8\n"
+            "25-35        10+5d(Moxie🫀)+(AP🧩*2)               d4, d6, d6, d8, d8\n"
+            "36-48        10+6d(Moxie🫀)+(AP🧩*2)               d4, d6, d6, d8, d10\n"
+            "49-63        10+7d(Moxie🫀)+(AP🧩*2)               d4, d6, d8, d8, d10\n"
+            "64-80        10+8d(Moxie🫀)+(AP🧩*2)               d6, d6, d8, d8, d10\n"
+            "81-99        10+9d(Moxie🫀)+(AP🧩*2)               d6, d6, d8, d10, d10\n"
+            "100-120    10+10d(Moxie🫀)+(AP🧩*2)             d6, d8, d8, d10, d10\n"
+            "121-143    10+11d(Moxie🫀)+(AP🧩*2)             d6, d8, d8, d10, d12\n"
+            "144-168    10+12d(Moxie🫀)+(AP🧩*2)             d6, d8, d10, d10, d12\n"
+            "169-195    10+13d(Moxie🫀)+(AP🧩*2)             d8, d8, d10, d10, d12\n"
+            "196-224    10+14d(Moxie🫀)+(AP🧩*2)             d8, d8, d10, d12, d12\n"
+            "225+          10+15d(Moxie🫀)+(AP🧩*2)             d8, d10, d10, d12, d12"
+        )
+        MONEY_NOTE = "1 Gold = 100 Silver"
+        ATR_DIE_NOTE = (
+            "🎲 Step 2 — Atr🧩 Die Progression\n"
+            "On the indicated Levels⭐ your Atr🧩 die will change:\n\n"
+            "Level   Atr Die\n"
+            "1-3             d4, d4, d4, d6, d8\n"
+            "4-8             d4, d4, d6, d6, d8\n"
+            "9-15           d4, d6, d6, d6, d8\n"
+            "16-24         d4, d6, d6, d8, d8\n"
+            "25-35         d4, d6, d6, d8, d8\n"
+            "36-48         d4, d6, d6, d8, d10\n"
+            "49-63         d4, d6, d8, d8, d10\n"
+            "64-80         d6, d6, d8, d8, d10\n"
+            "81-99         d6, d6, d8, d10, d10\n"
+            "100-120     d6, d8, d8, d10, d10\n"
+            "121-143     d6, d8, d8, d10, d12\n"
+            "144-168     d6, d8, d10, d10, d12\n"
+            "169-195     d8, d8, d10, d10, d12\n"
+            "196-224     d8, d8, d10, d12, d12\n"
+            "225+           d8, d10, d10, d12, d12"
+        )
+        VIT_NOTE = (
+            "💖 Vit Max Roll Progression\n"
+            "On each Level⭐, roll for new maximum Vit💖 (luck/keep the better roll).\n\n"
+            "Level   Vit Max Roll\n"
+            "1-3             10+1d(Moxie🫀)+(AP🧩*2)\n"
+            "4-8             10+2d(Moxie🫀)+(AP🧩*2)\n"
+            "9-15          10+3d(Moxie🫀)+(AP🧩*2)\n"
+            "16-24        10+4d(Moxie🫀)+(AP🧩*2)\n"
+            "25-35        10+5d(Moxie🫀)+(AP🧩*2)\n"
+            "36-48        10+6d(Moxie🫀)+(AP🧩*2)\n"
+            "49-63        10+7d(Moxie🫀)+(AP🧩*2)\n"
+            "64-80        10+8d(Moxie🫀)+(AP🧩*2)\n"
+            "81-99        10+9d(Moxie🫀)+(AP🧩*2)\n"
+            "100-120    10+10d(Moxie🫀)+(AP🧩*2)\n"
+            "121-143    10+11d(Moxie🫀)+(AP🧩*2)\n"
+            "144-168    10+12d(Moxie🫀)+(AP🧩*2)\n"
+            "169-195    10+13d(Moxie🫀)+(AP🧩*2)\n"
+            "196-224    10+14d(Moxie🫀)+(AP🧩*2)\n"
+            "225+          10+15d(Moxie🫀)+(AP🧩*2)"
+        )
+        WNDS_NOTE = (
+            "💀 Wounds & Death Checks\n"
+            "Death Checks = Moxie🫀 roll vs Dif = 5 + (Wnd🩸 – Vit💖).\n"
+            "Example: Vit💖 20 with 23 Wnd🩸 ➡ Dif = 8.\n\n"
+            "🩸 Bleeding:\n"
+            "After each Death Check, Wnd🩸 always increases by 1 unless you receive wound care or healing."
+        )
+
+        sheet_data = char_state.get("sheet_data") or repo.get_default_sheet_data()
+        traits = sheet_data.get("traits") or {}
+        money = sheet_data.get("money") or {}
+        weapons = sheet_data.get("weapons") or []
+        armor_shield = sheet_data.get("armor_shield") or {}
+        powers_slots = sheet_data.get("powers") or []
+        magic_items_slots = sheet_data.get("magic_items") or []
+        notes = sheet_data.get("notes") or ""
+        vitals = sheet_data.get("vitals") or {}
+
+        # Self-healing pad arrays
+        while len(weapons) < 5:
+            weapons.append({"sk": False, "m_h_s": "M", "name": "", "atk": "", "dmg": "", "max_block": ""})
+        while len(powers_slots) < 10:
+            powers_slots.append({"select": False, "usage": "", "action": "", "name": "", "effect": ""})
+        while len(magic_items_slots) < 5:
+            magic_items_slots.append({"select": False, "usage": "", "action": "", "name": "", "effect": ""})
+
         st.markdown("<div class='glass-panel'>", unsafe_allow_html=True)
-        st.subheader("Edit Character Traits & Stats")
-        
-        col_c1, col_c2 = st.columns(2)
-        with col_c1:
-            new_class = st.text_input("Class:", value=char_state.get("class") or "")
-            new_race = st.text_input("Race:", value=char_state.get("race") or "")
-            new_hp = st.number_input("Hit Points (HP):", min_value=1, max_value=200, value=char_state.get("hp", 10))
+        st.subheader("Edit Character Sheet Layout")
+
+        # Row 1: Traits & Vitals Block
+        col_t1, col_t2 = st.columns([1, 1])
+        with col_t1:
+            st.markdown("#### 👤 General Traits & Description")
+            col_sub1, col_sub2 = st.columns(2)
+            with col_sub1:
+                new_class = st.text_input("Class", value=char_state.get("class") or "")
+                new_appearance = st.text_input("Appearance", value=traits.get("appearance") or "")
+                new_pos_trait = st.text_input("Positive Trait", value=traits.get("positive_trait") or "")
+            with col_sub2:
+                new_race = st.text_input("Race", value=char_state.get("race") or "")
+                new_hgt_wgt_age = st.text_input("Hgt / Wgt / Age", value=traits.get("hgt_wgt_age") or "")
+                new_neg_trait = st.text_input("Negative Trait", value=traits.get("negative_trait") or "")
+            new_flair = st.text_input("Flair", value=traits.get("flair") or "")
+            new_goal = st.text_input("Adventuring Goal", value=traits.get("adventuring_goal") or "")
+
+        with col_t2:
+            st.markdown("#### 💖 Health, Money & Movement")
+            col_sub3, col_sub4 = st.columns(2)
+            with col_sub3:
+                new_level = st.number_input("Level 🎲", min_value=1, max_value=200, value=int(vitals.get("level", 1)), help=LEVEL_NOTE)
+                new_gold = st.number_input("Gold 🪙", min_value=0, value=int(money.get("gold", 0)), help=MONEY_NOTE)
+            with col_sub4:
+                skillset_names = ["Custom / None"] + [s["name"] for s in skillsets]
+                prev_skillset = sheet_data.get("active_skillset") or "Custom / None"
+                if prev_skillset not in skillset_names:
+                    prev_skillset = "Custom / None"
+                selected_set = st.selectbox("Predefined Skillset Package 🎓", skillset_names, index=skillset_names.index(prev_skillset))
+                new_silver = st.number_input("Silver 🥈", min_value=0, value=int(money.get("silver", 0)), help=MONEY_NOTE)
+
+            st.write("**Movement Rate (MR)**")
+            col_mr1, col_mr2, col_mr3 = st.columns(3)
+            with col_mr1:
+                new_mr_base = st.number_input("Base MR", min_value=0, value=int(vitals.get("mr_base", 0)))
+            with col_mr2:
+                new_mr_armored = st.text_input("Armored MR", value=vitals.get("mr_armored") or "")
+            with col_mr3:
+                new_mr_shield = st.text_input("Shield MR", value=vitals.get("mr_shield") or "")
+
+            st.write("**Vitality Points (HP) & Wounds**")
+            col_v1, col_v2, col_v3 = st.columns(3)
+            with col_v1:
+                new_max_hp = st.number_input("Max Vit 💖", min_value=1, max_value=200, value=int(char_state.get("hp", 10)), help=VIT_NOTE)
+            with col_v2:
+                new_current_hp = st.number_input("Current Vit 💖", min_value=0, max_value=200, value=int(vitals.get("current_hp", 10)))
+            with col_v3:
+                new_wounds = st.number_input("Wounds 🩸", min_value=0, value=int(vitals.get("wounds", 0)), help=WNDS_NOTE)
+
+        # Triggers skillset update
+        if selected_set != prev_skillset:
+            old_set_skills = []
+            if prev_skillset != "Custom / None":
+                old_set_data = next((s for s in skillsets if s["name"] == prev_skillset), None)
+                if old_set_data:
+                    old_set_skills = old_set_data.get("skills", [])
+            new_set_skills = []
+            if selected_set != "Custom / None":
+                new_set_data = next((s for s in skillsets if s["name"] == selected_set), None)
+                if new_set_data:
+                    new_set_skills = new_set_data.get("skills", [])
             
-        with col_c2:
-            st.markdown("**Attribute Dice Ratings (d4 - d12)**")
-            ratings = ["d4", "d6", "d8", "d10", "d12"]
-            new_might = st.selectbox("Might 💪 Rating:", ratings, index=ratings.index(char_state.get("might", "d4")))
-            new_motion = st.selectbox("Motion 🏃 Rating:", ratings, index=ratings.index(char_state.get("motion", "d4")))
-            new_mind = st.selectbox("Mind 👁️ Rating:", ratings, index=ratings.index(char_state.get("mind", "d4")))
-            new_magic = st.selectbox("Magic ✨ Rating:", ratings, index=ratings.index(char_state.get("magic", "d4")))
-            new_moxie = st.selectbox("Moxie 🫀 Rating:", ratings, index=ratings.index(char_state.get("moxie", "d4")))
+            updated_skills = GameEngine.update_skills_list(char_state.get("skills", []), old_set_skills, new_set_skills)
+            char_state["skills"] = updated_skills
+            sheet_data["active_skillset"] = selected_set
+            sheet_data["weapons"] = weapons
+            sheet_data["powers"] = powers_slots
+            sheet_data["magic_items"] = magic_items_slots
+            sheet_data["traits"] = {
+                "positive_trait": new_pos_trait,
+                "negative_trait": new_neg_trait,
+                "flair": new_flair,
+                "adventuring_goal": new_goal,
+                "appearance": new_appearance,
+                "hgt_wgt_age": new_hgt_wgt_age
+            }
+            sheet_data["money"] = {"gold": int(new_gold), "silver": int(new_silver)}
+            sheet_data["armor_shield"] = armor_shield
+            sheet_data["notes"] = notes
+            sheet_data["vitals"] = {
+                "level": int(new_level),
+                "max_hp": int(new_max_hp),
+                "current_hp": int(new_current_hp),
+                "wounds": int(new_wounds),
+                "mr_base": int(new_mr_base),
+                "mr_armored": new_mr_armored,
+                "mr_shield": new_mr_shield
+            }
             
+            repo.save_character(player_name, {
+                "skills": updated_skills,
+                "sheet_data": sheet_data
+            })
+            st.toast(f"🎓 Applied skillset package: {selected_set}")
+            st.rerun()
+
         st.markdown("---")
-        st.subheader("Skills & Core Proficiencies")
+        st.markdown("### 🎲 Attributes & Proficiencies")
         
-        # Populate skillset selector
-        skillset_names = ["Custom / None"] + [s["name"] for s in skillsets]
-        selected_set = st.selectbox("Apply Predefined Skillset Package:", skillset_names)
-        
+        # Attributes Row
+        col_attr_h1, col_attr_h2, col_attr_h3, col_attr_h4, col_attr_h5 = st.columns(5)
+        ratings = ["d4", "d6", "d8", "d10", "d12"]
+        with col_attr_h1:
+            new_might = st.selectbox("Might 💪 Rating", ratings, index=ratings.index(char_state.get("might", "d4")), help=ATR_DIE_NOTE)
+        with col_attr_h2:
+            new_motion = st.selectbox("Motion 🏃 Rating", ratings, index=ratings.index(char_state.get("motion", "d4")), help=ATR_DIE_NOTE)
+        with col_attr_h3:
+            new_mind = st.selectbox("Mind 👁️ Rating", ratings, index=ratings.index(char_state.get("mind", "d4")), help=ATR_DIE_NOTE)
+        with col_attr_h4:
+            new_magic = st.selectbox("Magic ✨ Rating", ratings, index=ratings.index(char_state.get("magic", "d4")), help=ATR_DIE_NOTE)
+        with col_attr_h5:
+            new_moxie = st.selectbox("Moxie 🫀 Rating", ratings, index=ratings.index(char_state.get("moxie", "d4")), help=ATR_DIE_NOTE)
+            
         current_skills = char_state.get("skills", [])
-        if selected_set != "Custom / None":
-            # Auto-load skillset skills
-            set_data = next((s for s in skillsets if s["name"] == selected_set), None)
-            if set_data:
-                # Merge skills
-                set_skills = set_data.get("skills", [])
-                current_skills = list(set(current_skills + set_skills))
-                
         new_skills = st.multiselect(
-            "Active Character Skills:",
+            "Active Proficient Skills:",
             options=all_possible_skills + current_skills,
             default=current_skills
         )
+
+        st.markdown("---")
+        # Middle Layout: Weapons Grid (Left) & Armor Card (Right)
+        col_mid1, col_mid2 = st.columns([7, 5])
         
-        # Check for changes and auto-save
-        updated_data = {
+        with col_mid1:
+            st.markdown("#### ⚔️ Weapons Grid")
+            col_w_h1, col_w_h2, col_w_h3, col_w_h4, col_w_h5, col_w_h6 = st.columns([0.8, 1.2, 3.2, 1.8, 1.8, 1.8])
+            with col_w_h1:
+                st.write("**Sk**")
+            with col_w_h2:
+                st.write("**M/H/S**")
+            with col_w_h3:
+                st.write("**Weapon Name**")
+            with col_w_h4:
+                st.write("**Atk**")
+            with col_w_h5:
+                st.write("**Dmg**")
+            with col_w_h6:
+                st.write("**Max Blk**")
+                
+            updated_weapons = []
+            for i, w in enumerate(weapons):
+                col_w1, col_w2, col_w3, col_w4, col_w5, col_w6 = st.columns([0.8, 1.2, 3.2, 1.8, 1.8, 1.8])
+                with col_w1:
+                    w_sk = st.checkbox("Sk", value=w.get("sk", False), key=f"w_sk_{i}", label_visibility="collapsed")
+                with col_w2:
+                    w_mhs = st.selectbox("M/H/S", ["M", "H", "S"], index=["M", "H", "S"].index(w.get("m_h_s", "M")), key=f"w_mhs_{i}", label_visibility="collapsed")
+                with col_w3:
+                    w_name = st.text_input("Name", value=w.get("name", ""), key=f"w_name_{i}", label_visibility="collapsed")
+                with col_w4:
+                    w_atk = st.text_input("Atk", value=w.get("atk", ""), key=f"w_atk_{i}", label_visibility="collapsed")
+                with col_w5:
+                    w_dmg = st.text_input("Dmg", value=w.get("dmg", ""), key=f"w_dmg_{i}", label_visibility="collapsed")
+                with col_w6:
+                    w_max_block = st.text_input("Max Block", value=w.get("max_block", ""), key=f"w_max_block_{i}", label_visibility="collapsed")
+                    
+                updated_weapons.append({
+                    "sk": w_sk,
+                    "m_h_s": w_mhs,
+                    "name": w_name,
+                    "atk": w_atk,
+                    "dmg": w_dmg,
+                    "max_block": w_max_block
+                })
+
+        with col_mid2:
+            st.markdown("#### 🛡️ Armor, Shield & Ratings")
+            col_arm1, col_arm2 = st.columns(2)
+            with col_arm1:
+                arm_name = st.text_input("Armor Name", value=armor_shield.get("armor_name", ""))
+                arm_def = st.text_input("Def Rating", value=armor_shield.get("armor_def", ""))
+                arm_ar = st.text_input("AR Value", value=armor_shield.get("armor_ar", ""))
+                dodge_act = st.text_input("Dodge Active", value=armor_shield.get("dodge_active", ""))
+            with col_arm2:
+                sh_name = st.text_input("Shield Name", value=armor_shield.get("shield_name", ""))
+                sh_max_block = st.text_input("Shield Max Block", value=armor_shield.get("shield_max_block", ""))
+                st.write("") # layout spacers
+                st.write("")
+                block_act = st.text_input("Block Active", value=armor_shield.get("block_active", ""))
+                
+            new_armor_shield = {
+                "armor_name": arm_name,
+                "armor_def": arm_def,
+                "armor_ar": arm_ar,
+                "shield_name": sh_name,
+                "shield_max_block": sh_max_block,
+                "block_active": block_act,
+                "dodge_active": dodge_act
+            }
+            new_notes = st.text_area("Campaign Notes & Character Lore 📖", value=notes, height=130)
+
+        st.markdown("---")
+        # Bottom Layout: Powers (Left) & Magic Items (Right)
+        col_bot1, col_bot2 = st.columns([1, 1])
+        
+        with col_bot1:
+            st.markdown("#### ⚡ Powers & Special Abilities")
+            col_p_h1, col_p_h2, col_p_h3, col_p_h4, col_p_h5 = st.columns([0.8, 3, 1.2, 1.5, 3.5])
+            with col_p_h1:
+                st.write("**Sel**")
+            with col_p_h2:
+                st.write("**Power Preset Selection**")
+            with col_p_h3:
+                st.write("**Act**")
+            with col_p_h4:
+                st.write("**Usage**")
+            with col_p_h5:
+                st.write("**Effect Description**")
+                
+            updated_powers_slots = []
+            power_names = ["Custom / None"] + [p["name"] for p in powers]
+            
+            for i, slot in enumerate(powers_slots):
+                col_p1, col_p2, col_p3, col_p4, col_p5 = st.columns([0.8, 3, 1.2, 1.5, 3.5])
+                with col_p1:
+                    p_sel = st.checkbox("Sel", value=slot.get("select", False), key=f"p_sel_{i}", label_visibility="collapsed")
+                with col_p2:
+                    current_name = slot.get("name") or "Custom / None"
+                    preset_options = [current_name] + power_names if current_name not in power_names else power_names
+                    p_name_sel = st.selectbox("Preset", preset_options, index=preset_options.index(current_name), key=f"p_name_sel_{i}", label_visibility="collapsed")
+                
+                # Preset changed trigger
+                if p_name_sel != current_name:
+                    new_slot = GameEngine.update_power_or_item_slot(slot, p_name_sel if p_name_sel != "Custom / None" else "", powers)
+                    powers_slots[i] = new_slot
+                    sheet_data["powers"] = powers_slots
+                    sheet_data["weapons"] = updated_weapons
+                    sheet_data["magic_items"] = magic_items_slots
+                    sheet_data["traits"] = {
+                        "positive_trait": new_pos_trait,
+                        "negative_trait": new_neg_trait,
+                        "flair": new_flair,
+                        "adventuring_goal": new_goal,
+                        "appearance": new_appearance,
+                        "hgt_wgt_age": new_hgt_wgt_age
+                    }
+                    sheet_data["money"] = {"gold": int(new_gold), "silver": int(new_silver)}
+                    sheet_data["armor_shield"] = new_armor_shield
+                    sheet_data["notes"] = new_notes
+                    sheet_data["vitals"] = {
+                        "level": int(new_level),
+                        "max_hp": int(new_max_hp),
+                        "current_hp": int(new_current_hp),
+                        "wounds": int(new_wounds),
+                        "mr_base": int(new_mr_base),
+                        "mr_armored": new_mr_armored,
+                        "mr_shield": new_mr_shield
+                    }
+                    repo.save_character(player_name, {
+                        "hp": int(new_max_hp),
+                        "might": new_might,
+                        "motion": new_motion,
+                        "mind": new_mind,
+                        "magic": new_magic,
+                        "moxie": new_moxie,
+                        "skills": new_skills,
+                        "sheet_data": sheet_data
+                    })
+                    st.toast(f"⚡ Loaded power: {p_name_sel}")
+                    st.rerun()
+                    
+                with col_p3:
+                    p_act = st.text_input("Act", value=slot.get("action", ""), key=f"p_act_{i}", label_visibility="collapsed")
+                with col_p4:
+                    p_use = st.text_input("Usage", value=slot.get("usage", ""), key=f"p_use_{i}", label_visibility="collapsed")
+                with col_p5:
+                    p_eff = st.text_input("Effect", value=slot.get("effect", ""), key=f"p_eff_{i}", label_visibility="collapsed")
+                    
+                updated_powers_slots.append({
+                    "select": p_sel,
+                    "name": p_name_sel if p_name_sel != "Custom / None" else slot.get("name", ""),
+                    "action": p_act,
+                    "usage": p_use,
+                    "effect": p_eff
+                })
+
+        with col_bot2:
+            st.markdown("#### 🍺 Magic Items & Special Gear")
+            col_m_h1, col_m_h2, col_m_h3, col_m_h4, col_m_h5 = st.columns([0.8, 3, 1.2, 1.5, 3.5])
+            with col_m_h1:
+                st.write("**Sel**")
+            with col_m_h2:
+                st.write("**Item Preset Selection**")
+            with col_m_h3:
+                st.write("**Act**")
+            with col_m_h4:
+                st.write("**Usage**")
+            with col_m_h5:
+                st.write("**Effect Description**")
+                
+            updated_items_slots = []
+            item_names = ["Custom / None"] + [m["name"] for m in magic_items]
+            
+            for i, slot in enumerate(magic_items_slots):
+                col_m1, col_m2, col_m3, col_m4, col_m5 = st.columns([0.8, 3, 1.2, 1.5, 3.5])
+                with col_m1:
+                    m_sel = st.checkbox("Sel", value=slot.get("select", False), key=f"m_sel_{i}", label_visibility="collapsed")
+                with col_m2:
+                    current_name = slot.get("name") or "Custom / None"
+                    preset_options = [current_name] + item_names if current_name not in item_names else item_names
+                    m_name_sel = st.selectbox("Preset", preset_options, index=preset_options.index(current_name), key=f"m_name_sel_{i}", label_visibility="collapsed")
+                
+                # Preset changed trigger
+                if m_name_sel != current_name:
+                    new_slot = GameEngine.update_power_or_item_slot(slot, m_name_sel if m_name_sel != "Custom / None" else "", magic_items)
+                    magic_items_slots[i] = new_slot
+                    sheet_data["magic_items"] = magic_items_slots
+                    sheet_data["weapons"] = updated_weapons
+                    sheet_data["powers"] = updated_powers_slots
+                    sheet_data["traits"] = {
+                        "positive_trait": new_pos_trait,
+                        "negative_trait": new_neg_trait,
+                        "flair": new_flair,
+                        "adventuring_goal": new_goal,
+                        "appearance": new_appearance,
+                        "hgt_wgt_age": new_hgt_wgt_age
+                    }
+                    sheet_data["money"] = {"gold": int(new_gold), "silver": int(new_silver)}
+                    sheet_data["armor_shield"] = new_armor_shield
+                    sheet_data["notes"] = new_notes
+                    sheet_data["vitals"] = {
+                        "level": int(new_level),
+                        "max_hp": int(new_max_hp),
+                        "current_hp": int(new_current_hp),
+                        "wounds": int(new_wounds),
+                        "mr_base": int(new_mr_base),
+                        "mr_armored": new_mr_armored,
+                        "mr_shield": new_mr_shield
+                    }
+                    repo.save_character(player_name, {
+                        "hp": int(new_max_hp),
+                        "might": new_might,
+                        "motion": new_motion,
+                        "mind": new_mind,
+                        "magic": new_magic,
+                        "moxie": new_moxie,
+                        "skills": new_skills,
+                        "sheet_data": sheet_data
+                    })
+                    st.toast(f"🍺 Loaded item: {m_name_sel}")
+                    st.rerun()
+                    
+                with col_m3:
+                    m_act = st.text_input("Act", value=slot.get("action", ""), key=f"m_act_{i}", label_visibility="collapsed")
+                with col_m4:
+                    m_use = st.text_input("Usage", value=slot.get("usage", ""), key=f"m_use_{i}", label_visibility="collapsed")
+                with col_m5:
+                    m_eff = st.text_input("Effect", value=slot.get("effect", ""), key=f"m_eff_{i}", label_visibility="collapsed")
+                    
+                updated_items_slots.append({
+                    "select": m_sel,
+                    "name": m_name_sel if m_name_sel != "Custom / None" else slot.get("name", ""),
+                    "action": m_act,
+                    "usage": m_use,
+                    "effect": m_eff
+                })
+
+        # Save updates if changes made on other fields
+        compiled_sheet_data = {
+            "traits": {
+                "positive_trait": new_pos_trait,
+                "negative_trait": new_neg_trait,
+                "flair": new_flair,
+                "adventuring_goal": new_goal,
+                "appearance": new_appearance,
+                "hgt_wgt_age": new_hgt_wgt_age
+            },
+            "money": {
+                "gold": int(new_gold),
+                "silver": int(new_silver)
+            },
+            "weapons": updated_weapons,
+            "armor_shield": new_armor_shield,
+            "powers": updated_powers_slots,
+            "magic_items": updated_items_slots,
+            "notes": new_notes,
+            "vitals": {
+                "level": int(new_level),
+                "max_hp": int(new_max_hp),
+                "current_hp": int(new_current_hp),
+                "wounds": int(new_wounds),
+                "mr_base": int(new_mr_base),
+                "mr_armored": new_mr_armored,
+                "mr_shield": new_mr_shield
+            },
+            "active_skillset": selected_set
+        }
+
+        updated_db_data = {
             "class": new_class.strip() or None,
             "race": new_race.strip() or None,
-            "hp": int(new_hp),
+            "hp": int(new_max_hp),
             "might": new_might,
             "motion": new_motion,
             "mind": new_mind,
             "magic": new_magic,
             "moxie": new_moxie,
-            "skills": new_skills
+            "skills": new_skills,
+            "sheet_data": compiled_sheet_data
         }
-        
-        # Compare key-by-key to avoid saving identical data
+
+        # Check for diff before committing save
         has_changes = False
-        for key, val in updated_data.items():
+        for key, val in updated_db_data.items():
             if char_state.get(key) != val:
                 has_changes = True
                 break
-                
+
         if has_changes:
-            if repo.save_character(player_name, updated_data):
+            if repo.save_character(player_name, updated_db_data):
                 st.toast("⚡ Changes saved automatically!")
                 st.rerun()
             else:
                 st.error("⚠️ Failed to auto-save character data.")
-                
+
         st.markdown("</div>", unsafe_allow_html=True)
 
     # --- TAB 2: ACTION & ROLL CONSOLE ---
