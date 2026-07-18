@@ -224,6 +224,25 @@ def main():
             padding-top: 10px !important;
             padding-bottom: 10px !important;
         }
+
+        /* Prevent selectbox dropdown truncation by expanding menu width and enabling word wrap */
+        div:has(> [role="listbox"]) {
+            min-width: 550px !important;
+        }
+        div[role="listbox"] {
+            min-width: 550px !important;
+        }
+        div[role="option"] {
+            min-width: 550px !important;
+            width: 100% !important;
+        }
+        div[role="option"] > div {
+            min-width: 550px !important;
+            width: 100% !important;
+            white-space: normal !important;
+            overflow: visible !important;
+            word-break: break-word !important;
+        }
         </style>
     """, unsafe_allow_html=True)
 
@@ -753,11 +772,13 @@ def main():
                 
             updated_powers_slots = []
             selected_power_tables = sheet_data.get("selected_power_tables") or []
+            # Filter only powers belonging to actively chosen power tables (fallback to all if none selected)
             if selected_power_tables:
                 filtered_powers_list = [p for p in powers if p.get("table_name") in selected_power_tables]
             else:
                 filtered_powers_list = powers
-            power_names = ["Custom / None"] + [p["name"] for p in filtered_powers_list]
+            # Fully sort the filtered powers list alphabetically by the dropdown string
+            filtered_powers_list = sorted(filtered_powers_list, key=lambda p: p.get("dropdown") or "")
             
             for i, slot in enumerate(powers_slots):
                 col_p1, col_p2, col_p3, col_p4, col_p5 = st.columns([0.8, 3, 1.2, 1.5, 3.5])
@@ -765,7 +786,19 @@ def main():
                     p_sel = st.checkbox("Sel", value=slot.get("select", False), key=f"p_sel_{i}", label_visibility="collapsed")
                 with col_p2:
                     current_name = slot.get("name") or "Custom / None"
-                    preset_options = [current_name] + power_names if current_name not in power_names else power_names
+                    
+                    # Construct preset options list showing short name for current selection and dropdown fields for other choices
+                    preset_options = [current_name]
+                    if current_name != "Custom / None":
+                        preset_options.append("Custom / None")
+                    for p in filtered_powers_list:
+                        p_drop = p.get("dropdown")
+                        p_name = p.get("name")
+                        if p_name and p_name != current_name:
+                            val = p_drop or p_name
+                            if val not in preset_options:
+                                preset_options.append(val)
+                            
                     p_name_sel = st.selectbox("Preset", preset_options, index=preset_options.index(current_name), key=f"p_name_sel_{i}", label_visibility="collapsed")
                 
                 # Preset changed trigger
@@ -795,6 +828,9 @@ def main():
                         "mr_armored": new_mr_armored,
                         "mr_shield": new_mr_shield
                     }
+                    st.session_state[f"p_act_{i}"] = new_slot.get("action", "")
+                    st.session_state[f"p_use_{i}"] = new_slot.get("usage", "")
+                    st.session_state[f"p_eff_{i}"] = new_slot.get("effect", "")
                     repo.save_character(player_name, {
                         "hp": int(new_max_hp),
                         "might": new_might,
@@ -876,6 +912,9 @@ def main():
                         "mr_armored": new_mr_armored,
                         "mr_shield": new_mr_shield
                     }
+                    st.session_state[f"m_act_{i}"] = new_slot.get("action", "")
+                    st.session_state[f"m_use_{i}"] = new_slot.get("usage", "")
+                    st.session_state[f"m_eff_{i}"] = new_slot.get("effect", "")
                     repo.save_character(player_name, {
                         "hp": int(new_max_hp),
                         "might": new_might,

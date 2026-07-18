@@ -218,7 +218,11 @@ class GameEngine:
             "effect": ""
         }
         if selected_name:
-            match = next((item for item in db_items if item.get("name") == selected_name), None)
+            # Check by dropdown first, then by name
+            match = next((item for item in db_items if item.get("dropdown") == selected_name), None)
+            if not match:
+                match = next((item for item in db_items if item.get("name") == selected_name), None)
+            
             if match:
                 updated_slot["name"] = match.get("name") or ""
                 updated_slot["usage"] = match.get("usage") or ""
