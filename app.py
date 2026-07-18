@@ -49,6 +49,78 @@ def main():
             padding-top: 2rem !important;
             padding-bottom: 2rem !important;
         }
+        /* Inline label styling for dense form layouts (2-column & 1-column) */
+        div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:not(:has(> div[data-testid="stColumn"]:nth-child(3))) div[data-testid="stTextInput"],
+        div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:not(:has(> div[data-testid="stColumn"]:nth-child(3))) div[data-testid="stNumberInput"],
+        div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:not(:has(> div[data-testid="stColumn"]:nth-child(3))) div[data-testid="stSelectbox"],
+        div.stElementContainer:has(.inline-inputs) ~ div.stElementContainer > div[data-testid="stTextInput"] {
+            display: flex !important;
+            flex-direction: row !important;
+            align-items: center !important;
+            gap: 12px !important;
+        }
+        div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:not(:has(> div[data-testid="stColumn"]:nth-child(3))) div[data-testid="stTextInput"] label,
+        div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:not(:has(> div[data-testid="stColumn"]:nth-child(3))) div[data-testid="stNumberInput"] label,
+        div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:not(:has(> div[data-testid="stColumn"]:nth-child(3))) div[data-testid="stSelectbox"] label,
+        div.stElementContainer:has(.inline-inputs) ~ div.stElementContainer > div[data-testid="stTextInput"] label {
+            min-width: 120px !important;
+            margin-bottom: 0 !important;
+            text-align: right !important;
+            font-weight: 600 !important;
+        }
+        div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:not(:has(> div[data-testid="stColumn"]:nth-child(3))) div[data-testid="stTextInput"] div[data-testid="stWidgetLabel"],
+        div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:not(:has(> div[data-testid="stColumn"]:nth-child(3))) div[data-testid="stNumberInput"] div[data-testid="stWidgetLabel"],
+        div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:not(:has(> div[data-testid="stColumn"]:nth-child(3))) div[data-testid="stSelectbox"] div[data-testid="stWidgetLabel"],
+        div.stElementContainer:has(.inline-inputs) ~ div.stElementContainer > div[data-testid="stTextInput"] div[data-testid="stWidgetLabel"] {
+            margin-bottom: 0 !important;
+        }
+        div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:not(:has(> div[data-testid="stColumn"]:nth-child(3))) div[data-testid="stTextInput"] > div,
+        div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:not(:has(> div[data-testid="stColumn"]:nth-child(3))) div[data-testid="stNumberInput"] > div,
+        div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:not(:has(> div[data-testid="stColumn"]:nth-child(3))) div[data-testid="stSelectbox"] > div,
+        div.stElementContainer:has(.inline-inputs) ~ div.stElementContainer > div[data-testid="stTextInput"] > div {
+            flex-grow: 1 !important;
+            min-width: 0 !important;
+            width: 100% !important;
+        }
+        div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:not(:has(> div[data-testid="stColumn"]:nth-child(3))) div[data-testid="stTextInput"] div[data-testid="stTextInputRootElement"],
+        div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:not(:has(> div[data-testid="stColumn"]:nth-child(3))) div[data-testid="stNumberInput"] div[data-testid="stNumberInputContainer"],
+        div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:not(:has(> div[data-testid="stColumn"]:nth-child(3))) div[data-testid="stSelectbox"] div[data-rac=""] {
+            width: 100% !important;
+            min-width: 0 !important;
+        }
+
+        /* Compact inline label styling for 3-column rows (Movement Rate & Vitality) */
+        div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:has(> div[data-testid="stColumn"]:nth-child(3)) div[data-testid="stTextInput"],
+        div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:has(> div[data-testid="stColumn"]:nth-child(3)) div[data-testid="stNumberInput"] {
+            display: flex !important;
+            flex-direction: row !important;
+            align-items: center !important;
+            gap: 6px !important;
+        }
+        div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:has(> div[data-testid="stColumn"]:nth-child(3)) div[data-testid="stTextInput"] label,
+        div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:has(> div[data-testid="stColumn"]:nth-child(3)) div[data-testid="stNumberInput"] label {
+            min-width: 65px !important;
+            margin-bottom: 0 !important;
+            text-align: right !important;
+            font-weight: 600 !important;
+            font-size: 0.85rem !important;
+            white-space: nowrap !important;
+        }
+        div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:has(> div[data-testid="stColumn"]:nth-child(3)) div[data-testid="stTextInput"] div[data-testid="stWidgetLabel"],
+        div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:has(> div[data-testid="stColumn"]:nth-child(3)) div[data-testid="stNumberInput"] div[data-testid="stWidgetLabel"] {
+            margin-bottom: 0 !important;
+        }
+        div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:has(> div[data-testid="stColumn"]:nth-child(3)) div[data-testid="stTextInput"] > div,
+        div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:has(> div[data-testid="stColumn"]:nth-child(3)) div[data-testid="stNumberInput"] > div {
+            flex-grow: 1 !important;
+            min-width: 0 !important;
+            width: 100% !important;
+        }
+        div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:has(> div[data-testid="stColumn"]:nth-child(3)) div[data-testid="stTextInput"] div[data-testid="stTextInputRootElement"],
+        div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:has(> div[data-testid="stColumn"]:nth-child(3)) div[data-testid="stNumberInput"] div[data-testid="stNumberInputContainer"] {
+            width: 100% !important;
+            min-width: 0 !important;
+        }
         </style>
     """, unsafe_allow_html=True)
 
@@ -331,6 +403,7 @@ def main():
         col_t1, col_t2 = st.columns([1, 1])
         with col_t1:
             st.markdown("#### 👤 General Traits & Description")
+            st.markdown('<div class="inline-inputs">', unsafe_allow_html=True)
             col_sub1, col_sub2 = st.columns(2)
             with col_sub1:
                 new_class = st.text_input("Class", value=char_state.get("class") or "")
@@ -342,9 +415,11 @@ def main():
                 new_neg_trait = st.text_input("Negative Trait", value=traits.get("negative_trait") or "")
             new_flair = st.text_input("Flair", value=traits.get("flair") or "")
             new_goal = st.text_input("Adventuring Goal", value=traits.get("adventuring_goal") or "")
+            st.markdown('</div>', unsafe_allow_html=True)
 
         with col_t2:
             st.markdown("#### 💖 Health, Money & Movement")
+            st.markdown('<div class="inline-inputs">', unsafe_allow_html=True)
             col_sub3, col_sub4 = st.columns(2)
             with col_sub3:
                 new_level = st.number_input("Level 🎲", min_value=1, max_value=200, value=int(vitals.get("level", 1)), help=LEVEL_NOTE)
@@ -356,22 +431,22 @@ def main():
                     prev_skillset = "Custom / None"
                 selected_set = st.selectbox("Predefined Skillset Package 🎓", skillset_names, index=skillset_names.index(prev_skillset))
                 new_silver = st.number_input("Silver 🥈", min_value=0, value=int(money.get("silver", 0)), help=MONEY_NOTE)
+            st.markdown('</div>', unsafe_allow_html=True)
 
             st.write("**Movement Rate (MR)**")
-            col_mr1, col_mr2, col_mr3 = st.columns(3)
+            new_mr_base = vitals.get("mr_base", 0)  # Preserved in database save pipeline, removed from UI
+            col_mr1, col_mr2 = st.columns(2)
             with col_mr1:
-                new_mr_base = st.number_input("Base MR", min_value=0, value=int(vitals.get("mr_base", 0)))
+                new_mr_armored = st.text_input("Armored", value=vitals.get("mr_armored") or "")
             with col_mr2:
-                new_mr_armored = st.text_input("Armored MR", value=vitals.get("mr_armored") or "")
-            with col_mr3:
-                new_mr_shield = st.text_input("Shield MR", value=vitals.get("mr_shield") or "")
+                new_mr_shield = st.text_input("Shield", value=vitals.get("mr_shield") or "")
 
             st.write("**Vitality Points (HP) & Wounds**")
             col_v1, col_v2, col_v3 = st.columns(3)
             with col_v1:
-                new_max_hp = st.number_input("Max Vit 💖", min_value=1, max_value=200, value=int(char_state.get("hp", 10)), help=VIT_NOTE)
+                new_max_hp = st.number_input("Max 💖", min_value=1, max_value=200, value=int(char_state.get("hp", 10)), help=VIT_NOTE)
             with col_v2:
-                new_current_hp = st.number_input("Current Vit 💖", min_value=0, max_value=200, value=int(vitals.get("current_hp", 10)))
+                new_current_hp = st.number_input("Current 💖", min_value=0, max_value=200, value=int(vitals.get("current_hp", 10)))
             with col_v3:
                 new_wounds = st.number_input("Wounds 🩸", min_value=0, value=int(vitals.get("wounds", 0)), help=WNDS_NOTE)
 
