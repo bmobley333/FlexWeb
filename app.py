@@ -162,11 +162,12 @@ def main():
     all_possible_skills = sorted(list(all_possible_skills))
 
     # --- 4. Main Dashboard Tabs ---
-    tab_char, tab_rolls, tab_inv, tab_rules = st.tabs([
+    tab_char, tab_rolls, tab_inv, tab_rules, tab_codex = st.tabs([
         "🛡️ Character Sheet", 
         "🎲 Action Console", 
         "🧰 Inventory Editor",
-        "📜 Adventure Logs"
+        "📜 Adventure Logs",
+        "📖 Codex Search"
     ])
     
     # --- TAB 1: CHARACTER SHEET EDITOR ---
@@ -396,6 +397,47 @@ def main():
         else:
             for log_entry in reversed(logs):
                 st.text(log_entry)
+        st.markdown("</div>", unsafe_allow_html=True)
+
+    # --- TAB 5: CODEX SEARCH ---
+    with tab_codex:
+        st.markdown("<div class='glass-panel'>", unsafe_allow_html=True)
+        st.subheader("Rules & Abilities Reference")
+        
+        db_choice = st.radio(
+            "Select Rules Matrix to Search:",
+            ["Powers ⚡", "Magic Items 🍺", "SkillSets 🎓"],
+            horizontal=True
+        )
+        
+        if db_choice == "Powers ⚡":
+            if powers:
+                df_powers = pd.DataFrame(powers)[["name", "usage", "action", "effect", "source"]]
+                st.dataframe(df_powers, use_container_width=True)
+            else:
+                st.info("No powers found in database.")
+                
+        elif db_choice == "Magic Items 🍺":
+            if magic_items:
+                df_items = pd.DataFrame(magic_items)[["name", "usage", "action", "effect", "source"]]
+                st.dataframe(df_items, use_container_width=True)
+            else:
+                st.info("No magic items found in database.")
+                
+        elif db_choice == "SkillSets 🎓":
+            if skillsets:
+                formatted_sets = []
+                for s in skillsets:
+                    skills_list = s.get("skills", [])
+                    skills_str = ", ".join(skills_list) if isinstance(skills_list, list) else str(skills_list)
+                    formatted_sets.append({
+                        "Name": s.get("name"),
+                        "Included Skills": skills_str,
+                        "Source": s.get("source")
+                    })
+                st.dataframe(pd.DataFrame(formatted_sets), use_container_width=True)
+            else:
+                st.info("No skillsets found in database.")
         st.markdown("</div>", unsafe_allow_html=True)
 
 if __name__ == "__main__":
