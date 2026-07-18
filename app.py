@@ -121,6 +121,17 @@ def main():
             width: 100% !important;
             min-width: 0 !important;
         }
+        
+        /* Sticky top tabs area */
+        div[data-testid="stTabs"] [role="tablist"] {
+            position: sticky !important;
+            top: 0 !important;
+            z-index: 999 !important;
+            background-color: var(--background-color) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+            padding-top: 10px !important;
+            padding-bottom: 10px !important;
+        }
         </style>
     """, unsafe_allow_html=True)
 
@@ -396,8 +407,7 @@ def main():
         while len(magic_items_slots) < 5:
             magic_items_slots.append({"select": False, "usage": "", "action": "", "name": "", "effect": ""})
 
-        st.markdown("<div class='glass-panel'>", unsafe_allow_html=True)
-        st.subheader("Edit Character Sheet Layout")
+
 
         # Row 1: Traits & Vitals Block
         col_t1, col_t2 = st.columns([1, 1])
@@ -816,12 +826,8 @@ def main():
             else:
                 st.error("⚠️ Failed to auto-save character data.")
 
-        st.markdown("</div>", unsafe_allow_html=True)
-
     # --- TAB 2: ACTION & ROLL CONSOLE ---
     with tab_rolls:
-        st.markdown("<div class='glass-panel'>", unsafe_allow_html=True)
-        st.subheader("Dice Rolling Mechanics")
         
         # Set up roll options
         col_opt1, col_opt2, col_opt3 = st.columns(3)
@@ -918,12 +924,8 @@ def main():
                 current_logs.append(result_str)
                 repo.save_character(player_name, {"log": current_logs})
                 st.rerun()
-        st.markdown("</div>", unsafe_allow_html=True)
-
     # --- TAB 3: INVENTORY GRID EDITOR ---
     with tab_inv:
-        st.markdown("<div class='glass-panel'>", unsafe_allow_html=True)
-        st.subheader("Manage Character Inventory")
         
         # Load inventory
         raw_inventory = char_state.get("inventory", [])
@@ -962,11 +964,8 @@ def main():
                 st.error("⚠️ Failed to auto-save inventory.")
                 
         st.metric("Total Weight Encumbrance (lbs)", f"{total_weight} lbs")
-        st.markdown("</div>", unsafe_allow_html=True)
-
     # --- TAB 4: ADVENTURE & ACTION LOGS ---
     with tab_rules:
-        st.markdown("<div class='glass-panel'>", unsafe_allow_html=True)
         
         col_log_h, col_log_btn = st.columns([4, 1])
         with col_log_h:
@@ -984,12 +983,8 @@ def main():
         else:
             for log_entry in reversed(logs):
                 st.text(log_entry)
-        st.markdown("</div>", unsafe_allow_html=True)
-
     # --- TAB 5: CODEX SEARCH ---
     with tab_codex:
-        st.markdown("<div class='glass-panel'>", unsafe_allow_html=True)
-        st.subheader("Rules & Abilities Reference")
         
         db_choice = st.radio(
             "Select Rules Matrix to Search:",
@@ -1038,12 +1033,8 @@ def main():
                 st.dataframe(pd.DataFrame(formatted_sets), use_container_width=True)
             else:
                 st.info("No skillsets found in database.")
-        st.markdown("</div>", unsafe_allow_html=True)
-
     # --- TAB 6: PLAYER DIRECTORY & SHARING ---
     with tab_sharing:
-        st.markdown("<div class='glass-panel'>", unsafe_allow_html=True)
-        st.subheader("Explore Other Players' Characters")
         
         other_players = repo.get_other_players(st.session_state.player_email)
         if not other_players:
@@ -1111,7 +1102,7 @@ def main():
                                 st.rerun()
                             else:
                                 st.error("Failed to clone character.")
-        st.markdown("</div>", unsafe_allow_html=True)
+
 
 if __name__ == "__main__":
     main()
