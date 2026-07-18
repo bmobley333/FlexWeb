@@ -28,7 +28,60 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
+def get_skillset_skills(ks_detail):
+    """Safely extracts and cleans the skills list (supporting list and comma-separated str)."""
+    if not ks_detail:
+        return []
+    skills_val = ks_detail.get("skills", [])
+    if isinstance(skills_val, str):
+        return [s.strip() for s in skills_val.split(",") if s.strip()]
+    elif isinstance(skills_val, list):
+        return [str(s).strip() for s in skills_val if str(s).strip()]
+    return []
+
+def rebuild_skilled_at_attributes(known_skillsets, skillsets):
+    """Compiles clean, sorted, deduplicated skills mapped to Might, Motion, Mind, Magic, Moxie by emoji."""
+    skilled_at = {
+        "Might": [],
+        "Motion": [],
+        "Mind": [],
+        "Magic": [],
+        "Moxie": []
+    }
+    
+    emoji_to_attr = {
+        "💪": "Might",
+        "🏃": "Motion",
+        "👁️": "Mind",
+        "✨": "Magic",
+        "🫀": "Moxie"
+    }
+    
+    for ks_name in known_skillsets:
+        ks_detail = next((s for s in skillsets if s["name"] == ks_name), None)
+        if ks_detail:
+            raw_skills = get_skillset_skills(ks_detail)
+            for r_skill in raw_skills:
+                emoji = None
+                name_clean = r_skill
+                for emo in emoji_to_attr.keys():
+                    if emo in r_skill:
+                        emoji = emo
+                        name_clean = r_skill.replace(emo, "").strip()
+                        break
+                
+                if emoji:
+                    attr = emoji_to_attr[emoji]
+                    skilled_at[attr].append(name_clean)
+                    
+    # Deduplicate and sort alphabetically
+    for attr in skilled_at:
+        skilled_at[attr] = sorted(list(set(skilled_at[attr])))
+        
+    return skilled_at
+
 def main():
+
     if "dialog_to_show" in st.session_state:
         show_error_dialog(st.session_state.dialog_to_show)
 
@@ -430,6 +483,8 @@ def main():
         )
 
         sheet_data = char_state.get("sheet_data") or repo.get_default_sheet_data()
+        known_skillsets = sheet_data.get("known_skillsets") or []
+        skilled_at = rebuild_skilled_at_attributes(known_skillsets, skillsets)
         traits = sheet_data.get("traits") or {}
         money = sheet_data.get("money") or {}
         weapons = sheet_data.get("weapons") or []
@@ -476,11 +531,6 @@ def main():
                 new_level = st.number_input("Level 🎲", min_value=1, max_value=200, value=int(vitals.get("level", 1)), help=LEVEL_NOTE)
                 new_gold = st.number_input("Gold 🪙", min_value=0, value=int(money.get("gold", 0)), help=MONEY_NOTE)
             with col_sub4:
-                skillset_names = ["Custom / None"] + [s["name"] for s in skillsets]
-                prev_skillset = sheet_data.get("active_skillset") or "Custom / None"
-                if prev_skillset not in skillset_names:
-                    prev_skillset = "Custom / None"
-                selected_set = st.selectbox("Predefined Skillset Package 🎓", skillset_names, index=skillset_names.index(prev_skillset))
                 new_silver = st.number_input("Silver 🥈", min_value=0, value=int(money.get("silver", 0)), help=MONEY_NOTE)
             st.markdown('</div>', unsafe_allow_html=True)
 
@@ -501,52 +551,6 @@ def main():
             with col_v3:
                 new_wounds = st.number_input("Wounds 🩸", min_value=0, value=int(vitals.get("wounds", 0)), help=WNDS_NOTE)
 
-        # Triggers skillset update
-        if selected_set != prev_skillset:
-            old_set_skills = []
-            if prev_skillset != "Custom / None":
-                old_set_data = next((s for s in skillsets if s["name"] == prev_skillset), None)
-                if old_set_data:
-                    old_set_skills = old_set_data.get("skills", [])
-            new_set_skills = []
-            if selected_set != "Custom / None":
-                new_set_data = next((s for s in skillsets if s["name"] == selected_set), None)
-                if new_set_data:
-                    new_set_skills = new_set_data.get("skills", [])
-            
-            updated_skills = GameEngine.update_skills_list(char_state.get("skills", []), old_set_skills, new_set_skills)
-            char_state["skills"] = updated_skills
-            sheet_data["active_skillset"] = selected_set
-            sheet_data["weapons"] = weapons
-            sheet_data["powers"] = powers_slots
-            sheet_data["magic_items"] = magic_items_slots
-            sheet_data["traits"] = {
-                "positive_trait": new_pos_trait,
-                "negative_trait": new_neg_trait,
-                "flair": new_flair,
-                "adventuring_goal": new_goal,
-                "appearance": new_appearance,
-                "hgt_wgt_age": new_hgt_wgt_age
-            }
-            sheet_data["money"] = {"gold": int(new_gold), "silver": int(new_silver)}
-            sheet_data["armor_shield"] = armor_shield
-            sheet_data["notes"] = notes
-            sheet_data["vitals"] = {
-                "level": int(new_level),
-                "max_hp": int(new_max_hp),
-                "current_hp": int(new_current_hp),
-                "wounds": int(new_wounds),
-                "mr_base": int(new_mr_base),
-                "mr_armored": new_mr_armored,
-                "mr_shield": new_mr_shield
-            }
-            
-            repo.save_character(player_name, {
-                "skills": updated_skills,
-                "sheet_data": sheet_data
-            })
-            st.toast(f"🎓 Applied skillset package: {selected_set}")
-            st.rerun()
 
         st.markdown("---")
         st.markdown("### 🎲 Attributes & Proficiencies")
@@ -573,7 +577,8 @@ def main():
         with col_m3:
             st.markdown('<div style="font-size: 0.85rem; line-height: 1.25; color: rgba(255,255,255,0.75);">melee weapons, Block Def, armor 🛡️, shields 🛡️, physical strength</div>', unsafe_allow_html=True)
         with col_m4:
-            st.markdown('<div style="background-color: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 4px; padding: 6px 12px; min-height: 42px; max-height: 70px; overflow-y: auto; width: 100%;"></div>', unsafe_allow_html=True)
+            skills_str = ", ".join(skilled_at["Might"])
+            st.markdown(f'<div style="background-color: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 4px; padding: 6px 12px; min-height: 42px; max-height: 70px; overflow-y: auto; width: 100%; font-size: 0.85rem; line-height: 1.35; color: rgba(255,255,255,0.95);">{skills_str}</div>', unsafe_allow_html=True)
             
         # Motion Row
         col_mo1, col_mo2, col_mo3, col_mo4 = st.columns([1.0, 0.6, 2.2, 4.0], vertical_alignment="center")
@@ -584,7 +589,8 @@ def main():
         with col_mo3:
             st.markdown('<div style="font-size: 0.85rem; line-height: 1.25; color: rgba(255,255,255,0.75);">Nish 🚩, dodge, hurled weapons, athletics, dexterity, balance</div>', unsafe_allow_html=True)
         with col_mo4:
-            st.markdown('<div style="background-color: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 4px; padding: 6px 12px; min-height: 42px; max-height: 70px; overflow-y: auto; width: 100%;"></div>', unsafe_allow_html=True)
+            skills_str = ", ".join(skilled_at["Motion"])
+            st.markdown(f'<div style="background-color: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 4px; padding: 6px 12px; min-height: 42px; max-height: 70px; overflow-y: auto; width: 100%; font-size: 0.85rem; line-height: 1.35; color: rgba(255,255,255,0.95);">{skills_str}</div>', unsafe_allow_html=True)
             
         # Mind Row
         col_mi1, col_mi2, col_mi3, col_mi4 = st.columns([1.0, 0.6, 2.2, 4.0], vertical_alignment="center")
@@ -595,7 +601,8 @@ def main():
         with col_mi3:
             st.markdown('<div style="font-size: 0.85rem; line-height: 1.25; color: rgba(255,255,255,0.75);">shot weapons, intelligence, personality, awareness, wit, charm, persuade</div>', unsafe_allow_html=True)
         with col_mi4:
-            st.markdown('<div style="background-color: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 4px; padding: 6px 12px; min-height: 42px; max-height: 70px; overflow-y: auto; width: 100%;"></div>', unsafe_allow_html=True)
+            skills_str = ", ".join(skilled_at["Mind"])
+            st.markdown(f'<div style="background-color: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 4px; padding: 6px 12px; min-height: 42px; max-height: 70px; overflow-y: auto; width: 100%; font-size: 0.85rem; line-height: 1.35; color: rgba(255,255,255,0.95);">{skills_str}</div>', unsafe_allow_html=True)
             
         # Magic Row
         col_ma1, col_ma2, col_ma3, col_ma4 = st.columns([1.0, 0.6, 2.2, 4.0], vertical_alignment="center")
@@ -606,7 +613,8 @@ def main():
         with col_ma3:
             st.markdown('<div style="font-size: 0.85rem; line-height: 1.25; color: rgba(255,255,255,0.75);">Saves/Resistances, arcane power</div>', unsafe_allow_html=True)
         with col_ma4:
-            st.markdown('<div style="background-color: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 4px; padding: 6px 12px; min-height: 42px; max-height: 70px; overflow-y: auto; width: 100%;"></div>', unsafe_allow_html=True)
+            skills_str = ", ".join(skilled_at["Magic"])
+            st.markdown(f'<div style="background-color: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 4px; padding: 6px 12px; min-height: 42px; max-height: 70px; overflow-y: auto; width: 100%; font-size: 0.85rem; line-height: 1.35; color: rgba(255,255,255,0.95);">{skills_str}</div>', unsafe_allow_html=True)
             
         # Moxie Row
         col_mx1, col_mx2, col_mx3, col_mx4 = st.columns([1.0, 0.6, 2.2, 4.0], vertical_alignment="center")
@@ -617,7 +625,8 @@ def main():
         with col_mx3:
             st.markdown('<div style="font-size: 0.85rem; line-height: 1.25; color: rgba(255,255,255,0.75);">Resist Saves, Death Checks, Stamina, Body</div>', unsafe_allow_html=True)
         with col_mx4:
-            st.markdown('<div style="background-color: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 4px; padding: 6px 12px; min-height: 42px; max-height: 70px; overflow-y: auto; width: 100%;"></div>', unsafe_allow_html=True)
+            skills_str = ", ".join(skilled_at["Moxie"])
+            st.markdown(f'<div style="background-color: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 4px; padding: 6px 12px; min-height: 42px; max-height: 70px; overflow-y: auto; width: 100%; font-size: 0.85rem; line-height: 1.35; color: rgba(255,255,255,0.95);">{skills_str}</div>', unsafe_allow_html=True)
             
         new_skills = char_state.get("skills", [])
 
@@ -913,8 +922,7 @@ def main():
                 "mr_base": int(new_mr_base),
                 "mr_armored": new_mr_armored,
                 "mr_shield": new_mr_shield
-            },
-            "active_skillset": selected_set
+            }
         })
 
         updated_db_data = {
@@ -1156,6 +1164,15 @@ def main():
                         if st.button("🗑️", key=f"del_ks_{ks_name}"):
                             new_ks_list = [k for k in known_skillsets if k != ks_name]
                             sheet_data["known_skillsets"] = new_ks_list
+                            
+                            # Sync database skills column with skillset union
+                            compiled_skills = []
+                            for ks in new_ks_list:
+                                ks_d = next((s for s in skillsets if s["name"] == ks), None)
+                                if ks_d:
+                                    compiled_skills.extend(get_skillset_skills(ks_d))
+                            char_state["skills"] = list(set(compiled_skills))
+                            
                             char_state["sheet_data"] = sheet_data
                             if repo.save_character(player_name, char_state):
                                 st.toast(f"Removed Skill Set: {ks_name}")
@@ -1187,6 +1204,15 @@ def main():
                 if matched_ks:
                     new_ks_list = list(known_skillsets) + [matched_ks["name"]]
                     sheet_data["known_skillsets"] = new_ks_list
+                    
+                    # Sync database skills column with skillset union
+                    compiled_skills = []
+                    for ks in new_ks_list:
+                        ks_d = next((s for s in skillsets if s["name"] == ks), None)
+                        if ks_d:
+                            compiled_skills.extend(get_skillset_skills(ks_d))
+                    char_state["skills"] = list(set(compiled_skills))
+                    
                     char_state["sheet_data"] = sheet_data
                     if repo.save_character(player_name, char_state):
                         st.toast(f"Added Skill Set: {matched_ks['name']}")
