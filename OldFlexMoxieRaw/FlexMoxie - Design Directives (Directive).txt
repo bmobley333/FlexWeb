@@ -1,0 +1,43 @@
+﻿FlexMoxie: Design & Architecture Directives
+* Classification: Directive (Development & Design Protocol)
+* Status: Active (Enforced)
+* Last Updated: 2026-07-17
+________________
+⚡ 1. Google Apps Script (GAS) Latency Mitigation Directives
+I. The Bulk Operation Rule (2D Arrays)
+* The Problem: The Google Apps Script API calls to spreadsheet cells (e.g. .getValue(), .setValue(), .clearContent()) require remote Google Cloud RPC cycles. Making these calls inside loops causes high execution latency and triggers the 6-minute script execution timeout limit.
+* The Directive: Developers must never loop cell reads or writes.
+* Always read the entire worksheet or targeted rectangular grid at once using sheet.getDataRange().getValues().
+* Perform all sorting, filtering, and text manipulation in-memory inside Apps Script JavaScript arrays.
+* Write the modifications back to the spreadsheet in a single bulk call using range.setValues().
+II. Dynamic Coordinates Scanning (Tag Invariants)
+* The Problem: Inserting or deleting rows or columns in spreadsheets breaks hardcoded cell indices (e.g., assuming a name is always in column 5).
+* The Directive: All cell coordinate references must be dynamic.
+* Worksheets must use tag indicators on Row 1 or Column A (header, skills, version, etc.).
+* Scripts must call fGetSheetData() to compile tag maps, translating cell tags into active row/column coordinate offsets.
+* If structural layout adjustments occur, the script index caches must be cleared via InvalidateGameCache triggers to re-scan coordinates.
+III. Local Worksheet Caching
+* The Problem: Running external database lookups to other spreadsheets when a player interacts with dropdown menus causes noticeable lag.
+* The Directive: Character sheets must use local database cache worksheets (PowerDataCache, MagicItemDataCache, SkillSetDataCache).
+* Rebuilding the lists (filtering libraries) runs in the background.
+* Active player dropdowns and cell onEdit auto-populate routines must query these local cached tables directly for instantaneous UI response.
+________________
+☁️ 2. Distributed Architecture & Google Account Limits Directives
+I. Local Workspace Custody Model
+* The Problem: Hosting all campaigns and active sheet files in the developer's Google Drive account (metascapegame@gmail.com) creates a single point of failure. Google enforces strict API usage quotas and concurrent access limits per account. If multiple players launch campaigns simultaneously, they will stall or fail due to rate limits.
+* The Directive: The system must use a distributed custody model.
+* Each player/GM must run their campaign entirely inside their own personal Google Account.
+* No active gameplay session should write to or modify files in the developer's Drive account.
+II. One-Time Setup Handshake
+* The Problem: Players need templates to run the game, but cannot manually copy and link dozens of versioned files correctly.
+* The Directive: The system implements an automated onboarding handshake:
+* The player starts with a copy of the main Codex template in their Drive.
+* The player runs a first-time setup command from the custom Codex menu.
+* The setup script does a one-time read of the developer's master version registry (Version Tracker).
+* It duplicates all matching templates (Tables, DB, Custom Abilities, and Rules documents) into the player's personal Drive folders.
+* It logs the newly cloned file IDs into the player's personal MyVersions ledger inside their Codex, isolating their workspace.
+III. Self-Healing Autonomy
+* The Problem: Players might accidentally delete or corrupt core templates in their personal Drive folder.
+* The Directive: If a required file lookup fails (throws an exception), the local Codex engine must automatically self-heal.
+* The engine queries the master Version Tracker database using the target version ID.
+* It makes a fresh copy of the master template, deposits it in the player's Master Copies subfolder, updates the player's MyVersions ID register, and automatically repairs broken hyperlinks across all active character sheets.

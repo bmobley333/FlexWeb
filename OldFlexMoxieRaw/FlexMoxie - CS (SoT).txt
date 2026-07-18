@@ -1,0 +1,47 @@
+﻿FlexMoxie - CS: Character Sheet Template & Action Dashboard
+* File Name: FlexMoxie - CS
+* Google Drive File ID: 1JxVG-eRxkgbwOM37b9ac7L18_QdeoeOn1yNE98zVtKc
+* File Type: Google Spreadsheet (container-bound to Apps Script)
+________________
+🏛️ System Purpose & User Workflows
+The FlexMoxie - CS is the active player-facing user interface and combat dashboard. It translates character statistics, attributes, equipment, and abilities into an interactive, automated roll engine. Rather than querying remote databases dynamically on user clicks (which causes performance latency), the CS template implements local cache worksheets that store filtered subsets of powers, magic items, and skillsets. This local cache is then queried instantly by data validations and bound triggers.
+________________
+📂 Worksheet Tab Index
+I. Presentation & User Interface
+* Game (ID: 2020049119): Primary Action Dashboard: Contains character attributes, active combat stats, and dropdown lists for active powers, magic items, and skillsets. Features buttons to run filters.
+* Paper (ID: 537503270): Print-Friendly sheet: A static, cleaned replica of the Game tab with developer-only rows and columns removed. Used for print layout or clean off-screen viewing.
+II. Filter Configuration Forms
+* Filter Powers (ID: 1232711774): Checkbox selectors enabling players to choose which campaign power databases and sources are loaded into their dropdowns.
+* Filter Magic Items (ID: 82136921): Selectors for active magic items sources.
+* Filter Skill Sets (ID: 1683362842): Selectors for available class skillsets.
+III. System Data Caches & Settings
+* PowerDataCache (ID: 1912144439): Local cache of filtered abilities pulled from the rules database.
+* MagicItemDataCache (ID: 1797140670): Local cache of filtered magical equipment.
+* SkillSetDataCache (ID: 1476755748): Local cache of class skillset matrices.
+* Data (ID: 224266510): Caches structural variables (e.g. CodexID, player directories).
+* Hide> (ID: 1581816630): Divider sheet used to format and hide system tabs.
+________________
+⚙️ Bound Script Entry Points (CS/Code.js)
+The character sheet script CS/Code.js directs events to FlexLib:
+1. Simple Trigger: onOpen()
+* If the sheet is initialized (PropertiesService.getScriptProperties()), it creates the player menus (FlexLib.fCreateFlexMenu()). If the current user is the administrator (metascapegame@gmail.com), it also appends FlexLib.fCreateDesignerMenu('CS').
+* If not initialized, it shows the activation menu pointing to fActivateMenus().
+2. Sheet Initialization Trigger: fActivateMenus()
+* Executes FlexLib.run('CharacterOnboarding') to sync libraries, check core database checkboxes, run initial data filters, and set the default tab to Game.
+3. Active Edit Listener: onEdit(e)
+Monitors edits on the Game tab to automate detail population and skillset updates: * Dropdown Syncing (Powers & Items): * Intercepts choices made in powerdropdown1/2 or magicitemdropdown1/2. * Instantly clears existing fields and queries the local caches (PowerDataCache/MagicItemDataCache). * Auto-populates the corresponding usage, action, name, and effect columns. * Skillset Modification & Auto-Placement: * Intercepts selections in skillsetdropdown. * Removal Step: If a skillset was modified/cleared, reads the old skillset's skills list (Column skillseteffect), parses them, and executes fUpdateCharacterSkills(sheet, skills, gameColTags, 'REMOVE'). This locates the Might/Motion/Mind/Magic/Moxie skills rows on the Game tab and decrements or removes each skill (e.g., removing Acrobatics🏃). * Addition Step: If a new skillset is selected, reads its skill list from SkillSetDataCache and runs fUpdateCharacterSkills(..., 'ADD') to write the new skills to the appropriate attribute row, incrementing counts (e.g. 2_Focus👁️) if duplicates exist.
+4. Installable Structural Trigger: onChange(e)
+* Monitors structural changes (INSERT_ROW, REMOVE_ROW, INSERT_COLUMN, REMOVE_COLUMN) on the Game tab.
+* Instantly calls FlexLib.run('InvalidateGameCache') to wipe cached row and column indices. This protects the coordinates system from drifting if rows or columns are added.
+________________
+🔀 Core Logic Workflows (Codebase Analysis)
+I. Skill List Incrementor & Decrementor (fUpdateCharacterSkills)
+Dynamically manages the comma-separated skill rows on the Game tab: 1. Attribute Mapping: Reads the ending emoji (e.g., 💪) of a skill and maps it to its target worksheet row tag (e.g. mightskills). 2. Double-Row Placement: Checks two consecutive rows for that attribute (e.g., Might Row 1 and Might Row 2). 3. Execution: * ADD Mode: Searches if the skill name already exists. If found, splits the count prefix (e.g., 2_Climb💪 ➔ increments count to 3_Climb💪). If new, adds it to the shorter of the two rows to distribute visual density. * REMOVE Mode: Searches for the skill. If found with a count prefix, decrements the count. If no prefix remains, removes the skill string entirely from the row.
+II. Print-Prep & Visual Cleanup (fPrepGameForPaper)
+1. Resetting Paper: Deletes the existing Paper tab.
+2. Duplication: Clones the Game tab as a new worksheet named Paper and positions it at index 1.
+3. Designer Strip: Reads the Cell A1 note of the Game sheet (which contains the configuration string Hide: [A1-ranges]).
+4. Deletions: Converts the notation string into column and row indices, sorts them in reverse order, and deletes the designer-only layout blocks from Paper to leave the player with a clean character sheet.
+________________
+📐 Layout & Tag Schema Invariants
+The Game tab relies on the following schema row and column notes/tags to resolve coordinates: * Row Tags: * mightskills, motionskills, mindskills, magicskills, moxieskills ➔ The skill lists cells. * Column Tags: * powerdropdown1/2, powerusage1/2, poweraction1/2, powername1/2, powereffect1/2 * magicitemdropdown1/2, magicitemusage1/2, magicitemaction1/2, magicitemname1/2, magicitemeffect1/2 * skillsetdropdown, skillsetname, skillseteffect * individualskills * Cell A1 Note: Must contain the Hide: note with valid column/row A1 notation parameters.

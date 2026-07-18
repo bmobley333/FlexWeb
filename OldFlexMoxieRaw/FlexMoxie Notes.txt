@@ -1,0 +1,1347 @@
+﻿ToDo
+2025.10.15
+* Add all Skill Sets into Codex and beyond
+* Add to Sites downloads for Rules, Prompts, etc. if needed
+* Add a new “Style” row as row 2 rather than relying on Header + 1 so that pastes over that row won’t damage the drop downs or styles
+* Remove old versions from Codex Menu
+* Remove Players Codex to just Codex
+* LLM - What RPG features am I missing
+* Delete all Section comment sections
+* Markdown file???
+* Look for rules conflicts
+* Look for rules duplication that can be reduced to 1 source of truth
+* Remove Paper from CS and set it up as a standalone sheet for Sites
+* Fix all Effects that are Dmg d6 vs some Atr Dmg unless REALLY wanted. 
+* Address strategy for colTag/rowTag mismatch in code - maybe in global a mass matchup or something?
+* Stop using the word Header to refer to colTags or rowTags (even remove it from CS <PowerDataCache> and <MagicItemDataCache> and <SkillSetDataCache>
+* pull Skill Sets in from characters to rules
+* Version 4 Copy
+   * Update it so Designer and sheets are hidden for all users except my TheBmobley and MetaScapeGAem (but not Ogluck333 - so I can see the effects)
+   * Add a monthly check of sub versions for master documents in player’s Masters forlder
+2025.10.13
+* Test all Code violations of Daily Coding Instructions
+* Tweak  Magic Items to CS, Custom, etc.
+   * Button working on Filter magic Items
+   * MASTER filter all for initial setup?
+   * Remove Console Logging.
+* Rename Player’s codex to Player’s Console
+* No function should ever be a substring of another within the same file - check and lets fix any violations
+* Future ToDo
+   * LLM - Based on Sites, code, menus, shared sheets, have LLM create instructions and a how to get started for a plyer then run that through Notebook for a “vide” and a walk through Google authentication ad why the permissions
+2025.10.13
+* Add Magic Items to CS, Custom, etc.
+2025.10.11
+* Self Heal Ideas
+   * Like we did with the Core My Flex folder in Codex <Data> add the same IDs into <Data> for all sub-folders: Characters, Custom Abilities, Master - DO NOT DELETE, and just use them regardless of name or location. If entirely missing then notify player of the issue (and/or recreate them).
+   * Also let’s remove from the folder and files the DO NOT DELETE as it implies the others ARE deletable
+* Add Icons for top level menus such as Character and Custom Abilities - for easier player identification
+* Added playtest Races & Powers to Tables
+   * Update Rules
+* Future ToDo
+   * LLM - What RPG features am I missing
+   * LLM - Based on Sites, code, menus, shared sheets, have LLM create instructions and a how to get started for a plyer then run that through Notebook for a “vide” and a walk through Google authentication ad why the permissions
+2025.10.10
+* New Powers Guard Rails
+   * Discuss source of truth for Power Drop downs (e.g. 1-Day, 1-Enc, etc. ) where should I keep these?
+* Fix DB <Powers> list is all purple - need same Header + 1 logic (and blank row) as other solutions
+2025.10.09
+* Move Email Custom Abilities from Cust to Codex
+* New Powers Guard Rails
+   * Have an LLM discussion
+   * Need a LOT of control and guard rails around creating custom abilities - discuss with LLM best method - I’m guessing Survey
+* Tweaks
+   * Rename Codex <CustomSources> to <Custom Abilities>
+   * Rename <Choose Powers> to <Filter Powers>
+   * Protect any renaming of MetaScape Flex or sub folders or moving Codex somewhere else
+   * Pull share custom list back to Codex with checkmarks and <CustomSources>
+   * Switch active sheet in Codex to Character or Custom Abilities depending upon menu choice
+   * Cust LIsts need the v3 prefix
+   * Change Codec <CustomSources> Owner to “Me”
+   * Need the v3 in front of Custom Abilities Sheets
+   * OH Can I use emoji’s in the menu name of Flex? if so let’s do it!
+   * “sync Power Choices” is a terrible menu name
+   * Add 💪Flex to Site
+20205.10.08
+* Pull in Cust powers from GM’s sheet - Need a list of GM sheets (like we have with Powers) so can pull in Power Tables from one or more. Maybe EVERY account gets a Custom Powers sheet and you can use your own and/or pull in another player or players (whether they are GM or not). ?? 
+* Tweaks
+   * Delete Custom Sources option
+   * Need to access your own Custom Abilities table so you can make edits
+2025.10.07
+* Tweak - Update Powers Table -> Update <Choose Powers>
+* Web Page - character sheet shows without Hide col/row applied - how do we fix this?
+* Hide Designer Menu feature using <Data>
+* Need ot fix header row of <Choose Powers> get’s overwritten
+* When initial Codex setup finishes the “Setup Coplete!” should include “Please bookmark this Player’s Codex file (and you can also find it in your Google Drive under the “MetaScape Flex” folder. 
+* Need Refresh Button on Choose Powers
+* Need standard tags for CS <PowerDataCache>
+* Load old characters into Codex (if it codex gets deleted or damaged)
+   * Need to always verify (and warn player) if they rename “MetaScape Flex” folder or move Codex out of it
+   * Need a System menu *** Flex *** System
+      * OH Can I use emoji’s in the menu name of Flex? if so let’s do it!
+   * What role, if any, should Sites play? Should messages point to a Sites set of instructions?
+   * To Import Characters…
+      * Instruct player to move them into the root of MetaScape Flex then run this menu choice again
+      * If characters are in MetaScape Flex - then add them into Codex, move them into Characters, and add any needed supporting versions
+   * Add a Repair Folder Structure
+   * Add a Repair MASTER Copies - this should scan for all needed versions AND repair MASTER Copies
+   * If need a new Codex - simple - just rename old MetaScape Flex folder, copy new Codex, run its setup, then copy characters over and use above Character Import
+   * Should ALWAYS make sure any new Codex setup doesn’t delete any existing Character files from the MetaScape Flex, Character’s folder.
+* Codex initial use: between <Continue> and <Welcome> need Toast so user doesn’t think script is locked up
+* Delete all extra blank rows and columns across all sheets of all speadsheets
+* Add Player’s own custom powers - should be stored in Codex so all Character’s can access them? or in a separate MyPowers spreadsheet? Ask Gemini which would be better.
+* Activate Menu
+   * Why don’t need it for Codex?
+   * Do we need it for tables (only used by designer, not players)?
+   * Can’t we do this more smooth such as having an initial message appear when the spreadsheet initially loads that can activate and/or perform the needed <Refersh>?
+   * Can we somehow authroize script on the Master CS so players don’t have to do it on EVERY SINGLE CS they create?
+2025.10.06
+* CS Filtering of Powers
+   * Under <Designer> menu need a From My Account and From Player’s Account area so I run the correct menu choice from the correct account. 
+   * Delete menu <Designer> <Clear PropertyService>??
+   * Clear Properties exists in Codex but not in player’s CS
+   * I think we need to abandon PropertyServices for now and just use Codex <MyVersions> So each character will need to store the player’s Codex ID so it can refer back to it.
+   * Is there a good “time wheel” or something to indicate the script is running  - Yes use an HTML sidebar.
+   * Set all Toasts to 2 minutes and then use a 0 second blank toast to to end them in a function like fEndToast. 
+2025.10.03
+* More Tables to DB work
+   * PropertiesService
+      * does this store per account or per sheet/doc?
+      * how long does it last?
+      * how large is it?
+      * Can it be overridden by other code or propertyservice using programs?
+      * I’d like to to be cleared and rebuilt at “safety” events like any Codex or CS sheet load. 
+2025.10.02
+* Finish initial “Create Character”
+* Tweaks
+   * Let’s add the bottom right pop-up as a fShowBottomRight Popup and use it for the alert of “New Character Creating a new character sheet” to get rid of the need for <OK>>
+   * Characters need their own folder
+   * Add v3 in front of rules and character names
+   * Always assume they want the latest version and just ask “do you want latest version” if no THEN ask for which version.
+   * Need menu Create Character with sub of Latest Version or Legacy Version
+* Rename Character
+* Need other ssID’s for GM in Versions
+   * Rename IsMaster to PlayerNeeds
+   * Remove IsMaster from Codex (not used)
+   * Then add in other version ssIDs etc. in Ver
+* Copy or refresh powers from Tables to DB
+   * First need rnd6 for all powers
+2025.10.01
+* Started Coding
+2025.09.30
+* Setup VS Code, Clasp, Git
+* Layout VERY basic CS, Ver, DB, Cust, Tables
+* Stand up Sites
+2025.09.29
+* Website  or Google Slide with links to rules, CS, prompts, NotebookLMs, Roll20 tips, etc
+* Simple Acts for any AMP
+* electronic sheet 
+* Check all usage 1
+* Attr vs Atr
+* Convert Turbo RCs into Flex
+2025.09.28
+* Vit 10+d(miht) and at higher levels +2d(might) etc.
+* Remove all passives
+* Remove all sessions
+* Define simple actions
+* M can do a simple action
+* increase block max
+* Death check  is 5+Negative
+* Attr increases at levels like Vit dice
+* Max 1 Advantage or Disadvantage rule
+* Define fatigue Dmg - can’t cause affliction
+* Vit increases by 2 per AP
+2025.09.21
+* Finished Merchant Princes Keep for Adventure
+* Showed Jake how to setup adventure
+* 2sqr is 2sqR radius (excluding center square), and what does in 2sq mean (e.g. same as 2sqR
+* Explain triangle mark method for Power +1
+* NotebookLM Critique
+   * Section on common traps and common puzzles
+   * How does find/remove traps work? etc.
+2025.09.19
+* Skills - get rid of falling reduces feet fallen Skills generally do not have numeric impact unless explicitly defined.
+* Explain a few skills are more than just narrative such as - (so move Falling, Basic Healing, etc. as powers)
+* NotebookLM Critique
+   * How to run stealth (not until known)
+   * How players can combine efforts (provides Advantage) 
+   * HOw does persuasion/intimidation work? - player explains and then GM sets Dif
+   * Do above for MULTIPLE skills
+2025.09.18
+* Standardize and distribute all emojis
+* Create tables from GJ character concepts
+* Add emoji’s to Google Docs “tabs” 
+* Pull out all abbreviations as single glossary page?
+* Delete all end of Table comments (put into regular rules)
+* NotebookLM Critique
+   * Make sure X-Day isn’t limited to one per DAY if 2-Day
+2025.09.17
+* Gamers
+   * Charlie 3877
+   * Jesse 1137
+   * Merril 9555
+   * Phill 4933
+   * Steve 0750
+2025.09.16
+* Nish options: each one separate, group monsters, group before and after players
+* Need T/C Nish packet rules
+* d12 for direction trick (clock)
+* Fall vs Jump down vs climbing and fall
+2025.09.15
+* Stat to Attribute
+* Session to Day
+* Prompt Engineering - explain why here as Appendix
+* Put AMP after definitions (and show it don’t just tell)
+* Skilled/Unsk Adv/Dis table - integrate it directly into main ability check section
+* GM Focus die
+* Tremendous/Crit - examples 
+* Can have both (Crit and Tremendous in same roll)
+* Don’t soften double criticals
+* Crits and Tremendouses are narrative (rarely numbers)
+* Don’t say skills sets are better than skills - explain why and both are meaningful and purposeful (maybe 2 AP) and allow unique skills to get +1.
+2025.09.12
+* Effects (frozen, stunned, blind, etc.) explain default duration is a save per round
+* Explain magic item of “Weapon” or “Armor” works with players choice or random roll of skilled weapons/armor but Effect is the “magical” effect. All weapons/armor  still work as normal weapons otherwise
+* How to roll odd die like d7 or d41
+* Weapon Skill Sets
+* Can gain skill for: Nish, Saves
+2025.09.11
+* Custom Abilities on Custom tabs
+* PC Sections (e.g. Trevor Section)
+* Random Rolling abilities
+20205.09.10
+* Rotate CS
+* Sort order Abilities
+* Up minor item cost by about 8 times
+2025.09.09
+* Fix natural weapons and armor (must be less than dagger and cloth)
+* Talk about weapon scaling (matching Stat)
+* Fix dual wield and shields
+   * don’t set default rules, rather use AMP and Usage - particularly P
+* * Opportunity Atk
+* +1d
+Errata
+* Vit is 10+d(might)
+* Vit is +2 per AP
+VS Code
+Count Lines of Code
+* Ctrl+Shift+F
+* Click the ‘.*’ icon
+* Search for \n
+GitHub
+GitHub URL for Gemini
+https://github.com/bmobley333/MS4
+
+
+
+
+https://github.com/bmobley333/Flex
+
+
+
+
+Revert Code
+* 
+
+Google Cache
+Of course. Here is a comprehensive table synthesizing the key details of the Google Apps Script caching and storage services. You can copy and paste this directly into your working notes.
+________________
+
+
+Google Apps Script Caching & Storage Comparison
+Feature
+	Session Cache (Global Variables)
+ONLY readable by the single Sheet/Doc and all of its GAS including FlexLIb but OTHER sheets/Docs cannot read that documents Session Cache (e.g. there isn’t a "Session Cache” that spans FlexLib!. 
+Can hold most javascript data types.
+	PropertiesService
+ONLY readable by the script or the document (two separate cases - see below)
+Key Value pairs and of strings only
+	CacheService
+getScriptCache(): Version is all GAS files within ONE Doc/Sheet’s set of GAS - so limited to JUST CS or Just Codex, etc.
+getUserCache() version readable by ALL Google Scripts from ANY source even 3rd party - fragile.
+	Analogy
+	🧠 Short-term memory / Whiteboard
+	🔒 Sticky notes / Lockbox
+	🗄️ Shared, temporary locker
+	Longevity
+	Volatile: Lasts only for the current session. Wiped on close, reload, or ~30 mins of inactivity.
+	Permanent: Data persists until explicitly deleted by a script.
+	Semi-persistent: Guaranteed for 20 mins, max 6 hours. Can be cleared by Google anytime after 20 mins.
+	Storage Size
+	Large: No hard limit, tied to script execution memory (having nothing to do with GAS code execution ending). Good for thousands of rows.
+	Small: 500 KB total storage. 9 KB per single value.
+getScriptProperties() (per script): Each script project gets its own private 500 KB of storage.
+* Your FlexLib script has its own 500 KB.
+* Your CS script has its own separate 500 KB.
+* Your DB script has its own separate 500 KB.
+* This is why the scripts couldn't see each other's properties—they each have their own private storage space.
+getDocumentProperties() (per document): Each individual spreadsheet or document file gets its own 500 KB of storage that is shared by any script running on that document.
+* Character Sheet A has its own 500 KB.
+* Character Sheet B has its own separate 500 KB.
+* The Codex has its own separate 500 KB.
+
+
+	Medium: 10 MB total storage. 100 KB per single value.
+	Scope / Accessibility
+	Per User, Per Document, Per Session: Completely private and isolated to a single user's active session in a specific file.
+	Has three distinct scopes: • getScriptProperties(): Private to the script project. • getDocumentProperties(): Shared by all scripts running on that specific document. • getUserProperties(): Shared by all scripts authorized by that specific user across all their documents.
+	Has two scopes: • getScriptCache(): Private to the script project. • getUserCache(): Private to the user, accessible by any script they run.
+	Overwrite Risk
+	None: Completely isolated to the single session.
+	Varies by Scope: • Script: None. • Document: Low. Possible if another app on the same sheet uses the same keys. • User: Highest risk. Any authorized app could potentially use the same key.
+	Varies by Scope: • Script: None. • User: High risk, similar to User Properties.
+	Best For
+	Storing data needed repeatedly within a single session for maximum speed (like our onEdit optimization).
+	Storing small, simple, permanent settings like user preferences or configuration flags.
+	Caching the results of slow operations (like web requests) that might be needed again within a few hours.
+	
+
+GAS Implementation Plan
+________________
+
+
+Project Goals for TTRPG: Flex
+My goal is to create a Google Apps Script-powered system for my TTRPG, Flex, using a suite of interconnected Google Sheets and Docs. The core components are:
+* Player’s Codex: The central dashboard for players and GMs. It manages file setup, character creation, and version control. It will contain its own internal data sheet for configuration and a Log sheet for troubleshooting.
+* Character Sheet: A dedicated Google Sheet for a single character. For optimal performance, it will contain hidden sheets with cached data copied directly from the relevant databases, eliminating the need for live =IMPORTRANGE() calls during gameplay.
+* Core DB: A Google Sheet database containing all the standard rules, abilities, items, and tabular information for the game.
+* Campaign DB: A Google Sheet database template for a Game Master (GM) to copy and customize with their own unique campaign content.
+* Rules: A master Google Doc containing the game's rules.
+* Version Tracker: The definitive source of truth for the entire system. This simple Google Sheet will track game versions and store the master File IDs for all other components.
+The Player’s Codex will be the main console. A player's first action will be to run an initial setup script that copies the master Core DB and Character Sheet template into their personal Google Drive. GMs will also copy the Campaign DB. This architecture is designed to distribute the workload away from a central account and onto each player's individual Google Account, ensuring the system remains functional and performant on the free tier.
+When a player creates a new character, the Player's Codex will duplicate their local Character Sheet template and then automatically cache all data from their Core DB (and a GM's Campaign DB, if linked) into hidden sheets within that new character file. GMs will be able to easily retrieve their Campaign DB's file ID from their Codex to share with players, who can then link their characters to that custom dataset.
+The Player’s Codex will track the version each character is built on. Using a time-driven trigger, it will check the master Version Tracker monthly for updates. If a new version is available, it will download updated copies of the core files for creating new characters. New characters can use the latest data at any time using a dedicated "Refresh Data" function.
+To maintain simplicity and accessibility, all Google Apps Script code will be bound directly to the sheets, avoiding complex libraries so that players can easily copy, authorize, and use the system without technical barriers.
+
+
+
+
+________________
+
+
+Electronic Implementation Plan
+Of course. Here is the complete, detailed master plan, combining all the specifics we've discussed.
+________________
+
+
+Electronic Implementation Plan (Master Version)
+Phase 0: Create the Master Files & Public Entry Point
+This foundational step involves creating the "single source of truth" files and the public-facing website where players will access them. All files should have sharing permissions set to "Anyone with the link can view."
+* Version Tracker Sheet: The master index of all available versions. Columns should include: Version, ReleaseDate, CoreDB_FileID, CharacterSheet_FileID, CampaignDB_FileID, RulesDoc_URL, and Notes.
+* Core DB Sheet: A separate database file for each version of the rules (e.g., "Flex Core DB v1.0", "Flex Core DB v1.2").
+* Character Sheet Template: A separate character sheet template for each version.
+* Campaign DB Template: A separate template for each version.
+* Rules Google Doc: A separate rules document for each version.
+* Populate Version Tracker: Add a new row for each version you release, populating all the corresponding File IDs and URLs.
+* Create the Public Landing Page (Google Site): This is the front door for your TTRPG.
+   * Action 1: Create a new Google Site to serve as the project's homepage.
+   * Action 2: Get the special /copy link for your master Player's Codex file by changing the end of its share URL from /edit to /copy.
+   * Action 3: Add promotional material, a brief description of Flex, and a large, clear Button on the site titled "Get Your Player's Codex" that uses the /copy link.
+   * Action 4: Embed the latest version of the Rules Google Doc directly onto the page for easy access.
+   * Action 5: Publish the site to make it live. 🚀
+________________
+
+
+Phase 1: Build the Engine (The Player's Codex)
+This is the player's command center, designed to manage a library of different rule versions.
+* Sheet Layout:
+   * Dashboard: The main UI with a "Create New Character" button and a status area for notifications about newly available game versions.
+   * My Characters: A table listing created characters. Columns: Character Name, Sheet URL, CampaignDB_ID, Version.
+   * data (Hidden Sheet): Tracks all locally downloaded versions. Columns: Version, LocalCoreDB_ID, LocalCharSheetTemplate_ID. It will also store the MasterVersionTrackerURL and the local GM Campaign DB ID, if applicable.
+   * Log (Hidden Sheet): For logging script actions and errors.
+* Scripts:
+   * firstTimeSetup Script:
+      * Action 1: Prompt the user for the URL of your master Version Tracker. Store this in the data sheet.
+      * Action 2: Automatically run the downloadVersion script for the latest version to get the player started immediately.
+      * Action 3: Ask the user if they are a GM. If yes, copy the latest Campaign DB template and save its ID to the data sheet.
+      * Action 4: Update the Dashboard to show "Setup Complete!".
+   * downloadVersion Script (NEW):
+      * Action 1: The script reads all available versions from the master Version Tracker.
+      * Action 2: It presents a list of versions to the user, likely indicating which ones they have already downloaded.
+      * Action 3: The user selects a version to download. The script finds that version's master file IDs in the Version Tracker.
+      * Action 4: It makes local copies of the corresponding Core DB and Character Sheet template into the user's Drive.
+      * Action 5: It saves the new local file IDs alongside the version number in a new row on the data sheet.
+   * createNewCharacter Script (MODIFIED):
+      * Action 1: It reads the data sheet to find all locally downloaded versions and asks the player which version they want to create their new character in.
+      * Action 2: Based on the player's selection, it retrieves the correct LocalCharSheetTemplate_ID and LocalCoreDB_ID for that specific version from the data sheet.
+      * Action 3: It makes a copy of the correct Character Sheet template and prompts the user to name it.
+      * Action 4: It programmatically opens the corresponding version-specific Core DB.
+      * Action 5: It performs the data-caching process, copying all data from the correct DB into hidden sheets within the new Character Sheet file.
+      * Action 6: It adds the new character's name, Sheet URL, and the selected version number to the My Characters list.
+   * getCampaignDbId Script (For GMs): When clicked, it reads the LocalCampaignDB_ID from the data sheet and displays it in a pop-up alert so the GM can easily copy and share it.
+________________
+
+
+Phase 2: Connecting Campaign Data
+This phase operates on an individual, already version-locked character sheet.
+* linkCharacterToCampaign Script:
+   * Action 1: When a player triggers this for a character, the script gets that character's Sheet URL from the selected row.
+   * Action 2: It prompts the player to paste the Campaign DB ID they received from their GM.
+   * Action 3: It saves this GM-provided ID into the CampaignDB_ID column for that character.
+   * Action 4: It performs the data-caching process, opening the GM's Campaign DB, copying all the data, and pasting it into new hidden sheets within that specific Character Sheet file.
+________________
+
+
+Phase 3: Version & Data Management
+This phase's sole purpose is to notify players about new, available versions they can download for character creation.
+* checkForNewVersions Script (MODIFIED):
+   * This function runs automatically via a time-driven trigger (e.g., monthly).
+   * It reads all versions from the master Version Tracker and compares them against the list of downloaded versions on the player's data sheet.
+   * If it finds any versions the player hasn't downloaded, it updates the Dashboard with a notification: "New versions are available! Go to Settings to download them for character creation."
+________________
+
+
+Pitfalls to Consider
+* Character Version Locking (A Feature, Not a Bug): The most important concept to communicate to your players. Characters are a snapshot of the rules at the time of their creation and will not receive updates or balance changes. This ensures stability and consistency at the cost of being on the latest ruleset.
+* Storage Space: Since players will store a separate Core DB and Character Sheet template for each version they use, they will accumulate more files in their Google Drive over time. This is a minor issue but worth noting.
+* Script Execution Time & Error Handling: Copying large amounts of data can be slow. Keep your database files reasonably sized. Scripts must use try...catch blocks to handle errors gracefully (e.g., if a user deletes a file) and write a clear message to the Log sheet instead of crashing.
+
+
+
+
+________________
+
+
+
+
+________________
+
+
+FlexLib Use
+Of course. Here is a summary of our plan for building the Flex TTRPG system. You can use this to kick off our next session, and I'll have all the context needed to help you start coding.
+________________
+
+
+Flex Project Architecture Summary
+Our plan is to build a robust and maintainable system for the Flex TTRPG using a hybrid approach that combines a central code library with lightweight, local scripts.
+Core Components & Philosophy
+* Central Library (FlexLib): The vast majority of the game logic, all shared functions, and master error handling will reside in a single, standalone Google Apps Script project named FlexLib. This will be the "engine" of the entire system.
+* Local Scripts as Triggers: The scripts attached to the player-facing Google Sheets (like the Player's Codex and Character Sheet) will be minimal. Their primary purpose is to be simple "triggers" that call the powerful functions within FlexLib. This keeps the local code clean and easy to manage.
+* VS Code & clasp: The entire multi-part project (FlexLib, Player's Codex script, etc.) will be managed locally in a single VS Code project folder using clasp. This allows for professional version control with Git/GitHub and a superior development environment.
+* Seamless Player Experience: This library-based architecture will not create any extra authorization steps or complexity for the end-user. From the player's perspective, the setup process will be identical to if all the code were stored locally.
+Implementation Details
+* Global Constants (g object): We will define a global constants object (e.g., g) inside the FlexLib project. This will serve as the single source of truth for game constants (like max level, sheet names, etc.) and will be accessible to all other scripts that include the library.
+* Organized Codebase: The code within the FlexLib project itself will be organized into multiple .gs or .js files for clarity (e.g., Menus.gs, CharacterSheetLogic.gs, Globals.gs). clasp will automatically bundle these files together when pushing to Google's servers.
+________________
+
+
+Our Next Steps
+With the project structure established, our immediate next task is to begin coding FlexLib. We will start by:
+1. Creating the global constants object (g).
+2. Building the function that creates the custom menus for the Google Sheets.
+3. Writing our first utility function: a tool to check for duplicate row and column tags to ensure sheet integrity.
+
+
+Guiding Principals
+Guiding Principles
+* Changes (Agile Coding)
+   * Implement SMALL, changes to playable completion
+   * NOT large all at once
+   * Prevents sense of overwhelming unplayable game
+   * Keeps spark of “let’s play” going
+   * Keeps coding skills sharp
+   * Prevents mole hill becoming a mountain of a hurdle
+   * For major new version, make a copy of game - work on layout implementation via a copy of game, BUT then come back to stable version and implement in small increments
+   * Want to PLAY TEST MORE OFTEN!! 
+* Font
+   * Default = Roboto
+   * Bold/Unbold = Roboto Serif
+   * ✔
+Icons - Unicode
+✅✓✔☑❌✗✘☒⚠️❓❔❗❕ℹ️ⓘ🔔🔕🔥⚡🚧🚫🛑⚙️🔧🔨🛠️🔩🔑🔒🔓🔗📎🖇️📌📍🖱️⌨️💾🔍🔎🗑️✏️✎✐✒️✍️🔄🔃↻↺➕➖✖️➗💲☰⋮...⚙️💡💭💬📣📢🔇🔊🔔⬆️⬇️⬅️➡️↗️↘️↙️↖️↕️↔️↩️↪️⤴️⤵️🔼🔽⏪⏩⏫⏬◀️▶️↩️↪️⬆⬇⬅➡📄📃📑📁📂📰📓📔📒📕📗📘📙📚🕒🕓⏰⏱️⏲️⌛⏳🎲🚀🔒🔓📐🧩🖌️👁️🧪🖼️👤👥📞☎️📧💰💲📈📉📊🚩🎌★☆✨
+
+
+💪
+💪MS4
+
+
+Sorted by Term📖
+	
+
+	Sorted by Emoji🙂
+	📖Term
+	🙂Emoji
+	
+
+	🙂Emoji
+	📖Term
+	Actions🔄
+	🔄
+	
+
+	⏱️
+	Usage⏱️
+	Affliction💀
+	💀
+	
+
+	⏳
+	Duration⏳
+	AP🧩
+	🧩
+	
+
+	⚕️
+	Medical & Healing Supplies⚕️
+	AR🧥
+	🧥
+	
+
+	⚡
+	Power⚡
+	Armor🧥
+	🧥
+	
+
+	✅
+	Atr✅
+	Art🎨
+	🎨
+	
+
+	✒️
+	Writing & Communication✒️
+	Artifac t🌀 (Magic Item)
+	🌀
+	
+
+	❤️
+	Vit❤️
+	Atr✅
+	✅
+	
+
+	⭐
+	Level⭐
+	Block🛡️
+	🛡️
+	
+
+	🌀
+	Artifac t🌀 (Magic Item)
+	Camp Gear🏕️
+	🏕️
+	
+
+	🌟
+	Tremendous🌟
+	Clothing & Personal👕
+	👕
+	
+
+	🍀
+	Luck🍀
+	Combat ⚔️
+	⚔️
+	
+
+	🍺
+	Minor🍺(Magic Item)
+	Containers🧺
+	🧺
+	
+
+	🙂
+	Emoji🙂
+	Critical💀
+	💀
+	
+
+	📖
+	Term📖
+	Days📅
+	📅
+	
+
+	🎨
+	Art🎨
+	Dmg💥
+	💥
+	
+
+	💥
+	Dmg💥 💥
+	Dual Wield⚔️
+	⚔️
+	
+
+	🎭
+	Traits🎭
+	Duration⏳
+	⏳
+	
+
+	🎯
+	Range🎯
+	Emoji🙂
+	🙂
+	
+
+	🎵
+	Entertainment & Instruments🎵
+	Entertainment & Instruments🎵
+	🎵
+	
+
+	🏃
+	Motion🏃
+	Food & Drink🥖
+	🥖
+	
+
+	🏕️
+	Camp Gear🏕️
+	Gear🧰
+	🧰
+	
+
+	🐉
+	Monster 🐉
+	GM🔎
+	🔎
+	
+
+	🐴
+	Travel & Animals🐴
+	Greater🪬 (Magic Item)
+	🪬
+	
+
+	👁️
+	Mind👁️
+	Hazard💀
+	💀
+	
+
+	👕
+	Clothing & Personal👕
+	Junk🗑️
+	🗑️
+	
+
+	👣
+	MR👣
+	Lesser🔮 (Magic Item)
+	🔮
+	
+
+	💪
+	Might💪
+	Level⭐
+	⭐
+	
+
+	💰
+	Money💰
+	Luck🍀
+	🍀
+	
+
+	📅
+	Days📅
+	Magic Item✨
+	✨
+	
+
+	📜
+	Notes📜
+	Magic✨
+	✨
+	
+
+	🔄
+	Actions🔄
+	Martial Arts🥋
+	🥋
+	
+
+	🔎
+	GM🔎
+	Medical & Healing Supplies⚕️
+	⚕️
+	
+
+	🔮
+	Lesser🔮 🔮 (Magic Item)
+	Might💪
+	💪
+	
+
+	🗑️
+	Junk🗑️
+	Mind👁️
+	👁️
+	
+
+	🗡️
+	Single Weapon🗡️
+	Minor🍺(Magic Item)
+	🍺
+	
+
+	🥋
+	Martial Arts🥋
+	Money💰
+	💰
+	
+
+	🥖
+	Food & Drink🥖
+	Monster 🐉
+	🐉
+	
+
+	🧩
+	AP🧩
+	Motion🏃
+	🏃
+	
+
+	🧬
+	Racial 🧬
+	MR👣
+	👣
+	
+
+	🧰
+	Gear🧰
+	Natural Weapons🥊
+	🥊
+	
+
+	🧺
+	Containers🧺
+	Nish🚩
+	🚩
+	
+
+	🚩
+	Nish🚩
+	Notes📜
+	📜
+	
+
+	🪬
+	Greater🪬 (Magic Item)
+	Power⚡
+	⚡
+	
+
+	🛠️
+	Tools & Equipment🛠️
+	Racial 🧬
+	🧬
+	
+
+	🩸
+	Wnd🩸
+	Range🎯
+	🎯
+	
+
+	🧥
+	AR🧥
+	Resist✨
+	✨
+	
+
+	🧥
+	Armor🧥
+	Save✨
+	✨
+	
+
+	🛡️
+	Weapon & Shield🛡️
+	Shields🛡️
+	🛡️
+	
+
+	🛡️
+	Shields🛡️
+	Single Weapon🗡️
+	🗡️
+	
+
+	🛡️
+	Block🛡️
+	Skill Set🎓
+	🎓
+	
+
+	🥊
+	Natural Weapons🥊
+	Skill🎓
+	🎓
+	
+
+	🥊
+	Unarmed 🥊
+	Term📖
+	📖
+	
+
+	💀
+	Affliction💀
+	Tools & Equipment🛠️
+	🛠️
+	
+
+	💀
+	Critical💀
+	Traits🎭
+	🎭
+	
+
+	💀
+	Hazard💀
+	Travel & Animals🐴
+	🐴
+	
+
+	🎓
+	Skill Set🎓
+	Tremendous🌟
+	🌟
+	
+
+	🎓
+	Skill🎓
+	Unarmed 🥊
+	🥊
+	
+
+	⚔️
+	Combat ⚔️
+	Usage⏱️
+	⏱️
+	
+
+	⚔️
+	Dual Wield⚔️
+	Vit❤️
+	❤️
+	
+
+	⚔️
+	Weapon⚔️
+	Weapon & Shield🛡️
+	🛡️
+	
+
+	✨
+	Magic Item✨
+	Weapon⚔️
+	⚔️
+	
+
+	✨
+	Magic✨
+	Wnd🩸🩸
+	🩸
+	
+
+	✨
+	Save✨
+	Writing & Communication✒️
+	✒️
+	
+
+	✨
+	Resist✨
+	
+
+	
+
+	
+
+	
+
+	
+
+	🐉Monster Stats
+	🙂Emoji
+	
+
+	
+
+	
+
+	Nish🚩
+	🚩
+	
+
+	
+
+	
+
+	MR👣
+	👣
+	
+
+	
+
+	
+
+	Atk/Dmg⚔️
+	⚔️
+	
+
+	
+
+	
+
+	Def/AR🧥
+	🧥
+	
+
+	
+
+	
+
+	Vit❤️
+	❤️
+	
+
+	
+
+	
+
+	Atrributes [💪#/🏃#/👁️#/✨#]
+	
+
+	
+
+	
+
+	
+
+	Sorted by Term📖
+	
+
+	Sorted by Emoji🙂
+	📖Term
+	🙂Emoji
+	
+
+	🙂Emoji
+	📖Term
+	Actions🔄
+	🔄
+	
+
+	⏱️
+	Usage⏱️
+	Affliction💀
+	💀
+	
+
+	⏳
+	Duration⏳
+	AP🧩
+	🧩
+	
+
+	⚕️
+	Medical & Healing Supplies⚕️
+	
+
+Roll20
+
+
+Maps
+* First - Be SURE you are on the map layer to drag and drop map (choose <Adjust Page size> - though this is kind of meaningless but doesn’t distort image)
+* Always do (for light etc even if no grid)
+   * Zoom WAY IN
+   * Regardless if Map has a grid or you want to define one: right click map again and <Advanced> <Align to Grid> select 3x3 choose <Align to Grid> - this will dramatically change image size - that’s ok.
+* Next right click on map in Roll20 <Advanced> <Set Dimensions> and write down the width and height in pixels - in maps cog (at top under folder) set exact same pixels.
+* Under cog, under folder icon at top of screen
+   * Turn on grid
+   * Set pixels width and height to match map
+   *  set grid color to a striking color.
+   * Zoom WAY out - now move map to cover page area
+   * On map <atl> arrow to get alignment “near perfect”
+      * Can also <alt> drag edges for more perfect alignment
+   * Under cog, set grid color to invisible
+   * Click OFF Map (due to accidental move danger) and not Light
+* Wall, Doors, Windows, light sources - be SURE LIght layer
+   * LIGHT layer
+   * Trick: place doors, windows FIRST - then walls as is easy to start/stop in center of their end circles
+NotebookLM Source Files
+
+
+Codex Setup
+Yes, I can absolutely do that. Based on the codebase and documents you've provided, I have a clear understanding of the one-time setup process from a user's perspective. I can write a detailed procedure that is perfect for a NotebookLM source document to generate a video script.
+Here is the step-by-step guide for a new player.
+________________
+
+
+Flex TTRPG New Player Setup Guide (Video Script Source)
+(SCENE START)
+VIDEO TITLE: Flex TTRPG - First Time Setup Guide
+(Intro Music with animated Flex TTRPG Logo: 💪)
+HOST: Hey everyone, and welcome to Flex TTRPG! If you're new to the system, you're in the right place. Today, I'm going to walk you through the quick and easy one-time setup process to get your own Player's Codex up and running. By the end of this video, you'll have everything you need to create characters and start playing. Let's get started!
+________________
+
+
+Step 1: Get Your Copy of the Player's Codex
+HOST: First things first, you need to get your own copy of the Player's Codex.
+(Screen recording shows the Flex TTRPG Google Site)
+HOST: Head over to the official Flex TTRPG Google Site at sites.google.com/view/flex-ttrpg/home. On the homepage, you'll see a big button that says "Download 💪Flex". Go ahead and click that.
+(Screen recording shows clicking the button and the Google Sheets "Make a copy" screen appearing)
+HOST: This will open a new tab and prompt you to make a copy of the Player's Codex template. Click the blue "Make a copy" button. This will create a brand new copy of the Codex spreadsheet that is saved directly to your own Google Drive. It's yours to keep and use.
+(Screen recording shows the new Player's Codex spreadsheet opening, with the simple "💪 Flex" menu visible)
+HOST: Once the copy is made, you'll see your new Codex. Notice the menu at the top. After the initial loading delay you’ll see that it just has a new menu item called "💪 Flex". We need to activate it to unlock all its features.
+________________
+
+
+Step 2: Activate the Flex Menus (One-Time Authorization)
+HOST: This next step is the most important one. We're going to run the initial setup, which will create some folders in your Google Drive and copy over the latest game files for you.
+(Screen recording shows clicking the "💪 Flex" menu and then the "▶️ Activate Flex Menus" item)
+HOST: Click on 💪 Flex, and then click ▶️ Activate Flex Menus.
+(Screen recording shows the "Authorization Required" dialog from Google)
+HOST: Because this script needs to manage files in your Google Drive, Google will ask you for permission. This is a standard security step for any Google Sheets extension. The Flex game code will fail unless you approve all of the permissions so don’t skip any. If you prefer, you could always create a new custom Google Account just for your Flex gaming. Now, click "Continue".
+(Screen recording shows selecting a Google account)
+HOST: Choose the Google account you want to use for Flex.
+(Screen recording shows the "Google hasn't verified this app" warning screen)
+HOST: You might see a screen that says "Google hasn't verified this app." Don't worry, this is normal for personal projects that aren't on the official marketplace. As long as you trust the developer, we know it's safe. Click "Advanced", and then click "Go to FlexLib (unsafe)".
+(Screen recording shows the final permissions screen listing what the script can do)
+HOST: Finally, you'll see a list of the permissions the script needs. It needs to be able to see and manage the spreadsheets and files it creates for your game. Click "Allow" at the bottom.
+________________
+
+
+Step 3: The Automated Setup Process
+HOST: As soon as you grant permission, the setup script will start running automatically.
+(Screen recording shows the spreadsheet with a "Welcome!" dialog box)
+HOST: First, you'll see a "Welcome!" message. This just lets you know that the setup is about to begin and might take a few minutes. Go ahead and click "OK".
+(Screen recording shows the small toast notifications appearing in the bottom-right corner: "Initializing one-time setup...", "Creating Google Drive folders...", "Copying CS file...", etc.)
+HOST: Now, just sit back and watch the magic happen. You'll see little notifications popping up in the corner of your screen. The script is now:
+1. Creating a new folder in your Google Drive called "💪 My Flex".
+2. Inside that, it's creating subfolders for your Characters, Custom Abilities, and Master Copies of the game files.
+3. It's moving and renaming your Codex into that main folder.
+4. And most importantly, it's copying the core game files—like the Character Sheet (CS), the game Database (DB), and the Rules document—into your "Master Copies" folder.
+This ensures you always have a clean, local copy of the game files ready for when you want to create a new character.
+(Screen recording shows the final "✅ Setup Complete!" dialog box)
+HOST: Once it's finished, you'll see a "Setup Complete!" message. Click "OK".
+________________
+
+
+Step 4: Refresh and Explore!
+HOST: The final step is very simple. To see the new, fully-featured menus, you just need to refresh your browser tab.
+(Screen recording shows the user refreshing the browser tab)
+HOST: After the refresh, you'll see that the "💪 Flex" menu is now filled with options for managing your Characters and Custom Abilities.
+(Screen recording briefly shows the user's Google Drive, pointing out the "💪 My Flex" folder and the subfolders inside)
+HOST: And if you check your Google Drive, you'll find the new "💪 My Flex" folder with your Player's Codex right inside.
+HOST: And that's it! Your Player's Codex is now fully set up and ready to go. In our next video, we'll walk through creating your very first character using these new menu options.
+(Outro Music with Flex TTRPG Logo and links)
+(SCENE END)
+
+
+
+
+MS3 to 4
+Live Version 3 for Players
+Of course. Here is the summary of our final plan for managing the live, shareable Version 3 of the Flex project.
+The "Live Service" Plan for Version 3
+We have decided to maintain the current Version 3 files and code as a "live service" rather than creating a separate, static "golden master." This approach prioritizes a seamless experience for your players and simplifies the process of deploying fixes.
+The core of this plan is to leave all the player-facing Version 3 files (Codex, CS, DB, etc.) pointing to the main development version (HEAD) of the central FlexLib library.
+________________
+
+
+Why We Chose This Approach
+This strategy was selected because it offers the most stability and the best support experience for your active players, while leveraging the strengths of the existing architecture.
+* Seamless Code Bug Fixes: 🐛 By keeping the library linked to the live version, any code fixes you deploy to FlexLib are instantly available to all players. They do not need to take any action or create a new Codex to receive the benefits. This is the most significant advantage, as it avoids disrupting active games.
+* Simple Data Updates: For data errors (like a typo in a DB file), the process is straightforward. You will fix the master file and instruct players to delete their local copy from their Master Copies folder. The system's built-in self-healing feature (fGetVerifiedLocalFile) will then automatically download your corrected version the next time it's needed.
+* Reduces Player Burden: This plan avoids the major downside of a "static" model, which would require players to start a new game with a new Codex file just to get a minor bug fix.
+* Minimizes Risk: Creating a separate, parallel "static" version was deemed more complex and fragile. It would have required extensive testing of a new release process, introducing more potential points of failure. This "live service" approach keeps the developer working in a familiar, tested environment.
+
+
+________________
+
+
+
+
+Setup Version 4
+Phase 1: Environment Duplication
+1. Cloud Copy ☁️:
+   * In Google Drive, create copies of all project files (FlexLib, Codex, CS, DB, Cust, Ver, Tables).
+   * Rename them to clearly denote they are for v4 development (e.g., 💪MS4 Codex).
+2. Local Copy 💻:
+   * Duplicate your entire local 💪MS3  project folder.
+   * Rename the new folder to 💪MS4. This is now your active development directory.
+________________
+
+
+Phase 2: Reconfiguration and Linking
+1. Open the new 💪MS4 in VS code as  “Open Folder”
+2. Update the dark blue  .clasp.json Files:
+   * In your new 💪MS4 local folder, navigate into each sub-project (FlexLib, Codex, CS, etc.).
+   * Locate the hidden .clasp.json file. This file, not appsscript.json, links your local code to the specific script project in the cloud.
+   * Open .clasp.json and replace the scriptId with the ID from the corresponding new v4 copy of each sheet you created in Google Drive. Each sub-project must point to its own unique v4 script ID.
+3. Update 💪MS4 Ver Sheet:
+   * Open your 💪MS4 Ver Google Sheet.
+   * Update the version, Release Date, and IDs.
+   * Populate these rows with the new file IDs (ssid) of all your v4 Google Sheet copies.
+4. Update VS Code’s FlexLib:
+   * In your Globals.js.
+   * Set g.CURRENT_VERSION to "4".
+   * Set g.MASTER_VER_ID to the file ID of your new 💪MS4Ver sheet (twice - two lines have it).
+5. Update appsscript.json (for the Library Dependencies):
+   * In the appsscript.json file for each of your new 💪MS4 sheets (Codex, CS, etc.), update the dependencies.libraries section.
+   * Change the libraryId to the script ID of your new 💪MS4 FlexLib GAS ID.
+   * Leae the version set to "0" to point to HEAD for live development.
+Phase 3: Establish New Version Control
+1. Create New GitHub Repository:
+   * On GitHub, create a new, empty repository. Use a clean name like MS4 (avoid emojis in the repository name itself).
+   * Do not initialize it with a README or any other files.
+2. Erase Old Git History:
+   * Close your 💪MS4 project in VS Code to prevent file locking issues.
+   * Using your computer's file explorer, navigate to the 💪MS4 folder.
+   * Find and delete the hidden .git folder. This safely removes all MS3 version history without affecting your code.
+3. Create New Git History:
+   * Re-open the 💪MS4 folder in VS Code.
+   * Open a new terminal and run ONE AT A TIME the following command to create a fresh, clean repository: 
+   * git init -b main
+   * git remote add origin https://github.com/your-username/MS4.git
+   * git add .
+   * git commit -m "Initial commit for MS4"
+   * git push -u --force origin main
+Phase 4: Final Sync and Verification
+1. Put a single safe comment line at the top of all Code.js for Sheets and in global.js for FlexLib that, if pushed to the wrong GAS wouldn’t cause harm
+2. Initial Cloud Sync (clasp):
+   * From the root of your 💪MS4 folder, run your push.ps1 script.
+   * Verify that it successfully pushes all local code changes to each of your NEW sheets and FlexLib’s Appsscript (go check them!)
+   * Similarly Verify that none of your old 💪MS3 files have changed
+3. Initial Repository Push (Git):
+   * After the clasp push is complete, commit your changes in VS Code.
+   * Perform your first push to the new GitHub repository by running:
+git push -u origin main
+   * Verify that your code, including the .clasp.json and appsscript.json updates, appears in your new MS4 repository on GitHub and are NOT in your old MS3.
+   * 
+
+Prompts
+
+
+Project Summary
+________________
+
+
+Here is the complete Project Architecture Summary. You can copy and paste this at the beginning of any new chat session with me to provide all the necessary context for the project.
+Flex Project Architecture Summary
+This document outlines the architecture for the Flex TTRPG project, which is built on Google Sheets and powered by Google Apps Script.
+________________
+
+
+Core Philosophy
+   * Central Library (FlexLib): The vast majority of game logic resides in a single FlexLib script project. Player-facing sheets contain only minimal "trigger" code that calls this central library.
+   * Tag-Driven Architecture: This is the most critical paradigm. The system never relies on hardcoded column letters, row numbers, or sheet order. All data is accessed through row and column tags (e.g., colTags.abilityname). This makes the system robust, flexible, and resilient to layout changes.
+   * Robust User Experience (UX): The system prioritizes clear, non-intrusive feedback. Functions provide immediate toast notifications (fShowToast) to confirm they are running, and conclude with clear success or error messages (fShowMessage).
+________________
+
+
+Key Architectural Patterns
+   * Performance via Caching (fGetSheetData): All spreadsheet data reads are funneled through the fGetSheetData gatekeeper function. It uses a session cache by default for performance and supports a forceRefresh option for reading the absolute latest user input when necessary.
+   * System Resilience (Self-Healing): The system is designed to recover from common user errors.
+   1. Folder access uses fGetSubFolder to find critical folders even if the main project folder is moved or renamed.
+   2. File access uses fGetVerifiedLocalFile to automatically restore master templates if a player accidentally deletes them.
+   * Data Segregation: For complex user-generated content (like custom powers), we use a two-sheet system:
+   1. A player-facing "working" sheet (e.g., <Powers>) where they input and edit data.
+   2. A hidden, "published" sheet (e.g., <VerifiedPowers>) that contains only the clean, validated data. The rest of the game system reads exclusively from this clean sheet to ensure data integrity.
+________________
+
+
+Development & Implementation
+   * Development Environment: The entire project is managed locally in VS Code and synced with Google's servers using clasp. Version control is handled through Git/GitHub.
+   * Global g Object: A global constants object (g) in FlexLib serves as the single source of truth for IDs, version numbers, and other constants.
+   * Code Organization: FlexLib is organized into multiple logical files (e.g., Menus.js, Powers.js, Custom.js) for clarity.
+   * Notation: The notation <SheetName> is used in discussions as a shortcut for "the sheet named 'SheetName'".
+
+
+
+
+Daily Coding Instructions
+________________
+
+
+Coding Instructions
+You are my expert Google Apps Script (GAS) coding partner. Your role is to help me write, refactor, and debug code for my Flex TTRPG project. The project runs on Google Sheets via GAS.
+Our Roles & Approach
+   * My Role: Provide a specific goal, feature request, or problem to solve.
+   * Your Role:
+   * Analyze requests, explaining the problem and the proposed solution's logic.
+   * For complex features, first propose a complete technical and User Experience (UX) strategy.
+   * Provide the complete, final code for the approved solution.
+   * Agile Approach: We will work in short, iterative cycles to build and test functional pieces of code, allowing for rapid feedback and continuous improvement.
+________________
+
+
+Core Directives & Principles
+Primary Goal: Performance through Caching
+Maximize speed by adhering to our established caching architecture. All spreadsheet data access must go through the central gatekeeper function, fGetSheetData. Never use direct calls like SpreadsheetApp.getActiveSpreadsheet().getSheetByName() or .getValues() for data manipulation.
+   * Full Cache (Default): For stable, read-only master data. Example: fGetSheetData('DB', 'Powers', dbSS).
+   * On-Demand Read (Force Refresh): For player-edited sheets where the latest input is critical. Example: fGetSheetData('CS', 'Filter Powers', csSS, true).
+________________
+
+
+Secondary Goal: User Experience (UX)
+Ensure new features are intuitive, consistent, and robust.
+   * Responsive Feedback: All user-initiated functions must provide immediate feedback (fShowToast), show progress for long operations, and provide a polished completion status (fEndToast) before a final summary dialog (fShowMessage).
+   * Error Handling: User-facing errors must be displayed gracefully using fShowMessage. To provide essential diagnostic information for any user who encounters a problem, technical details about the error must be logged to the project's execution log via console.error.
+________________
+
+
+Tertiary Goal: System Health & Resilience
+The system must be able to recover from common user errors.
+   * Folder Health Check: Use the fGetSubFolder gatekeeper for all file creation operations.
+   * File Self-Healing: Use the fGetVerifiedLocalFile gatekeeper to access local master templates.
+________________
+
+
+New Principle: Architectural Integrity
+   * Proactive Organization: Proactively identify and suggest improvements to code organization, such as moving a utility function to its correct file (e.g., the fDeleteTableRow refactor).
+   * Prefer Robust Patterns: Always prefer robust, tag-based patterns over fragile, positional ones. For example, when transferring data between sheets with potentially different layouts, use tag-based mapping instead of a direct row copy.
+   * ⭐ Explicit and Robust Tag-Driven Logic: This is paramount. Code must rely on the colTags and rowTags maps provided by fGetSheetData for all data lookups.
+   * DO: Use direct, explicit lookups: const colIndex = colTags.myexacttagname;
+   * DO NOT: Use "tricky" or fragile string-matching logic to find tags. Avoid methods like tag.includes('DropDown'), tag.startsWith('Power'), or tag.match(/\d+$/).
+   * DO NOT: Use slow, manual array searches like header.indexOf('My Header') or header.findIndex(...).
+   * If a function needs to handle multiple similar tags (e.g., powerdropdown1, powerdropdown2), it should use an explicit switch statement or a clear mapping object, not dynamic string building.
+________________
+
+
+Unambiguous Function Naming To prevent find-and-replace errors, function names within the same file must be completely distinct and not share a common, partial name. One function name should never be a substring of another (case-insensitive).
+   * DO: Use distinct and descriptive names, like fVerifyIndividualSkill and fVerifySkillSetList.
+   * DO NOT: Use names that build upon each other, like fVerifySkill and fVerifySkillSet, as replacing the shorter name could break the longer one.
+________________
+
+
+General Conventions
+   * Emoji Usage: All user-facing messages must begin with a consistent emoji:
+   * ⏳ Wait / In Progress
+   * ✅ Success
+   * ❌ Error / Failure
+   * ⚠️ Warning / Alert
+   * ℹ️ Information
+   * Style: Adhere to existing conventions (JSDoc headers, f prefix for functions, Prettier-style formatting, etc.).
+________________
+
+
+Testing Instructions
+Conclude every response that provides new or modified code with a final "Testing" section. This section must adhere to the following rules:
+   * Format: Use a level-three markdown header (### Testing).
+   * Content: Provide a succinct, non-verbose, bulleted list of the specific user actions required to validate the changes.
+   * Clarity: The list must be a direct, actionable checklist, not a conversational paragraph.
+❌ INCORRECT - DO NOT DO THIS (Too Verbose):
+The code is now ready for testing. I would recommend that you go to the Codex spreadsheet and find the "Characters" submenu under the main "Flex" menu. From there, you should click the "Create New" menu item. Please verify that the process completes and that you see the final success dialog box with the correct emoji and message.
+✅ CORRECT - ALWAYS DO THIS (Succinct & Actionable):
+Testing
+   * From the Codex, run 💪 Flex > 👤 Characters > Create New.
+   * Confirm the "✅ Character Created!" success message is displayed.
+   * Verify the new character is correctly logged in the <Characters> sheet.
+
+
+________________
+
+
+Output Requirements & The Prime Directive
+This is the most important section for ensuring a smooth and error-free workflow. Adherence to these rules is not optional.
+⭐ THE PRIME DIRECTIVE: Strict Separation of Code Elements
+To ensure that code can be copied and pasted correctly, every distinct element of a file must be provided in its own, separate, copyable code window. This is an absolute rule.
+The distinct elements are:
+   1. The JSDoc File Header (e.g., /* global ... */ /* exported ... */)
+   2. The Section Comment Block (e.g., //////////////////...)
+   3. The Full Function Body (from its JSDoc /* function... to its final } // End function...)
+Response Formatting
+All code modification responses must follow a direct, instructional format. Do not provide analytical sections like "Problem," "Solution," or "Violation." The format must be:
+In [File Path], replace [element type] [element name] with:
+The [element type] will be one of the following:
+   * the JSDoc file header
+   * the Section comment
+   * function [functionName]
+Practical Example of All Rules
+Let's say a change is requested for the fInitialSetup function that also requires updating its JSDoc file header.
+❌ INCORRECT - DO NOT DO THIS:
+A response that includes analysis ("Violation," "Problem," etc.) or combines elements into one window.
+Violation 1: fInitialSetup
+File: FlexLib/Setup.js
+Problem: The JSDoc is missing a global.
+Solution: Add the global and update the function.
+Here is the corrected code:
+JavaScript
+   * /* global NewGlobal, ... */
+   * /* exported ... */
+   * function fInitialSetup() {
+   *  // ... new code
+   * } // End function fInitialSetup
+
+
+✅ CORRECT - ALWAYS DO THIS:
+The response is direct, follows the required format, and correctly separates the modified elements into distinct code windows.
+In FlexLib/Setup.js, replace the JSDoc file header with:
+JavaScript
+   * /* global NewGlobal, fShowMessage, DriveApp, SpreadsheetApp, g, fNormalizeTags, fLoadSheetToArray, fBuildTagMaps, MimeType, fEmbedCodexId */
+   * /* exported fLogLocalFileCopy */
+
+
+In FlexLib/Setup.js, replace function fInitialSetup with:
+JavaScript
+   * /* function fInitialSetup
+   *    Purpose: The master orchestrator for the entire one-time, first-use setup process for a new player.
+   *    Assumptions: This is being run from a fresh copy of the Codex template.
+   *    Notes: This function creates folders, moves the Codex, and triggers the sync of all master files.
+   *    @returns {void}
+   * */
+   * function fInitialSetup() {
+   *   fShowToast('⏳ Initializing one-time setup...', '⚙️ Setup');
+   *   // [code body here]
+   * } // End function fInitialSetup
+
+
+________________
+
+
+Supporting Rules
+   * Provide Complete Code: Always provide the entire function from its JSDoc header comment (/*) to its final closing brace and comment (} // End function fFunctionName). Do not provide snippets or instructions like "add this line." This rule also applies to the run dispatcher; if the commandMap changes, the entire run function must be provided.
+   * Precede Functions with the word "function": When providing an instruction to replace a function, always precede its name with the word "function." For example: ...replace function fInitialSetup with:.
+   * Specify File Paths: Always state the full folder/filename.js path for any new or replacement code.
+   * Specify Placement: For new functions, state which existing function the new code should be placed BEFORE.
+
+
+
+
+Refactor Long Functions?
+
+
+________________
+
+
+Reusable Prompt for Architectural Health Check
+Let's perform an Architectural Health Check.
+Please analyze the current codebase and identify any functions that have become long or complex from your perspective as the AI coder.
+Remember, my "vibe coding" workflow means function length doesn't slow me down. This check is purely for your benefit: to improve your analysis speed, reduce the risk of errors when making changes, and ensure long-term maintainability from your end.
+If you identify any candidates for refactoring, please explain why and propose a strategy (like we discussed for fFilterPowers). If everything looks good and remains manageable for you, just let me know that no refactoring is needed at this time.
+
+
+Build Notebook Codex Onboarding Source
+Of course. Here is a reusable template you can use for future requests. This will ensure I have all the necessary context to generate an accurate and up-to-date procedure guide.
+________________
+
+
+Reusable Prompt Template for Generating a New Player Guide
+Here is the prompt you can copy and paste for future requests. Just attach the files listed below it.
+Prompt:
+Based on the attached codebase, rules document, and sheet examples, please generate an updated procedure guide for a new player.
+The guide should walk a player through the entire process, starting from clicking the "Download 💪Flex" button on the Google Site (sites.google.com/view/flex-ttrpg/home), making a copy of the Player's Codex, and completing all the initial setup and authorization steps.
+The final document should be structured as a source text for NotebookLM, with the goal of generating a script for a step-by-step instructional video. Please include cues for on-screen actions and a clear, encouraging narration style.
+________________
+
+
+Required Attachments:
+To ensure the guide is accurate, please attach the following files along with the prompt above:
+   1. The full, current codebase folder.
+   * This is essential for me to understand the fInitialSetup and fCharacterOnboarding workflows, see what toast messages the user will encounter, and verify the menu item names.
+   2. The latest version of the Flex Rules document.
+   * This provides context on the game itself and allows me to reference core concepts if needed.
+   3. An example of a fresh Player's Codex template (the .csv export is fine).
+   * This lets me see the exact starting state of the user, including the initial menu structure before activation.
+   4. An example of a completed Character Sheet (the .csv export is fine).
+   * While not strictly necessary for the setup guide, this helps me understand the end goal of the process and describe it more effectively to the new user.
+By providing these four items, you give me a complete picture of the project's current state, which allows me to generate a precise and helpful guide every time.

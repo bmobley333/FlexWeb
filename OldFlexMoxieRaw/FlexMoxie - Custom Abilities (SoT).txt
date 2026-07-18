@@ -1,0 +1,49 @@
+﻿FlexMoxie - Custom Abilities: Homebrew Registry & Publisher
+* File Name: FlexMoxie - Custom Abilities
+* Google Drive File ID: 11Cr3PdnD8-IhYGPt4LNukscoB57liKzD-emgRYstsiw
+* File Type: Google Spreadsheet (container-bound to Apps Script)
+________________
+🏛️ System Purpose & User Workflows
+The FlexMoxie - Custom Abilities spreadsheet is the central GM and player sandbox for writing and validating homebrew rules, custom abilities, magical equipment, and specialized skillsets. The sheet implements an active two-tier verification workflow: 1. Raw Input Validation: Bound triggers automatically apply cell validation rules and drop-down constraints to the input worksheets, preventing format errors during creation. 2. Sanitation & Publishing: Custom menu commands verify all custom entries against schema tags, strip empty spacing, and publish them to clean Verified sheets, which are then queried by player character sheets during syncs.
+________________
+📂 Worksheet Tab Index
+I. Homebrew Input Workspace
+* Powers (ID: 2115167682): GM/Player workspace to write custom character abilities and spells.
+* Magic Items (ID: 553940242): Workspace for homebrew magic items.
+* SkillSets (ID: 1227161747): Workspace for homebrew class skillsets.
+II. System Verified Publishers (Read-Only)
+* VerifiedPowers (ID: 167564940): The sanitized and published list of custom powers, ready for import.
+* VerifiedMagicItems (ID: 2013937433): The sanitized and published list of custom magic items.
+* VerifiedSkillSets (ID: 213224654): The sanitized and published list of custom skillsets.
+III. Dropdown Validation Reference Lists
+* PowerValidationLists (ID: 939555472), MagicItemValidationLists (ID: 1573673268), SkillSetValidationLists (ID: 162516365): Reference lists supplying formatting options and category constraints for input validation dropdowns.
+IV. System Tabs
+* Hide> (ID: 1330660266) & Data (ID: 1588627840): Formatting divider and configuration sheets.
+________________
+⚙️ Bound Script Entry Points (Cust/Code.js)
+The Custom Abilities script Cust/Code.js dispatches events to FlexLib:
+1. Simple Trigger: onOpen()
+* Runs automatically when the spreadsheet is opened:
+* Calls FlexLib.fApplyPowerValidations(), fApplyMagicItemValidations(), and fApplySkillSetValidations() to dynamically bind dropdown constraints to the input sheets.
+* Creates the custom player menu: FlexLib.fCreateCustMenu().
+* If the user is the administrator (metascapegame@gmail.com), it also appends FlexLib.fCreateDesignerMenu('Cust').
+2. Sheet Initialization Trigger: fActivateMenus()
+* Writes initialization key CUST_INITIALIZED to PropertiesService.getScriptProperties() and alerts the user to refresh their browser.
+3. Custom Menu Dispatches:
+* Verify & Publish Actions:
+* fMenuVerifyAndPublish ➔ Validates custom powers and copies/publishes them to VerifiedPowers.
+* fMenuVerifyAndPublishMagicItems ➔ Validates and publishes custom magic items to VerifiedMagicItems.
+* fMenuVerifyAndPublishSkillSets ➔ Validates and publishes custom skillsets to VerifiedSkillSets.
+* Selection Deletion Actions:
+* fMenuDeleteSelectedPowers ➔ Deletes selected rows in the Powers workspace.
+* fMenuDeleteSelectedMagicItems ➔ Deletes selected rows in Magic Items.
+* fMenuDeleteSelectedSkillSets ➔ Deletes selected rows in SkillSets.
+________________
+🔀 Core Logic Workflows (Codebase Analysis)
+I. Dynamic Dropdown Validation Binding
+Every time the sheet is opened, the script binds validations from reference worksheets to input sheets: * Mapped in FlexLib/Custom.js (e.g. fApplyPowerValidations), the script reads cell parameters in validation lists and applies them as SpreadsheetApp.newDataValidation() dropdown constraints on columns such as Usage, Action, or Requirements in the raw input worksheets. This maintains data sanitation prior to user publishing.
+II. Verification & Publishing Workflow (fVerifyAndPublish...)
+When a GM/player publishes their homebrew abilities: 1. Source Loading: Reads data from the active raw input sheet (e.g., Powers) and loads tag columns using fGetSheetData(). 2. Schema Verification: Scans rows to verify required columns (like checkbox, abilityname, and effect) are populated and correctly formatted. 3. Verified Cache Rebuild: Clears the destination Verified sheet, formats its layout, and clones all checked rows. This ensures character sheets only sync homebrew abilities that have been vetted and validated.
+________________
+📐 Layout & Tag Schema Invariants
+Input worksheets rely on the following row and column tags: - Row Tags: header (Row Tag). - Column Tags: - checkbox ➔ Selection column for deletion or verification. - abilityname ➔ The text name of the custom ability. - effect ➔ The script description or numeric value of the ability. - source ➔ Column indicating author/campaign origin.

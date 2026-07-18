@@ -1,0 +1,54 @@
+﻿FlexMoxie - DB: Campaign Database Ledger & Cache
+* File Name: FlexMoxie - DB
+* Google Drive File ID: 1v3ixyJa8EoxLRTYpxVtqPm6AmWLFALHZSdEufjNxS8s
+* File Type: Google Spreadsheet (container-bound to Apps Script)
+________________
+🏛️ System Purpose & User Workflows
+The FlexMoxie - DB is the campaign database ledger and system cache. It houses the compiled, flat master lists of all system rules, class skillsets, magic items, and spells. Rather than having player character sheets query the complex, nested tables in the Tables spreadsheet directly, the DB sheet acts as a middleware caching database. The designer uses custom scripting utilities to flatten the hierarchical rules data from Tables and write it into unified database tables in DB, which are then instantly queried by player sheets.
+________________
+📂 Worksheet Tab Index
+Tab Name
+	Mapped ID
+	Access Model
+	Role & System Purpose
+ 
+	Powers
+	2115167682
+	Read-Only (System)
+	Compiled Powers Ledger: Contains the master flat table of all spell lists, combat powers, active costs, and attributes.
+	Magic Items
+	1877253320
+	Read-Only (System)
+	Compiled Items Ledger: Contains the master flat table of magic items, armor attributes, and weapon variables.
+	SkillSets
+	526937791
+	Read-Only (System)
+	Compiled Skillsets Ledger: Contains the master skillset arrays, mapping class starting skills to archetype lists.
+	Hide>
+	59355468
+	System Divider
+	Separator sheet used to format and hide system tabs from GMs and players.
+	Data
+	526737531
+	Read/Write (System)
+	System Configuration: Caches metadata like the CodexID and folder IDs.
+	________________
+⚙️ Bound Script Entry Points (DB/Code.js)
+The container-bound script DB/Code.js acts as the local trigger dispatch layer. All processing is forwarded to the shared library FlexLib:
+1. Simple Trigger: onOpen()
+* Runs automatically when the spreadsheet is opened. If the spreadsheet is initialized, it builds the custom designer menu: FlexLib.fCreateDesignerMenu('DB').
+* If not initialized, builds the placeholder menu pointing to fActivateMenus().
+2. Custom Menu Dispatches:
+* Compiled Database Build Actions:
+* fMenuBuildPowers ➔ Triggers BuildPowers on the Powers worksheet.
+* fMenuBuildMagicItems ➔ Triggers BuildMagicItems on the Magic Items worksheet.
+* fMenuBuildSkillSets ➔ Triggers BuildSkillSets on the SkillSets worksheet.
+* Designer Utility Menu Hooks:
+* fMenuTrimSheet, fMenuTagVerification, fMenuToggleVisibility, fMenuApplyVisualIsolation, fMenuTest ➔ Standard pass-throughs.
+________________
+🔀 Core Logic Workflows (Codebase Analysis)
+I. Compiling Database Tables (fMenuBuild...)
+When the designer triggers a build command (e.g. fMenuBuildPowers): 1. Source Parsing: The script queries the master Tables spreadsheet to fetch raw templates (from worksheets like Skills, Level, Weapons). 2. Data Flattening: Loops through the raw templates, resolves attributes and modifiers, and compiles them into a simplified flat array format. 3. Ledger Overwriting: Clears the target DB worksheet (e.g. Powers), sets layout formatting, and writes the flattened data rows in bulk using fClearAndWriteData(). 4. Impact: Decouples complex mechanics design (Tables) from high-speed runtime execution (DB). Character sheets sync from DB to populate their dropdown caches.
+________________
+📐 Layout & Tag Schema Invariants
+All compilation worksheets in the DB spreadsheet must maintain the following tags: - Row Tags: header (Row Tag). - Column Tags: - dropdown ➔ The combined selector label displayed in character sheets (e.g., Fireball [Mage]). - abilityname ➔ The name of the ability or item. - effect ➔ The description or formula string. - usage ➔ Combat usage parameters (e.g., Active, Passive). - action ➔ Action cost parameters. - source ➔ Column indicating source registry origin (defaults to DB for master lists).

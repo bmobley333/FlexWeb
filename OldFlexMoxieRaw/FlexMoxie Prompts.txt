@@ -1,0 +1,927 @@
+﻿v2 Prompts
+
+
+Char Concept
+📜 Character Concept Prompt
+Task:
+ I will provide you with a few sentences to several paragraphs describing a character idea, archetype, or backstory. Using the attached game rules and formatting standards, expand this into a complete character concept chronicle.
+Output Structure:
+1. Character Sheet (Long Flavor Version)
+
+   * Present as labeled sections with concise but rich detail.
+
+   * Sections (include all, even if sparse):
+
+      * Name: Full name/title.
+
+      * Race: Race and subrace/bloodline if applicable.
+
+      * Class: Archetype or role.
+
+      * Regional & Clan Origins: Geography, culture, history that shaped them.
+
+      * Family & Personal History: Parents, mentors, pivotal figures.
+
+      * Appearance: Height, build, skin, hair, eyes, tattoos/scars/marks.
+
+      * Equipment & Clothing: Signature gear, relics, weapons, items.
+      * Magic Items: Reference the rules for categories (Minor, Lesser, Greater, Artifact) and be sure the character has several listed as appropriate for the character concept.
+
+      * Core skill sets: Thievery, sailing, mountaineering, etc. as implied in the text.
+
+      * Powers: These can be general areas such as Healing or Fire Magic, but with narrative examples
+
+      * Personality & Motivation: Attitude, beliefs, goals, vow.
+
+      * Quick Text-Chain Summary: A one-sentence compressed version for quick reference.
+
+         2. Chronicle of [Name], [Title/Archetype]
+
+            * Write in narrative style, like a saga or myth.
+
+            * Suggested substructure:
+
+               * Regional & Clan Origins (mythic/historical voice).
+
+               * Childhood & Shaping Events (personal tone, sensory detail).
+
+               * Training & Mentorship (discipline, trials, quotes from mentors).
+
+               * Marks of Identity (tattoos, relics, vows, scars).
+
+               * Wanderer’s Journey (why they travel, what they seek).
+
+               * Closing Verse (legend-like ending with vow, prophecy, or whispers).
+
+Style Guide:
+                  * Rich, immersive, and lore-driven.
+
+                  * Use sensory and cultural detail.
+
+                  * Avoid game mechanics except in Magic Items, Core skill Sets, Powers, where implied abilities should be named clearly for later use in Phase 2.
+
+                  * Keep it consistent with the world’s rules (no unsupported mechanics).
+
+                  * Maintain separation of “flavor” (Phase 1) from “rules & effects” (Phase 2).
+
+
+________________
+
+
+
+
+An example output is:
+Character Concept
+Name: Dru’Vash of the Stonefang Bloodline
+Race: Umbral Kin Half-Orc
+Class: Shadowfist Healer-Monk
+________________
+
+
+Regional & Clan Origins
+Dru’Vash hails from the Ashveil Highlands, a volcanic plateau shrouded in smoke and perpetual twilight. Once raiders, the Stonefang Clan became refugees after a failed war. Their survivors sought refuge in volcanic valleys where they mingled with the Umbral Kin — mortals infused with living shadow. When plague threatened to erase them, healer-monks who fused ki with shadow saved lives, binding healing to the Stonefang legacy as sacred law. Dru’Vash is a rare heir of both paths: a shadowfist adept and a healer.
+________________
+
+
+Family & Personal History
+                     * Mother: Kraza Stonefang — hardened huntress, still residing in the Highlands. Fierce, pragmatic, and mistrustful of outsiders.
+
+                     * Father: Reth’Vash — wandering Umbral Kin monk who fell defending innocents. His volcanic shard relic was passed to Dru’Vash.
+
+                     * Mentor: Var’Keth — half-orc healer-monk who forged Dru’Vash’s discipline and creed: “The shadow is not absence — it is the promise of balance.”
+
+________________
+
+
+Appearance
+                        * Height/Build: 6’4”, broad-shouldered yet agile.
+
+                        * Skin: Slate-gray, faint shimmer like cooled obsidian.
+
+                        * Hair: Black with silver ash streaks, braided.
+
+                        * Eyes: Violet glow in dim light.
+
+                        * Tattoos/Marks:
+
+                           * Spirals of ki flow along arms.
+
+                           * Rune of Rebirth seared into shoulder.
+
+                           * Crescent mark beneath right eye symbolizing healer’s vow.
+
+________________
+
+
+Equipment & Clothing
+                              * Volcanic Shard: Obsidian pendant carved with runes of balance, focus for ki.
+
+                              * Weapons: Ironwood staff inlaid with obsidian; orcish kama as sidearm.
+
+                              * Clothing: Layered dark wraps, reinforced bracers, loose trousers, hooded cowl.
+
+                              * Other Gear: Herbs and volcanic ash pouch for ritual healing.
+
+________________
+
+
+Magic Items
+(per rules categories — narrative tie-ins, not mechanics yet)
+                                 * 🍺 Minor Magic Items
+
+                                    * Ashveil Pouch of Herbs — Incense bundle used to purify wounds.
+
+                                       * ⚔️ Lesser Magic Items
+
+                                          * Volcanic Shard of Reth’Vash — Enhances ki healing rituals.
+
+                                             * 🛡️ Greater Magic Items
+
+                                                * Staff of Shadowflow — Ironwood staff channeling both healing surges and disabling strikes.
+
+                                                   * 🌌 Artifact Magic Items
+
+                                                      * None (he is still questing toward relic-worthy discovery).
+
+________________
+
+
+Core Skill Sets
+                                                         * Mountaineering (climb jagged cliffs, survive volcanic terrain).
+
+                                                         * Awareness (perceive smoke signs, ki flows, shifting shadows).
+
+                                                         * Healing Arts (herbalism, ki infusion, ritual restoration).
+
+                                                         * Martial Discipline (shadowfist strikes, pressure-point control).
+
+________________
+
+
+Powers
+                                                            * Shadow Step: Move instantly between shadows.
+
+                                                            * Flurry of Blows: Rapid, precise martial strikes.
+
+                                                            * Ki Surge: Enhance strength, speed, or reflexes.
+
+                                                            * Deflect Missiles: Redirect or catch incoming ranged attacks.
+
+                                                            * Pressure Point Strikes: Disrupt enemies with precision blows.
+
+                                                            * Cloak of Darkness: Concealment aura of shadow.
+
+                                                            * Healing Ki Arts: Rejuvenating Touch, Cure (expanded to wounds, poisons, mental afflictions, paralysis), Purging Breath, Shared Vitality, Aura of Balance.
+
+________________
+
+
+Personality & Motivation
+Dru’Vash is calm and meditative, but when allies falter, his protection is ferocious. He believes strength exists to preserve life rather than dominate. His vow is to recover forgotten healing arts and ensure no clan — Stonefang or otherwise — falls prey to plague and despair again.
+________________
+
+
+Quick Text-Chain Summary
+“Umbral Kin Half-Orc Shadowfist Healer-Monk — martial discipline, shadow-step, pressure-point strikes, ki-healing arts with volcanic shard heirloom and tattoos of balance.”
+________________
+
+
+Chronicle of Dru’Vash, Shadowfist Healer of the Ashveil
+Regional & Clan Origins
+The Ashveil Highlands were jagged and unyielding, where ash fell like snow and molten rivers glowed beneath cracked stone. Here, the Stonefang Clan — once fearsome raiders — limped to near extinction. They found unlikely refuge among the Umbral Kin, mortals shaped by living shadow, and from their bond arose new bloodlines. Healing became sacred, for it had delivered them from the edge of oblivion.
+________________
+
+
+Childhood & Shaping Events
+Born to Kraza and Reth’Vash, Dru’Vash grew amid caverns lit by firelight and veiled in shadow. He learned silence, balance, and the pulse of volcanic earth. When plague struck, he saw his father kneel with obsidian shard in hand, weaving shadow into warmth. Lives once certain to end endured. That moment seared Dru’Vash’s path — healing as defiance, not mercy.
+________________
+
+
+Training & Mentorship
+Reth’Vash fell defending the weak, his shard still warm when passed to his son. Dru’Vash’s mother placed him in the hands of Var’Keth, healer-monk of both discipline and compassion. Blindfolded in caverns, he struck rope targets until one jab could split them. Harsh lessons rang clear: “A fist without balance is just another club. A healer without strength is only a wish.”
+________________
+
+
+Marks of Identity
+Initiation left him scarred and marked — spirals of ki etched across arms, a rune of survival burned into his shoulder, and a crescent tattoo beneath his eye. These were not adornments but vows, a reminder that shadow and light must walk together. His volcanic shard, relic of his father, remained the anchor of his oath.
+________________
+
+
+Wanderer’s Journey
+Leaving the Highlands, Dru’Vash bore little but his shard, his staff, and his vow. He journeys not to conquer but to recover what is lost: healing arts of body and spirit scattered across the world. To those he aids, he is a protector. To enemies, he is the shadow that strikes with force yet leaves renewal in its wake.
+________________
+
+
+Closing Verse
+Among allies, they say: “When Dru’Vash walks, the shadows heal as well as harm.”
+ Among foes, they whisper: “Strike him down quickly, for every breath he takes may raise another to fight.”
+ And in his heart the vow beats steady: Strength exists to preserve life, not take it.
+
+
+Effect Standardization
+⚙️ Effect Standardization (Updated)
+1) Structure & Format
+                                                               * Name: Always clear, evocative, and unique.
+
+                                                               * Effect Statement:
+
+                                                                  * Begin with the mechanical trigger/action (e.g., “On hit…,” “When you Heal…,” “Mind👁️ or target is Stunned”).
+
+                                                                  * Follow with the mechanical outcome (Dmg, Heal, buff, MR👣, AR🛡️, Advantage, reroll, etc.).
+
+                                                                     * Usage:
+
+                                                                        * Standard shorthand only → 1-Rnd, 1-Enc, 2-Enc, 3-Enc, 1-Day, 2-Day, 3-Day, 1-Luck.
+
+                                                                        * Single-use consumables (potions, scrolls, etc.) = 1.
+                                                                        * These are all the options. Never invent new Usage.
+
+                                                                           * Action Codes: Always one of AM, A, M, P, F.
+
+                                                                              * Never invent new codes.
+
+________________
+
+
+2) Effect Wording
+                                                                                 * Keep effects succinct and tidy.
+
+                                                                                 * Always begin with words (never a symbol).
+
+                                                                                 * Format examples:
+
+                                                                                    * On hit; Magic✨ fire Dmg
+
+                                                                                    * Create hazard; foes entering sq take Magic✨ Dmg
+
+                                                                                    * Req melee touch; Magic✨ Atk and lightning Dmg
+
+                                                                                    * Raise spikes in 2x2sq; foes entering suffer Magic✨ Atk & Dmg
+
+                                                                                    * Summon whirlwind; Magic✨ Atk pushes foes d4sq
+
+                                                                                    * Choose fire/ice/lightning; Atk & Dmg+1 for 1 Enc
+
+Rules for specific categories
+                                                                                       * Use all game emojis as warranted:
+                                                                                       * In particular most abilities are based on the four Attributes (Atr): Might 💪 , Motion🏃, Mind 👁️, Magic ✨.  Such as a Stealth🏃skill.
+                                                                                       * Other common emojis are: Vit❤️, MR👣, Skill🎓, Power⚡, AR🛡️, Atr✅, Gear🧰, magic item✨. Weapon⚔️, Attack⚔️ , or Block⚔️. 
+                                                                                       * Character’s Point of View: Phrase from caster/character perspective (e.g., Nish+2, not “foe Nish-2”). Never word abilities from the monster or victim’s point of view as monsters DO NOT roll. They have fixed Difficulties.
+
+                                                                                       * Healing: Always Heal X or Heal self X (never “regain”).
+
+                                                                                       * Conditions/Debuffs: Always specify governing Atr and outcome.
+
+                                                                                          * Example: Mind👁️ or target is Stunned.
+
+                                                                                             * Buffs/Bonuses:
+
+                                                                                                * Always shorthand: Atk+2 for 1 rnd, Nish+3 for 1 Enc, AR🛡️+1 for 1 rnd.
+
+                                                                                                   * Movement: Anchor to MR👣 or sq.
+
+                                                                                                      * Example: Move double MR👣 this rnd, Teleport 12sq to visible shadow.
+
+                                                                                                         * Positioning:
+
+                                                                                                            * Example: If Atk hits; push target 3sq.
+
+                                                                                                               * Utility/Exploration:
+
+                                                                                                                  * Example: Stealth🏃 with Advantage, Magic✨ to detect stone weakness.
+
+________________
+
+
+3) Duration
+                                                                                                                     * Default: “for 1 rnd.”
+
+                                                                                                                     * If shorter: say “this rnd.”
+
+                                                                                                                     * If longer: specify for 1 Enc or for the Day.
+                                                                                                                     * Do not create custom durations for ability Effects.
+
+________________
+
+
+4) Rolls & Saves
+                                                                                                                        * Always specify governing Atr: Might💪, Motion🏃, Mind👁️, Magic✨.
+
+                                                                                                                        * Most common Defense rolls:
+
+                                                                                                                           * Block (Might💪)
+
+                                                                                                                           * Dodge (Motion🏃)
+
+                                                                                                                           * Resist (Magic✨)
+
+________________
+
+
+5) Keywords & Consistency
+                                                                                                                              * Dmg = Damage
+
+                                                                                                                              * Heal = Heal X / Heal self X
+
+                                                                                                                              * AR🛡️ = AR🛡️+X for 1 rnd
+
+                                                                                                                              * Advantage/Disadvantage = always capitalized and tied to roll type
+
+                                                                                                                              * Teleport vs Move = distinct; teleport ignores terrain
+
+                                                                                                                              * Reroll = Reroll one failed [roll type]
+
+                                                                                                                              * Opportunity attacks = Make 1 opportunity Atk
+
+                                                                                                                              * Areas/Auras: scope as needed (adjacent, nearby, in Xsq, earshot).
+
+________________
+
+
+6) Magic Items✨
+                                                                                                                                 * Effects follow same Effect → Usage → Action format.
+
+                                                                                                                                 * Limited-use info belongs only in Usage, not Effect.
+
+                                                                                                                                 * Example:
+
+                                                                                                                                    * On Touch; Heal self 1
+
+
+________________
+
+
+Examples:
+
+
+CC to Tables
+Character Concept to Tables
+0) Attachments and Pasted Text
+                                                                                                                                    * Attached - Rules - please review and use all standards, pay particular attention to Emojis and Definition (abbreviation) usage
+                                                                                                                                    * Attached - Prompts - examine the “Effect Standardization” prompt for proper Power and Magic Item wording in the Effects column
+                                                                                                                                    * Pasted Below - The character concept to convert
+1) Skill Sets
+                                                                                                                                    * Examine the Skill Sets in the attached rules.
+
+                                                                                                                                    * If the archetype implies a Skill Set, propose a new or existing skill set.
+
+                                                                                                                                    * Always present each Skill Set in a single row of the skill set table.
+
+                                                                                                                                    * Use emoji markers consistently for governing stats: 💪, 🏃, 👁️, ✨.
+
+                                                                                                                                    * Only add more rows if multiple Skill Sets are warranted.
+                                                                                                                                    * If there is no existing racial skill set, be sure to create one
+
+Format Example:
+📜 Skill Set: Engineering & Siegecraft
+Skill Set
+	Skills
+	Engineering & Siegecraft
+	Siege Engine Use/Atk/Dmg👁️, Repairs👁️, Rune-Engraving✨, Stone/Metal Weakness👁️, Thunder Barge Piloting🏃
+
+
+	
+
+Required Columns:
+ | # | Usage | Action | Skill Set| Skills|
+Note: Usage and Action columns will be blank.
+________________
+
+
+2) Class Powers⚡ Table
+                                                                                                                                       * Review all existing class Powers and Personal PC powers of the rules…
+
+                                                                                                                                       * List the ones that fit the archetype first.
+
+                                                                                                                                       * Rename/reflavor Powers⚡ to fit the archetype as needed.
+
+                                                                                                                                       * Create new Powers⚡ until there are at least 20 total.
+
+                                                                                                                                       * Ensure all Powers⚡ implied in the archetype’s concept text are represented.
+
+                                                                                                                                       * All Effects must follow the Effect Standardization rules.
+
+                                                                                                                                       * Sort order: AM → A → M → P → F, then alphabetically by Name.
+
+Required Columns:
+ | # | Usage | Action | Name | Effect |
+________________
+
+
+3) Racial Powers⚡ Table (if applicable)
+                                                                                                                                          * If the archetype introduces a new race, create a racial Powers⚡ table.
+
+                                                                                                                                          * Start with reusing and renaming existing Powers and Personal PC powers from the rules where possible, then add new new race powers until at least 10 total.
+
+                                                                                                                                          * Ensure all racial traits in the concept are covered.
+
+                                                                                                                                          * All Effects must follow the Effect Standardization rules.
+
+                                                                                                                                          * Sort order: AM → A → M → P → F, then alphabetically by Name.
+
+Required Columns:
+ | # | Usage | Action | Name | Effect |
+________________
+
+
+4) Magic Items
+                                                                                                                                             * If the archetype suggests magic items, create them.
+
+                                                                                                                                             * Always classify into one of the four categories: Minor, Lesser, Greater, Artifact.
+
+                                                                                                                                             * Present each rarity in its own table (skip categories with no items).
+
+                                                                                                                                             * Prefix each table with a clear emoji and rarity label.
+
+                                                                                                                                             * All Effects must follow the Effect Standardization rules.
+
+Format Examples:
+🍺 Minor Magic Items
+d#
+	Usage
+	Action
+	Name
+	Effect
+	1
+	1
+	P
+	Rune Flask of Blackaxe Ale
+	On use; Heal self 1
+	🔮 Lesser Magic Items
+d#
+	Usage
+	Action
+	Name
+	Effect
+	1
+	1-Day
+	F
+	Tower Shield of the Blackaxe
+	AR🛡️+1 and Def+1 for 1 Enc
+	🪬 Greater Magic Items
+d#
+	Usage
+	Action
+	Name
+	Effect
+	1
+	1-Enc
+	P
+	Tower Shield of the Blackaxe (Runic Ward)
+	Activate rune; AR🛡️+3 for 1 rnd
+	🌀 Artifact Magic Items
+d#
+	Usage
+	Action
+	Name
+	Effect
+	-
+	-
+	-
+	-
+	-
+	________________
+
+
+5) Formatting Guidelines
+                                                                                                                                                * Tables only: Always use the columns → # | Usage | Action | Name | Effect.
+
+                                                                                                                                                * Usage must follow shorthand (1-Rnd, 1-Enc, 2-Enc, 3-Enc, 1-Day, 2-Day, 3-Day, 1-Luck, 1).
+
+                                                                                                                                                * Action must be one of AM, A, M, P, F.
+
+                                                                                                                                                * All Effects must be standardized per the Effect Standardization rules.
+
+                                                                                                                                                * Always sort tables by Action order (AM → A → M → P → F), then alphabetically by Name.
+
+                                                                                                                                                * Magic Items always sorted by Minor → Lesser → Greater → Artifact.
+
+
+Custom Ability Balance
+Phase 1
+
+
+Using the attached rules and looking at all (I mean all) similar tables, please critically analyze the tables below and suggest changes to any skill, power, artifact that is not in game balance with the rest of the rules, paying particular attention to Usage, Action and Effect. This is a hard task and will require deep thought on your part. Please regenerate the tables below in the exact same format with all of your suggested changes. Indicate which rows you have changed by putting a “X” in the first column (rather than the number) of any row that was changed. Final results in table format.
+
+
+Adventure Creation
+
+
+Plot
+🗺️ Adventure Plot Prompt
+I want you to be my expert TTRPG adventure creator. Start by:
+-- Reviewing the attached rules.
+-- Reviewing all attached player character concepts.
+Goal: Create a great TTRPG adventure for a group of very experienced RPG players (average age ~45, decades of RPG experience). The adventure must be:
+-- Rich in tone, complexity, and lore.
+-- Filled with diverse monsters, mixed battle environments with multi-elevation challenges, traps, puzzles, and varied encounters.
+-- Suited for tactical play on a grid (1-inch = 5 ft) with miniatures. We are rules-precise, combat-heavy, and genre-serious.
+-- Designed for difficulty: 2–4 standard foes will not be enough. Battles should often involve elites, monster mixes, environmental hazards, or layered threats.
+Stage 1 – Rough Plot Outline Creation:
+ -- Begin with a rough plot outline based on my plot seed idea (see below).
+-- Incorporate as much detail and integration of the character concepts as possible (use names, mentors, items, clans, regions, etc.).
+-- Treat magic items listed in character concepts as future loot opportunities sprinkled naturally across the adventure.
+-- Ensure Skill Set integration: provide encounters or opportunities for thieves, stone/rune masters, wilderness experts, scholars, healers, artisans, or any other archetypes in the group to shine. These should not be optional flavor; make them meaningful and mechanically relevant.
+-- Provide environmental variety (ruins, caves, seas, towers, villages, forests, volcanic caverns, etc.) with hazards, elevation, and terrain shaping battles.
+-- Add plot twists or hidden layers of danger that gradually emerge.
+Plot Seed (to be replaced by me):
+ [INSERT ROUGH SEED IDEA HERE – e.g., kidnapped kin, sea monster harassing ships, forgotten fortress awakening, plague traced to corrupted relic, etc.]
+Output Requirements (Stage 1):
+ -- Provide a plot outline only (no room-by-room detail yet).
+-- Note major encounter areas, but leave tactical map details for Stage 2.
+-- Suggest monster mixes, trap/puzzle themes, and possible loot drops, but keep them high-level for now.
+-- If you have a better plot suggestion based on character concepts, present it as an optional alternative seed.
+
+
+
+
+
+
+________________
+
+
+Slaver’s Plot
+I want you to be my expert TTRPG adventure creator. Start by:
+-- Reviewing the attached rules.
+-- Review all of the attached player character concepts
+
+
+Goal: Create a great TTRPG adventure for a bunch of VERY experienced RPGers average age about 45 with decades of RPG experience. So the adventure needs to be:
+-- Rich in tone, complexity, monsters, multi elevation battle environments with mixes monsters, good sprinkling of traps, puzzles, and lots of encounters.
+-- We play with game board (1 inch grid for 5ft), miniatures, etc. We are a precise group - rules lawyers.
+-- We like mature (well defined) genre appropriate adventures
+-- We are a combat heavy group - 2 to 4 normal opponents will not stand a  chance against us
+
+
+Then We’ll perform Adventure Creation for Stage 1 as follows:
+-- Start by coming up with a real rough plot outline that I can modify to suit, that incorporates as much detail and integration of the character concepts (attached) as is reasonably possible (e.g., use names, people, items from the character’s concepts.
+-- Most of the character concept magic items are not currently owned, so we need to sprinkle a good portion of them into the adventure as loot
+-- Be SURE to look at each character’s skills and provide opportunities for them to utilize a good share of their skills. E.G. if there is a thief, be sure there are locks, traps, climbing opportunities. If one is a culinary expert, perhaps a pre-encampment scene where a wanderer comes into camp complaining of being hungry and says he’ll reveal adventure tips for a great meal, etc. If there are stone or rune masters, be sure the adventure isn’t all outside in the forest and add in some meaningful runes (perhaps glyph traps that can be deciphered) or glyph tips or glyphs with 1 use powers that can be transferred to PCs, etc.
+
+
+For this stage, if you have a better idea based on all of the character concepts let me know. But I was thinking that the group had all been contacted that a loved one (or some other person of interest) had been kidnapped for ransom by some group (Bloodfang Clan of Orcs and Trolls, etc., with some much more secretive and powerful leader behind them.). The characters meet up for the 1st time and then, realizing that they are all adventurers, decide to take matters into their own hands. Do NOT just use nothing but Orcs and Trolls as monsters. Our group expects diverse combats such as a room of 4 Orc Guards (1 Elite in Plate and Shield with a huge iron Mace) the 3 non-elietes each command a dire wolf and up in the rooms hidden alcoves there are two gargoyles that mostly sit as stone but would love to dive in and back-stab (Stealth Atk) either side when weakness presents itself. 
+
+So, lay out a plot outline and for any major encounter areas, please skip the room by room details for now. I’ll add in very good maps with labels and we’ll get down to the encounter level in the next stage.
+
+Do you need more info or have any questions?
+
+
+
+
+________________
+
+
+Sea Quest
+I want you to be my expert TTRPG adventure creator. Start by:
+-- Reviewing the attached rules.
+-- Review all of the attached player character concepts
+
+
+Goal: Create a great TTRPG adventure for a bunch of VERY experienced RPGers average age about 45 with decades of RPG experience. So the adventure needs to be:
+-- Rich in tone, complexity, monsters, multi elevation battle environments with mixes monsters, good sprinkling of traps, puzzles, and lots of encounters.
+-- We play with game board (1 inch grid for 5ft), miniatures, etc. We are a precise group - rules lawyers.
+-- We like mature (well defined) genre appropriate adventures
+-- We are a combat heavy group - 2 to 4 normal opponents will not stand a  chance against us
+
+
+Then We’ll perform Adventure Creation for Stage 1 as follows:
+-- Start by coming up with a real rough plot outline that I can modify to suit, that incorporates as much detail and integration of the character concepts (attached) as is reasonably possible (e.g., use names, people, items from the character’s concepts.
+-- Most of the character concept magic items are not currently owned, so we need to sprinkle a good portion of them into the adventure as loot
+-- Be SURE to look at each character’s skills and provide opportunities for them to utilize a good share of their skills. E.G. if there is a thief, be sure there are locks, traps, climbing opportunities. If one is a culinary expert, perhaps a pre-encampment scene where a wanderer comes into camp complaining of being hungry and says he’ll reveal adventure tips for a great meal, etc. If there are stone or rune masters, be sure the adventure isn’t all outside in the forest and add in some meaningful runes (perhaps glyph traps that can be deciphered) or glyph tips or glyphs with 1 use powers that can be transferred to PCs, etc.
+
+
+For this stage, if you have a better idea based on all of the character concepts let me know. But I was thinking the group stumbles into a sleepy little fishing village and notices how morose everyone is. The PCs should quickly be presented with an intriguing encounter that hits them over the head that the poor town and its fishing vessels and all trade vessels on the seas have been constantly harassed and destoreyd by a might sea creatur (Kraken?) and its minions. This encounter should result in the PCs being hired to solve the situation. However, there is actually a much deeper and darker process at work that the PCs will discover (please make up a really great plot twist here). 
+
+So, lay out a plot outline and for any major encounter areas, please skip the room by room details for now. I’ll add in very good maps with labels and we’ll get down to the encounter level in the next stage.
+
+________________
+
+
+🗺️ Adventure Plot Prompt
+I want you to be my expert TTRPG adventure creator. Start by:
+-- Reviewing the attached rules.
+-- Reviewing all attached player character concepts.
+Goal: Create a great TTRPG adventure for a group of very experienced RPG players (average age ~45, decades of RPG experience). The adventure must be:
+-- Rich in tone, complexity, and lore.
+-- Filled with diverse monsters, mixed battle environments with multi-elevation challenges, traps, puzzles, and varied encounters.
+-- Suited for tactical play on a grid (1-inch = 5 ft) with miniatures. We are rules-precise, combat-heavy, and genre-serious.
+-- Designed for difficulty: 2–4 standard foes will not be enough. Battles should often involve elites, monster mixes, environmental hazards, or layered threats.
+Stage 1 – Rough Plot Outline Creation:
+ -- Begin with a rough plot outline based on my plot seed idea (see below).
+-- Incorporate as much detail and integration of the character concepts as possible (use names, mentors, items, clans, regions, etc.).
+-- Treat magic items listed in character concepts as future loot opportunities sprinkled naturally across the adventure.
+-- Ensure Skill Set integration: provide encounters or opportunities for thieves, stone/rune masters, wilderness experts, scholars, healers, artisans, or any other archetypes in the group to shine. These should not be optional flavor; make them meaningful and mechanically relevant.
+-- Provide environmental variety (ruins, caves, seas, towers, villages, forests, volcanic caverns, etc.) with hazards, elevation, and terrain shaping battles.
+-- Add plot twists or hidden layers of danger that gradually emerge.
+Plot Seed:
+The War Beneath the Vault
+Centuries ago, an arcane vault beneath the Aethelwood was sabotaged, scattering its relics across Oakhaven and the surrounding frontier. Those relics — now lost, stolen, or bound in blood-oaths — include the very magic items destined for the heroes. As tremors reopen the vault’s passages, rival factions surge into motion: elven loyalists seeking to reclaim their heritage, merchant princes hungry for power, and a hidden assassin clan guarding secrets best left buried.
+The adventurers find themselves caught in this silent war, forced to fight through mercenary bands, rival adventuring companies, and the warped guardians of the vault itself. Each victory uncovers another piece of their past — the return of their magic heirlooms — while each setback reveals deeper manipulations. The truth: the same assassin clan that shattered the vault orchestrated the murder, betrayals, and wars that shaped their lives. To claim their full strength, the party must not only seize their items from powerful hands but also decide whether to collapse the vault forever… or wield its legacy in the battles to come.
+👉 This setup gives you:
+Clear progression — magic items distributed across vault guardians and faction lieutenants.
+Rich faction play — PCs can clash with mercenaries, elves, assassins, even rival adventuring groups.
+Twists — the assassin clan links Phantom’s backstory to the vault sabotage
+Longevity — easy to stretch across several 8-hour sessions with tactical combats and layered intrigue.
+Output Requirements (Stage 1):
+ -- Provide a plot outline only (no room-by-room detail yet).
+-- Note major encounter areas, but leave tactical map details for Stage 2.
+-- Suggest monster mixes, trap/puzzle themes, and possible loot drops, but keep them high-level for now.
+-- If you have a better plot suggestion based on character concepts, present it as an optional alternative seed.
+Encounter
+🏰 Stage 2 – Room by Room Encounters Prompt
+Task:
+ Please create detailed room-by-room encounters based on the following:
+Manually Attached: 
+                                                                                                                                                   * Attach Adventure
+                                                                                                                                                   * Attached: The map with room numbers.
+                                                                                                                                                   * Any rough room description:
+                                                                                                                                                   * Attached: Prompts document
+                                                                                                                                                   * Attached: The Rules
+                                                                                                                                                   * Attached: The Character Concepts
+Room Descriptions are far below.
+________________
+
+
+Room Requirements
+                                                                                                                                                   * Distribution of Room Types:
+
+                                                                                                                                                      * 50% Combat rooms
+                                                                                                                                                      * 20% Description-only rooms (scenery, lore, no combat/puzzle/treasure)
+                                                                                                                                                      * 20% Trap, Puzzle, or Treasure rooms
+                                                                                                                                                      * 10% Mixed rooms (any combination above)
+
+                                                                                                                                                         * Description:
+
+                                                                                                                                                            * Each room should have a multi-sentence vivid description.
+                                                                                                                                                            * Complex rooms may use a full paragraph.
+                                                                                                                                                            * ALL details provided in the rough room descriptions below MUST appear in the room Description. Any comments or questions in parenthesis (e.g. “(Why?)” or “(Trapped?)”). Must be creatively resolved and included.
+                                                                                                                                                            * Include elevation notes, lighting, atmosphere, and terrain features.
+                                                                                                                                                            * Player-hidden details (GM’s eyes only) should be marked in (🔎).
+                                                                                                                                                            * Example: The northwest corner holds a precarious stack of eight crates, one painted with a crude red cross (🔎originally for medicine, now repurposed to store poisons).
+
+                                                                                                                                                               * Specials/Twists:
+
+                                                                                                                                                                  * Every room should have at least one unique twist (environmental hazard, unusual foe tactic, hidden feature, narrative element).
+
+                                                                                                                                                                     * Loot:
+
+                                                                                                                                                                        * ~20% of rooms should include custom loot, particularly referencing character concept items.
+                                                                                                                                                                        * List loot in a detailed entry with item name, description, and classification if magical.
+                                                                                                                                                                        * Plot:
+                                                                                                                                                                        * Each bullet below needs addressed in one to three rooms each as plot element tie ins:
+                                                                                                                                                                        * Items, people, etc. hinted at in the previous encounter area
+                                                                                                                                                                        * Text, clues, items needed to point at the next encounter area or Act - At least one clue should typically include a paragraph-long text that is either spoken by someone or something or found in a book or scrap of paper, that blatantly points the PCs to the next encounter area or Act (where do the PCs go next and why do they go there). 
+________________
+
+
+Combat Room Requirements
+                                                                                                                                                                        * Always list monsters in this format:
+4 Orc Guards (Heavy Leather, Scimitars, Bucklers) 🚩14, 👣10, ⚔️18/12(2), 🛡️16/2 ❤️12 – [💪18/🏃12/👁️10/✨10] (Poisoned blades Magic✨ or Weakened).
+
+                                                                                                                                                                           * Number & Name (Armor and weapons) = e.g. 4 Orc Guards (Heavy Leather, Scimitars, Bucklers)
+                                                                                                                                                                           * 🚩 = Nish
+                                                                                                                                                                           * 👣 = MR
+                                                                                                                                                                           * ⚔️ = Atk/Dmg(Minimum Dmg)
+                                                                                                                                                                           * 🛡️ = Def / AR🛡️
+                                                                                                                                                                           * ❤️ = Vit
+                                                                                                                                                                           * Brackets = Attribute Scores [💪 / 🏃 / 👁️ / ✨]
+                                                                                                                                                                           * Conditions, special abilities, or afflictions in ( ) at the end.
+
+                                                                                                                                                                              * Every monster mentioned must be detailed and complete.
+
+                                                                                                                                                                                 * Do not say “see monster in room X” or “as above.”
+                                                                                                                                                                                 * Always restate the full monster stats and abilities.
+
+                                                                                                                                                                                    * Combat scaling:
+
+                                                                                                                                                                                       * Encounters should either use tougher stat blocks or ~1.5x the usual monster count, as players are very strong.
+                                                                                                                                                                                       * Encourage mixed forces (elites, fodder, ranged, hidden foes, terrain-based threats).
+
+________________
+
+
+Trap / Puzzle Room Requirements
+                                                                                                                                                                                          * Include where the trap/puzzle is located and how it appears.
+                                                                                                                                                                                          * Describe mechanics of operation (trigger, visibility, clues).
+                                                                                                                                                                                          * State effect/outcome in rules terms per Effect Standardization.
+                                                                                                                                                                                          * Example:
+                                                                                                                                                                                          * A 3x3sq concealed floor section in the NW corner collapses into a spiked pit, 15’ deep, walls coated in oil. On trigger: all creatures fall; Motion🏃 or take 15 Dmg + Poisoned (Magic✨ Dif 17).
+________________
+
+
+Mixed Rooms
+                                                                                                                                                                                          * Blend combat + trap, or combat + puzzle, combat + treasure, treasure + trap, treasure + puzzle, or trap + puzzle.
+                                                                                                                                                                                          * Ensure both aspects are fully fleshed out.
+________________
+
+
+✅ Output Format:
+ For each room:
+                                                                                                                                                                                          1. Room #: Name
+                                                                                                                                                                                          2. Description: Narrative text with sensory detail.
+                                                                                                                                                                                          3. Monsters/Traps/Puzzles/Treasure: As required by room type.
+                                                                                                                                                                                          4. Special/Twist: Any unique environmental or narrative feature.
+                                                                                                                                                                                          5. Loot (if present): Detailed list with standardized effects.
+________________
+
+
+Example
+Room 3 – Lieutenant’s Living Room (Ransom Chamber)
+Narrative/Description:
+ This spacious chamber doubles as a negotiation hall for ransom payments. A massive 20x40ft rug dominates the floor, its weave stained with years of spilled ale and blood. A sturdy wooden table with five mismatched chairs sits in the center. The northwest corner holds a precarious stack of eight crates, one painted with a crude red cross. The southeast is cluttered with barrels, rolled rugs, and crates of spears. A large candelabra burns low on a side table at the south.
+Mechanical Notes:
+                                                                                                                                                                                          * Encounter/Monsters:
+
+                                                                                                                                                                                             * 1 Orc Lieutenant (Plate, Warhammer) 🚩16        👣8 , ⚔️20 / 12 (2), 🛡️18 / 3, ❤️16, 💪22 / 🏃12 / 👁️12 / ✨12 (Inspires allies)
+                                                                                                                                                                                             * 3 Orc Bodyguards (Chain, Axes, Shields) 🚩14, 👣10, ⚔️18 / 12 (2), 🛡️16 / 2, ❤️12, 💪18 / 🏃12 / 👁️10 / ✨10 (Brutal Atk Dmg+4)
+                                                                                                                                                                                             * 2 Dire Wolf Pets (Bite) 🚩18, 👣12, ⚔️18 / 8 (1), 🛡️16 / 1, ❤️12, 💪18 / 🏃18 / 👁️12 / ✨10 (Terrifying howl)
+
+                                                                                                                                                                                                * Traps/Puzzles: Rug conceals a spiked pit trap (10ft deep, Dmg 10 + Immobilized). Triggered if crate pile is toppled or weight shifts wrong.
+                                                                                                                                                                                                * Loot: The red-cross crate holds medical poultices stolen from humans — equivalent of 2 healing potions (Heals 1d6 Vit❤️).
+                                                                                                                                                                                                * Plot: The orc Lieutenant (Grond) yells “You will never defeat the slavers. Master Oringus is supernatural and will come for you from his Keep of the Vale and avenge us - so win or lose, you will fail.”
+                                                                                                                                                                                                * Twist: This is the room most used for “safe” ransom meetings. The candelabra flames burn oddly green when hostages are nearby, tied into necromantic wards from Room 6.
+
+
+
+
+Room Descriptions:
+
+
+Tab 9
+
+
+
+
+Step 1 – Skill Sets 🎓
+	#
+	Usage
+	Action
+	Skill Set
+	Skills
+	1
+	
+
+	
+
+	Mental Discipline
+	Focus👁️, Telepathy👁️, Mental Fortitude✨, Psionic Control✨
+	2
+	
+
+	
+
+	Martial Prowess
+	All Swords💪, Unarmed🥊, Tactics👁️, Guard Drills🏃
+	3
+	
+
+	
+
+	Awareness
+	Perception👁️, Read Intent👁️, Lie Detection👁️, Situational Analysis👁️
+	4
+	
+
+	
+
+	Healing Arts
+	Herbalism👁️, Basic Healing👁️, Treat Disease👁️, Treat Poison👁️
+	
+
+	
+
+	
+
+	
+
+	
+
+	Step 2 – Class Powers⚡
+	#
+	Usage
+	Action
+	Name
+	Effect
+	1
+	1-Enc
+	AM
+	Telekinetic Crush
+	Mind👁️ or target is Stunned; Magic✨ Dmg💥
+	2
+	1-Enc
+	AM
+	Psionic Push
+	Magic✨ Atk; push foe d4sq
+	3
+	1-Enc
+	AM
+	Thought Lance
+	Magic✨ Atk; Mind👁️ Dmg💥
+	4
+	1-Enc
+	AM
+	Radiant Strike
+	On hit; Atk⚔️ with Sunstone Blade and Magic✨ radiant Dmg💥
+	5
+	1-Enc
+	A
+	Flurry of Mental Blows
+	Multi-Atk⚔️; unarmed🥊 Dmg💥 uplifted by Mind👁️
+	6
+	1-Rnd
+	A
+	Pressure Point Strike
+	On hit; target Motion🏃 or is Weakened
+	7
+	1-Enc
+	A
+	Deflect Missiles
+	Req Motion🏃; redirect Rng🎯 Atk back to foe
+	8
+	1-Enc
+	A
+	Guarded Calm
+	AR🛡️+2 for 1 rnd
+	9
+	1-Enc
+	A
+	Psionic Blade Infusion
+	On hit; Sunstone Blade Atk⚔️ deals +1d Magic✨ Dmg💥
+	10
+	1-Enc
+	M
+	Uncanny Dodge
+	Motion🏃; halve Dmg💥 from 1 Atk⚔️
+	11
+	1-Enc
+	M
+	Step Between Blades
+	Teleport 3sq to visible open space
+	12
+	1-Rnd
+	P
+	Battle Meditation
+	Adjacent allies gain Atk⚔️+1 this rnd
+	13
+	1-Rnd
+	P
+	Focused Breathing
+	Self Heal❤️1
+	14
+	1-Rnd
+	P
+	Detect Intent
+	Sense lies👁️ in earshot
+	15
+	1-Enc
+	P
+	Purging Breath
+	Cure poison💀 or disease for 1 ally
+	16
+	1-Enc
+	P
+	Psionic Barrier
+	AR🛡️+3 vs Magic✨ for 1 rnd
+	17
+	1-Luck
+	P
+	Stoic Resolve
+	Reroll 1 failed Mind👁️ roll
+	18
+	1-Day
+	F
+	Aura of Balance
+	Allies in 3sq gain Adv on Resist✨ rolls for 1 Enc
+	19
+	1-Day
+	F
+	Inner Healing
+	Heal❤️3 self or ally
+	20
+	1-Day
+	F
+	Oath of the Vigilant Way
+	For 1 Enc; all allies gain Def+1 and Nish🚩+2
+	
+
+Roll 20 Tips
+
+
+Laying Out a Map
+                                                                                                                                                                                                * First - Be SURE you are on the map layer to drag and drop map (choose <Adjust Page size> - though this is kind of meaningless but doesn’t distort image)
+                                                                                                                                                                                                * Always do (for light etc even if no grid)
+                                                                                                                                                                                                * Zoom WAY IN
+                                                                                                                                                                                                * Regardless if Map has a grid or you want to define one: right click map again and <Advanced> <Align to Grid> select 3x3 choose <Align to Grid> - this will dramatically change image size - that’s ok.
+                                                                                                                                                                                                * Next right click on map in Roll20 <Advanced> <Set Dimensions> and write down the width and height in pixels - in maps cog (at top under folder) set exact same pixels.
+                                                                                                                                                                                                * Under cog, under folder icon at top of screen
+                                                                                                                                                                                                * Turn on grid
+                                                                                                                                                                                                * Set pixels width and height to match map
+                                                                                                                                                                                                *  set grid color to a striking color.
+                                                                                                                                                                                                * Zoom WAY out - now move map to cover page area
+                                                                                                                                                                                                * On map <atl> arrow to get alignment “near perfect”
+                                                                                                                                                                                                * Can also <alt> drag edges for more perfect alignment
+                                                                                                                                                                                                * Under cog, set grid color to invisible
+                                                                                                                                                                                                * Click OFF Map (due to accidental move danger) and not Light
+                                                                                                                                                                                                * Wall, Doors, Windows, light sources - be SURE LIght layer
+                                                                                                                                                                                                * LIGHT layer
+                                                                                                                                                                                                * Trick: place doors, windows FIRST - then walls as is easy to start/stop in center of their end circles

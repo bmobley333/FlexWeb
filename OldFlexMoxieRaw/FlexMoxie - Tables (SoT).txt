@@ -1,0 +1,57 @@
+﻿FlexMoxie - Tables: System Mechanics & Reference Database
+* File Name: FlexMoxie - Tables
+* Google Drive File ID: 1sLzQD2ZOXMmpogsg--_X2COixUAJSizQ3nXXl0Uow80
+* File Type: Google Spreadsheet (container-bound to Apps Script)
+________________
+🏛️ System Purpose & User Workflows
+The FlexMoxie - Tables is the master rules schema and statistics database. It houses the system-wide progression charts, gear catalogs, combat styles, class attributes, monster stats, and skill groups. The spreadsheet serves as the numeric database for character calculations. Additionally, it contains historical/backup worksheets for player characters, serving as a GM archives ledger.
+________________
+📂 Worksheet Tab Index
+I. Core Mechanics & Character Progression Tabs
+* Emojis (ID: 740267660): Maps the custom attributes to emojis: 💪 Might, 🏃 Motion, 👁️ Mind, ✨ Magic, and 🫀 Moxie.
+* Level (ID: 1757381049): Progression indices, level brackets, and experience point thresholds.
+* AP (ID: 169840602): Adventure Point scaling and progression mechanics.
+* Sk/Un Adv/Dis (ID: 1630064249): Lists advantages and disadvantages for characters.
+* Luck (ID: 1078662992): Numerical scales and mechanics for luck points.
+* Class (ID: 1744748355) & Race (ID: 85300420): Lists character classes and playable races with starting attributes.
+II. Skills & Skillsets Reference
+* Skills (ID: 454123026): Lists individual skills. Modified by the verification routines to ensure consistent format (e.g. Stealth🏃).
+* SkillSets (ID: 1592748288): Groupings of skills mapping to specific classes or archetypes.
+* CombatStyles (ID: 559106794): Maps combat styles and modifiers.
+III. Equipment & Catalogs
+* Weapons (ID: 1637040950): Statistics, weapon ranges, costs, and variables.
+* Armor (ID: 1963126901) & Shields (ID: 1422223962): Defense metrics, requirements, and weight.
+* Gear (ID: 317956782): Standard equipment catalog and price ledger.
+* Magic Items (ID: 337235850): Master reference catalog for magical loot.
+IV. Monsters & Treasure Drop tables
+* Monsters (ID: 1238696816): Combat and narrative stats for monsters.
+* Treasure (ID: 1282954786) & T/C (ID: 129695583): Master loot drop tables and treasure charts.
+V. Character Backups (GM Ledger Archive)
+* Spreadsheet tabs named PC Brooke, PC Jake, PC Eric, PC Jesse, PC Trevor, Jesse (Maddy), Merril (Kaelen), Phill (Solen), Charlie (Steilgar), and Steve (Phantom) are backup player worksheets. They serve as historic character state archives for the GM and do not directly link to the runtime Apps Script dispatches.
+VI. System Tabs
+* Hide> (ID: 1448809495) & Data (ID: 1193345756): Separator and configuration worksheet tabs.
+________________
+⚙️ Bound Script Entry Points (Tables/Code.js)
+The spreadsheet Tables/Code.js dispatches commands to FlexLib:
+1. Simple Trigger: onOpen()
+* Automatically builds the Designer Menu: FlexLib.fCreateDesignerMenu('Tables') when the sheet is loaded.
+2. Dispatch Methods to FlexLib:
+* Designer Utility Menu Hooks:
+* fMenuTrimSheet ➔ Runs TrimSheet (deletes empty space outside table cells).
+* fMenuTagVerification ➔ Runs TagVerification (verifies header and coordinate tags).
+* fMenuToggleVisibility ➔ Runs ToggleVisibility (toggles hidden sheets).
+* fMenuApplyVisualIsolation ➔ Runs ApplyVisualIsolation (freezes and formats layouts).
+* fMenuClearProperties ➔ Runs ClearProperties (wipes Google script cache).
+* fMenuTest ➔ Runs the debug test hook.
+* Skills Verification Hooks:
+* fMenuVerifyIndividualSkills ➔ Runs VerifyIndividualSkills.
+* fMenuVerifySkillSetLists ➔ Runs VerifySkillSetLists on the SkillSets tab.
+________________
+🔀 Core Logic Workflows (Codebase Analysis)
+I. Skill Emoji Verification Workflow (fVerifyIndividualSkills)
+Ensures that all skills in the Skills worksheet follow the correct string formatting: 1. Verification Checks: Verifies the worksheet is tagged with a header row note and the targeted column has a skills tag. 2. String Scanning: Loop through cells in the skills column. Calls the validation helper: * Capitalizes all words in the skill name (e.g., pick pocket ➔ Pick Pocket). * Scans for the five core attributes: 💪, 🏃, 👁️, ✨, and 🫀. * Auto-Correction: If exactly one emoji is present, the script repositions the emoji to the end of the text string (e.g. Acrobatics🏃). * Resolution Prompt: If zero or multiple emojis are found, the script opens a dialog prompting the user to select the correct attribute index (1–5) and auto-corrects the cell.
+II. SkillSet Comma-Separated List Verification (fVerifySkillSetLists)
+Verifies that comma-separated lists of skills within the SkillSets worksheet are formatted correctly: 1. Target Validation: Halts early if the active worksheet is not SkillSets. Verifies tags: header (row), skillset (column), and skilllist (column). 2. List Split Scan: Splits the comma-separated strings in the skilllist column into individual skills. 3. Array Loop Correction: Feeds each split skill to fValidateAndCorrectSkillString() to format emojis and capitalization, re-combines the array into a clean comma-separated list (e.g. Athletics💪, Acrobatics🏃, Focus👁️), and updates the cell if modifications occurred.
+________________
+📐 Layout & Tag Schema Invariants
+Verification and search scripts rely on these specific tags in the worksheets: - Skills Sheet: Requires header (Row Tag) and skills (Column Tag). - SkillSets Sheet: Requires header (Row Tag), skillset (Column Tag), and skilllist (Column Tag).

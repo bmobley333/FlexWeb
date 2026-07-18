@@ -1,0 +1,6 @@
+,CheckBox,VerifyStatus,FailedReason ,Type,SubType,TableName,Usage,Action,AbilityName,Effect
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+Header,✔,Status,Failed Reason,Type,Sub-Type,Table Name,Usage,Action,Power's Name,Effect
+,FALSE,,,,,,,,,

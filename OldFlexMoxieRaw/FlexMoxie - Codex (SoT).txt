@@ -1,0 +1,71 @@
+﻿FlexMoxie - Codex: Character Command Center & Reference Database
+* File Name: FlexMoxie - Codex
+* Google Drive File ID: 1ynJmr4k_D5XrRNGcNSVsT4eX6EI8W08upWN-MvjTuzg
+* File Type: Google Spreadsheet (container-bound to Apps Script)
+________________
+🏛️ System Purpose & User Workflows
+The FlexMoxie - Codex is not a passive reference database. It functions as the Character Command Center—the primary administrative dashboard through which players and GMs manage their active character rosters, initialize new sheets from templates, rename sheets, and link custom campaign homebrew databases.
+________________
+📂 Worksheet Tab Index
+Tab Name
+	Mapped ID
+	Access Model
+	Role & System Purpose
+ 
+	Characters
+	0
+	Read/Write (Player)
+	Character Roster Ledger: Maps character names to active sheet IDs, engine versions, and rules document links. Serves as the database for the custom menus.
+	Custom Abilities
+	736149725
+	Read/Write (Player/GM)
+	Homebrew Registry: Registers campaign-specific custom worksheets by Google Drive file ID, enabling cross-sheet synchronization.
+	MyVersions
+	172898294
+	Read-Only (System)
+	Version Registry: Indexes version mapping for engine configurations, tracking version numbers, spreadsheet abbreviations, and Drive file IDs.
+	Data
+	222711573
+	Read/Write (System)
+	System Configuration: Caches metadata like the CodexID, folder IDs, and system state flags.
+	Hide>
+	1811955068
+	System Divider
+	Separator sheet used to format and hide background/system tabs from user view.
+	________________
+⚙️ Bound Script Entry Points (Codex/Code.js)
+The container-bound script Codex/Code.js acts as the local trigger dispatch layer. All processing is forwarded to the shared library FlexLib (Script ID: 1AbMUkJlwcCh3UtM37biAPz66D1Pmc0-qLn0PBh7tTnpFJjI1q_-fU2XS):
+1. Simple Trigger: onOpen()
+* Checks SCRIPT_INITIALIZED_KEY in PropertiesService.getScriptProperties().
+* If initialized, calls FlexLib.fCreateCodexMenu(). If the user is the administrator (metascapegame@gmail.com), it also appends FlexLib.fCreateDesignerMenu('Codex').
+* If not initialized, builds a placeholder menu prompting the player to click ▶️ Activate 💪FlexMoxie Menus.
+2. Interactive Setup: fActivateCodex()
+* Executes FlexLib.run('InitialSetup') to complete first-time authorization, writes the initialization flag, and displays a refresh alert prompt.
+3. Dispatch Methods to FlexLib:
+* Character Roster Actions:
+* fMenuCreateLatestCharacter ➔ Runs CreateLatestCharacter in Characters namespace.
+* fMenuCreateLegacyCharacter ➔ Runs CreateLegacyCharacter in Characters namespace.
+* fMenuRenameCharacter ➔ Runs RenameCharacter in Characters namespace.
+* fMenuDeleteCharacter ➔ Runs DeleteCharacter in Characters namespace.
+* Custom Abilities Actions:
+* fMenuCreateCustomList ➔ Runs CreateCustomList in Custom Abilities namespace.
+* fMenuRenameCustomList ➔ Runs RenameCustomList in Custom Abilities namespace.
+* fMenuDeleteCustomList ➔ Runs DeleteCustomList in Custom Abilities namespace.
+* fMenuShareCustomLists ➔ Runs ShareCustomLists in Custom Abilities namespace.
+* fMenuAddNewCustomSource ➔ Runs AddNewCustomSource in Custom Abilities namespace.
+________________
+🔀 Core Logic Workflows (Codebase Analysis)
+I. Character Creation Workflow (fCreateNewCharacterSheet)
+Executed when a player clicks "Create New" character from the menu: 1. Template Retrieval: Queries MyVersions to locate the verified local template file (CS) and destination folder (characterfolderid). 2. Copying & Linking: Duplicates the CS template, retrieves its Spreadsheet object, and runs fEmbedCodexId() to write the Codex's file ID into the new character sheet's Data tab. 3. Naming Guard: Prompts the user for a character name, formats it as v[Version] [Name], and renames the file in Google Drive. 4. Roster Logging: Inserts a row in the Characters tab. Column A gets the checkbox, Column B gets the character name as a rich-text hyperlink pointing to the character sheet file, and Column E gets a hyperlink pointing to the rules document. 5. Onboarding Initialization: On first open, the new sheet triggers fCharacterOnboarding(), checking all core "DB" checkboxes on Filter Powers, Filter Magic Items, and Filter Skill Sets to initialize character stats.
+II. Character Renaming Workflow (fRenameCharacter)
+1. Selection Check: Scans Characters tab rows for a row with checkbox === true. If zero or multiple rows are checked, throws an alert.
+2. Rename Prompter: Opens an input prompt showing the current name and requests a new one.
+3. Sanitization: Trims out legacy prefixes, appends the version (e.g. v3 [Cleaned Name]), updates the Google Drive file name, and overwrites the rich-text link in the Characters tab.
+III. Character Deletion Workflow (fDeleteCharacter)
+1. Roster Search: Locates all selected characters via checkboxes.
+2. Double-Safety Prompter: Opens a popup. If one character is selected, requires typing DELETE to confirm. If multiple are selected, requires typing DELETE ALL to confirm.
+3. Trashing: Moves files to the Google Drive Trash (file.setTrashed(true)).
+4. Row Cleanup: Removes character rows from the Characters table in reverse index order (to avoid index shift) using fDeleteTableRow() helper to preserve formatting.
+________________
+📐 Layout & Tag Schema Invariants
+To prevent script crashes, the Characters worksheet tab must strictly maintain the following schema header tags in Row 2 or 3 (Header row): * header (Row Tag): Demarcates the boundary between metadata/settings and tabular character data. * Column Tags (Column A Note / A1 Tag): * checkbox ➔ Checkbox column for selection. * charname ➔ Hyperlinked character name text range. * csid ➔ Hidden/visible character sheet ID column. * version ➔ Character version identifier column. * rules ➔ Rules document link column.

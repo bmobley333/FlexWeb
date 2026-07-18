@@ -1,0 +1,47 @@
+﻿FlexMoxie - Version Tracker: Master Version Registry & Self-Healing Anchor
+* File Name: FlexMoxie - Version Tracker
+* Google Drive File ID: 1cNpFLiUDWP6VjPwulFfbsimk81NqW7OfnsNQiiuUqcw
+* File Type: Google Spreadsheet (container-bound to Apps Script)
+________________
+🏛️ System Purpose & User Workflows
+The FlexMoxie - Version Tracker is the master version registry and self-healing anchor. It houses the definitive directory map of all original master template file IDs (spreadsheets and documents) for each version of the game engine. It serves as the developer's upgrade manager and the system's recovery database. When a player initializes their campaign or when a core local file (such as the Character Sheet template CS or Rules document) is accidentally deleted, the system queries the Version Tracker to resolve the original master ID and clone a fresh, self-healed copy.
+________________
+📂 Worksheet Tab Index
+Tab Name
+	Mapped ID
+	Access Model
+	Role & System Purpose
+ 
+	Versions
+	661602365
+	Read-Only (System)
+	Master Versions Database: Stores the definitive record of master file IDs for each version, mapping versions and abbreviations to Drive file IDs.
+	Hide>
+	230973571
+	System Divider
+	Separator sheet used to format and hide system tabs.
+	Data
+	1493063006
+	Read/Write (System)
+	System Configuration: Caches metadata like the CodexID and folder IDs.
+	________________
+⚙️ Bound Script Entry Points (Ver/Code.js)
+The Version Tracker script Ver/Code.js dispatches events to FlexLib:
+1. Simple Trigger: onOpen()
+* Automatically builds the Designer Menu: FlexLib.fCreateDesignerMenu('Ver') when the sheet is loaded.
+2. Custom Menu Dispatches:
+* Designer Utility Menu Hooks:
+* fMenuTrimSheet ➔ Runs TrimSheet (deletes empty space outside table cells).
+* fMenuTagVerification ➔ Runs TagVerification (verifies header and coordinate tags).
+* fMenuToggleVisibility ➔ Runs ToggleVisibility (toggles hidden sheets).
+* fMenuApplyVisualIsolation ➔ Runs ApplyVisualIsolation (freezes and formats layouts).
+* fMenuTest ➔ Runs the debug test hook.
+________________
+🔀 Core Logic Workflows (Codebase Analysis)
+I. Master File ID Resolution (fGetMasterSheetId)
+Used by the system to locate the original master templates: 1. Master Sheet Connection: Connects directly to the Version Tracker spreadsheet using g.MASTER_VER_ID (1cNpFLiUDWP6VjPwulFfbsimk81NqW7OfnsNQiiuUqcw). 2. Tab Ingestion: Reads the Versions worksheet tab and loads the row data using fGetSheetData(). 3. Database Query: Searches the rows for a matching version (e.g. 1.0) and spreadsheet abbreviation ssAbbr (e.g. CS, Tbls, DB, Cust, Rules). 4. Output: Returns the exact Google Drive file ID of the master template.
+II. Core File Self-Healing Workflow (fGetVerifiedLocalFile)
+If a player's local character sheet template (CS) or custom rules file goes missing or is deleted in Drive: 1. API Probe: Attempts to retrieve the file via DriveApp.getFileById() using the cached ID in their local MyVersions sheet. 2. Trigger Recovery: If the lookup fails (throws an exception), catches the error and initiates recovery: * Locates the player's local Master Copies subfolder. * Resolves the original master template ID from the Version Tracker using fGetMasterSheetId(). * Clones a new master template file copy named v[Version] MASTER_[ssAbbr] into the player's Master Copies folder. * Overwrites the old broken file ID with the new file ID in the player's MyVersions tab in their Codex. * Reloads the local version cache. 3. Link Repair: If the recovered file is a Rules document, it automatically calls fUpdateCharacterRulesLinks() to update rules URLs across all character rows in the Codex's Characters tab.
+________________
+📐 Layout & Tag Schema Invariants
+The Versions worksheet tab must strictly maintain the following schema tags: - Row Tags: header (Row Tag). - Column Tags: - version ➔ The engine version number (e.g. 1.0). - ssabbr ➔ The spreadsheet abbreviation (e.g. CS, Tbls, DB, Cust, Rules). - ssid ➔ The Google Drive file ID of the master template. - ssfullname ➔ Description of the template.
