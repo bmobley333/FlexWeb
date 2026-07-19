@@ -737,7 +737,7 @@ def main():
             st.markdown('</div>', unsafe_allow_html=True)
 
         with col_t2:
-            st.markdown("#### 💖 Health, Money & Movement")
+            st.markdown("#### 📊 Level, Money & Movement")
             st.markdown('<div class="inline-inputs">', unsafe_allow_html=True)
             col_sub3, col_sub4 = st.columns(2)
             with col_sub3:
@@ -754,15 +754,6 @@ def main():
                 new_mr_armored = st.text_input("Armored", value=vitals.get("mr_armored") or "")
             with col_mr2:
                 new_mr_shield = st.text_input("Shield", value=vitals.get("mr_shield") or "")
-
-            st.write("**Vitality Points (HP) & Wounds**")
-            col_v1, col_v2, col_v3 = st.columns(3)
-            with col_v1:
-                new_max_hp = st.number_input("Max 💖", min_value=1, max_value=200, value=int(char_state.get("hp", 10)), help=VIT_NOTE)
-            with col_v2:
-                new_current_hp = st.number_input("Current 💖", min_value=0, max_value=200, value=int(vitals.get("current_hp", 10)))
-            with col_v3:
-                new_wounds = st.number_input("Wounds 🩸", min_value=0, value=int(vitals.get("wounds", 0)), help=WNDS_NOTE)
 
 
         st.markdown("---")
@@ -901,8 +892,11 @@ def main():
         with col_mid2:
             st.markdown('<div class="inline-inputs">', unsafe_allow_html=True)
             
-            st.markdown("#### 🧥 Armor")
-            arm_name = st.text_input("Name", value=armor_shield.get("armor_name", ""), key="arm_name_input")
+            col_arm1, col_arm2 = st.columns([3, 7], vertical_alignment="center")
+            with col_arm1:
+                st.markdown("#### 🧥 Armor")
+            with col_arm2:
+                arm_name = st.text_input("Name", value=armor_shield.get("armor_name", ""), key="arm_name_input")
             
             arm_ratings = ["4", "6", "8", "10", "12"]
             current_block = armor_shield.get("block_active")
@@ -923,15 +917,30 @@ def main():
             with col_a3:
                 arm_ar = st.selectbox("AR🧥", arm_ratings, index=arm_ratings.index(current_ar), key="arm_ar_select")
                 
-            st.markdown("#### 🛡️ Shield")
-            
-            col_sh1, col_sh2, col_sh3 = st.columns([1.2, 4.8, 4.0], vertical_alignment="center")
-            with col_sh1:
-                sh_sk = st.checkbox("Sk", value=armor_shield.get("shield_sk", False), key="sh_sk_checkbox")
-            with col_sh2:
+            col_sh_hdr1, col_sh_hdr2 = st.columns([3, 7], vertical_alignment="center")
+            with col_sh_hdr1:
+                st.markdown("#### 🛡️ Shield")
+            with col_sh_hdr2:
                 sh_name = st.text_input("Name", value=armor_shield.get("shield_name", ""), key="sh_name_input")
-            with col_sh3:
+            
+            col_sh_sub1, col_sh_sub2 = st.columns([3, 7], vertical_alignment="center")
+            with col_sh_sub1:
+                sh_sk = st.checkbox("Sk", value=armor_shield.get("shield_sk", False), key="sh_sk_checkbox")
+            with col_sh_sub2:
                 sh_max_block = st.text_input("Max Block🛡️", value=armor_shield.get("shield_max_block", ""), key="sh_max_block_input")
+                
+            col_vit_hdr1, col_vit_hdr2 = st.columns([3, 7], vertical_alignment="center")
+            with col_vit_hdr1:
+                st.markdown("#### ❤️Vitality")
+            with col_vit_hdr2:
+                new_max_hp = st.number_input("Max 💖", min_value=1, max_value=200, value=int(char_state.get("hp", 10)), help=VIT_NOTE)
+            col_v1, col_v2 = st.columns(2)
+            with col_v1:
+                new_wounds = st.number_input("Wounds 🩸", min_value=0, value=int(vitals.get("wounds", 0)), help=WNDS_NOTE)
+            with col_v2:
+                current_val_num = int(new_max_hp) - int(new_wounds)
+                st.text_input("Current 💖", value=str(current_val_num), disabled=True)
+                new_current_hp = current_val_num
                 
             st.markdown('</div>', unsafe_allow_html=True)
             
