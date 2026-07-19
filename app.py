@@ -916,9 +916,9 @@ def main():
                 
             col_a1, col_a2, col_a3 = st.columns([1, 1, 1], vertical_alignment="center")
             with col_a1:
-                st.text_input("Block💪", value=block_act, disabled=True, key="arm_block_input")
+                st.text_input("Block💪", value=block_act, disabled=True)
             with col_a2:
-                st.text_input("Dodge🏃", value=dodge_act, disabled=True, key="arm_dodge_input")
+                st.text_input("Dodge🏃", value=dodge_act, disabled=True)
             with col_a3:
                 arm_ar = st.selectbox("AR🧥", arm_ratings, index=arm_ratings.index(current_ar), key="arm_ar_select")
                 
