@@ -97,6 +97,9 @@ def main():
     # Render logo at top of left sidebar
     st.sidebar.image("logo.png")
     
+    # Flex Rules Button
+    st.sidebar.link_button("Flex Rules 📜", "https://bmobley333.github.io/MetaScape-VitePress-GitHub-Pages/player-guide/moxie/rules.html", use_container_width=True)
+    
     # Master Zoom UI Scale control
     zoom_level = st.sidebar.slider("UI Zoom Scale 🔍", min_value=0.75, max_value=1.25, value=1.0, step=0.05, key="master_zoom_slider")
     st.markdown(f"""
@@ -398,6 +401,9 @@ def main():
             del st.session_state.player_last
         st.rerun()
 
+    # Container for tight vertical list of attributes
+    attr_container = st.sidebar.container()
+
     st.sidebar.markdown("---")
     st.sidebar.subheader("👤 Your Characters")
     
@@ -447,6 +453,50 @@ def main():
     player_name = selected_char_name
     char_state = repo.get_character(player_name)
     
+    # Render sidebar attributes in the container created above
+    if char_state:
+        def extract_die_num(die_str):
+            if not die_str:
+                return "4"
+            num = "".join(c for c in str(die_str) if c.isdigit())
+            return num if num else "4"
+
+        might_num = extract_die_num(st.session_state.get("sb_might", char_state.get("might", "d4")))
+        motion_num = extract_die_num(st.session_state.get("sb_motion", char_state.get("motion", "d4")))
+        mind_num = extract_die_num(st.session_state.get("sb_mind", char_state.get("mind", "d4")))
+        magic_num = extract_die_num(st.session_state.get("sb_magic", char_state.get("magic", "d4")))
+        moxie_num = extract_die_num(st.session_state.get("sb_moxie", char_state.get("moxie", "d4")))
+
+        attr_container.markdown(f"""
+            <div style="margin-top: 10px; margin-bottom: 10px; font-family: 'Outfit', 'Inter', sans-serif; font-size: 1.45rem; line-height: 1.5;">
+              <div style="display: flex; align-items: center; gap: 8px; justify-content: flex-start; padding: 2px 0; color: #FFFFFF;">
+                <span style="font-weight: 600; min-width: 80px;">Might</span>
+                <span>💪</span>
+                <span style="font-weight: 700; margin-left: 4px;">{might_num}</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px; justify-content: flex-start; padding: 2px 0; color: #FFFFFF;">
+                <span style="font-weight: 600; min-width: 80px;">Motion</span>
+                <span>🏃</span>
+                <span style="font-weight: 700; margin-left: 4px;">{motion_num}</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px; justify-content: flex-start; padding: 2px 0; color: #FFFFFF;">
+                <span style="font-weight: 600; min-width: 80px;">Mind</span>
+                <span>👁️</span>
+                <span style="font-weight: 700; margin-left: 4px;">{mind_num}</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px; justify-content: flex-start; padding: 2px 0; color: #FFFFFF;">
+                <span style="font-weight: 600; min-width: 80px;">Magic</span>
+                <span>✨</span>
+                <span style="font-weight: 700; margin-left: 4px;">{magic_num}</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px; justify-content: flex-start; padding: 2px 0; color: #FFFFFF;">
+                <span style="font-weight: 600; min-width: 80px;">Moxie</span>
+                <span>🫀</span>
+                <span style="font-weight: 700; margin-left: 4px;">{moxie_num}</span>
+              </div>
+            </div>
+        """, unsafe_allow_html=True)
+    
     # Load dynamic options from Supabase
     powers = repo.get_all_powers()
     magic_items = repo.get_all_magic_items()
@@ -464,11 +514,10 @@ def main():
     all_possible_skills = sorted(list(all_possible_skills))
 
     # --- 4. Main Dashboard Tabs ---
-    tab_char, tab_rolls, tab_build, tab_inv, tab_rules, tab_codex, tab_sharing = st.tabs([
+    tab_char, tab_rolls, tab_build, tab_rules, tab_codex, tab_sharing = st.tabs([
         "🛡️ Character Sheet", 
         "🎲 Action Console", 
         "⚙️ Build Customizer",
-        "🧰 Inventory Editor",
         "📜 Adventure Logs",
         "📖 Codex Search",
         "👥 Player Directory"
@@ -1389,65 +1438,32 @@ def main():
                     
         st.markdown("</div>", unsafe_allow_html=True)
 
-    # --- TAB 4: INVENTORY GRID EDITOR ---
-    with tab_inv:
-        
-        # Load inventory
-        raw_inventory = char_state.get("inventory", [])
-        if not raw_inventory:
-            raw_inventory = [{"Item Name": "", "Weight (lbs)": 0.0, "Quantity": 1}]
-            
-        df_inv = pd.DataFrame(raw_inventory)
-        
-        # Grid columns configuration
-        edited_df = st.data_editor(
-            df_inv,
-            num_rows="dynamic",
-            column_config={
-                "Item Name": st.column_config.TextColumn("Item Name", width="medium"),
-                "Weight (lbs)": st.column_config.NumberColumn("Weight (lbs)", min_value=0.0, max_value=200.0, format="%.2f"),
-                "Quantity": st.column_config.NumberColumn("Quantity", min_value=0, max_value=100)
-            },
-            use_container_width=True
-        )
-        
-        # Auto-calculate encumbrance weight
-        edited_list = edited_df.to_dict("records")
-        total_weight = GameEngine.calculate_encumbrance(edited_list)
-        
-        # Clean up empty rows
-        cleaned_inv = [item for item in edited_list if item.get("Item Name")]
-        
-        # Compare cleaned inventory with raw inventory to see if they differ
-        raw_cleaned = [item for item in raw_inventory if item.get("Item Name")]
-        
-        if cleaned_inv != raw_cleaned:
-            if repo.save_character(player_name, {"inventory": cleaned_inv}):
-                st.toast("⚡ Inventory saved automatically!")
-                st.rerun()
-            else:
-                st.error("⚠️ Failed to auto-save inventory.")
-                
-        st.metric("Total Weight Encumbrance (lbs)", f"{total_weight} lbs")
     # --- TAB 4: ADVENTURE & ACTION LOGS ---
     with tab_rules:
+        st.subheader("📝 General Notes")
         
-        col_log_h, col_log_btn = st.columns([4, 1])
-        with col_log_h:
-            st.subheader("Scrolling Action Log")
-        with col_log_btn:
-            if st.button("Clear Log 🧹"):
-                # Rollback/Confirmation done via explicit state change or rerun
-                if repo.save_character(player_name, {"log": []}):
-                    st.success("Adventure logs cleared!")
-                    st.rerun()
-                    
-        logs = char_state.get("log", [])
-        if not logs:
-            st.info("No logs recorded yet. Roll some dice in the Action Console!")
-        else:
-            for log_entry in reversed(logs):
-                st.text(log_entry)
+        # Load notes
+        current_general_notes = char_state.get("sheet_data", {}).get("general_notes") or ""
+        
+        new_gen_notes = st.text_area(
+            "General Notes",
+            value=current_general_notes,
+            height=400,
+            label_visibility="collapsed",
+            key="general_notes_textarea"
+        )
+        
+        if new_gen_notes != current_general_notes:
+            if "sheet_data" not in char_state:
+                char_state["sheet_data"] = repo.get_default_sheet_data()
+            char_state["sheet_data"]["general_notes"] = new_gen_notes
+            
+            # Save character
+            if repo.save_character(player_name, char_state):
+                st.toast("⚡ Notes saved automatically!")
+                st.rerun()
+            else:
+                st.error("⚠️ Failed to auto-save notes.")
     # --- TAB 5: CODEX SEARCH ---
     with tab_codex:
         
