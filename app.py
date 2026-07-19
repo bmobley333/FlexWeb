@@ -1078,23 +1078,43 @@ def main():
                 col_p1, col_p2, col_p3, col_p4, col_p5 = st.columns([2.2, 0.7, 1.2, 5.1, 0.8])
                 with col_p1:
                     current_name = slot.get("name") or " "
+                    db_preset_names = [p.get("name") for p in filtered_powers_list if p.get("name")]
                     
-                    # Construct preset options list showing short name for current selection and dropdown fields for other choices
-                    preset_options = [current_name]
-                    if current_name != " ":
-                        preset_options.append(" ")
-                    for p in filtered_powers_list:
-                        p_drop = p.get("dropdown")
-                        p_name = p.get("name")
-                        if p_name and p_name != current_name:
-                            val = p_drop or p_name
-                            if val not in preset_options:
-                                preset_options.append(val)
+                    is_custom = False
+                    if current_name.strip() != "":
+                        if current_name not in db_preset_names:
+                            is_custom = True
                             
-                    p_name_sel = st.selectbox("Preset", preset_options, index=preset_options.index(current_name), key=f"p_name_sel_{i}", label_visibility="collapsed")
+                    preset_options = [current_name] if current_name.strip() != "" else []
+                    preset_options.append(" ")
+                    preset_options.append("📝 Custom / Write-in")
+                    
+                    # Add db presets
+                    for p in filtered_powers_list:
+                        p_drop = p.get("dropdown") or p.get("name")
+                        if p_drop and p_drop not in preset_options:
+                            preset_options.append(p_drop)
+                            
+                    sel_index_name = current_name
+                    if is_custom:
+                        sel_index_name = "📝 Custom / Write-in"
+                        if "📝 Custom / Write-in" not in preset_options:
+                            preset_options.insert(0, "📝 Custom / Write-in")
+                            
+                    p_name_sel = st.selectbox("Preset", preset_options, index=preset_options.index(sel_index_name) if sel_index_name in preset_options else 0, key=f"p_name_sel_{i}", label_visibility="collapsed")
+                    
+                    slot_name = p_name_sel
+                    if p_name_sel == "📝 Custom / Write-in":
+                        init_val = current_name if is_custom else ""
+                        p_custom_name = st.text_input("Custom Name", value=init_val, key=f"p_custom_name_{i}", label_visibility="collapsed", placeholder="Type custom name...")
+                        slot_name = p_custom_name
                 
                 # Preset changed trigger
-                if p_name_sel != current_name:
+                is_real_preset_change = (p_name_sel != current_name)
+                if is_custom and p_name_sel == "📝 Custom / Write-in":
+                    is_real_preset_change = False
+                    
+                if is_real_preset_change:
                     new_slot = GameEngine.update_power_or_item_slot(slot, p_name_sel if p_name_sel.strip() != "" else "", powers)
                     powers_slots[i] = new_slot
                     sheet_data["powers"] = powers_slots
@@ -1172,7 +1192,7 @@ def main():
                     
                 updated_powers_slots.append({
                     "select": slot.get("select", False),
-                    "name": p_name_sel if p_name_sel.strip() != "" else slot.get("name", ""),
+                    "name": slot_name if slot_name.strip() != "" else slot.get("name", ""),
                     "action": p_act,
                     "usage": p_use,
                     "effect": p_eff,
@@ -1256,11 +1276,43 @@ def main():
                 col_m1, col_m2, col_m3, col_m4, col_m5 = st.columns([2.2, 0.7, 1.2, 5.1, 0.8])
                 with col_m1:
                     current_name = slot.get("name") or " "
-                    preset_options = [current_name] + item_names if current_name not in item_names else item_names
-                    m_name_sel = st.selectbox("Preset", preset_options, index=preset_options.index(current_name), key=f"m_name_sel_{i}", label_visibility="collapsed")
+                    db_preset_names = [m.get("name") for m in magic_items if m.get("name")]
+                    
+                    is_custom = False
+                    if current_name.strip() != "":
+                        if current_name not in db_preset_names:
+                            is_custom = True
+                            
+                    preset_options = [current_name] if current_name.strip() != "" else []
+                    preset_options.append(" ")
+                    preset_options.append("📝 Custom / Write-in")
+                    
+                    # Add db presets
+                    for m in magic_items:
+                        m_drop = m.get("dropdown") or m.get("name")
+                        if m_drop and m_drop not in preset_options:
+                            preset_options.append(m_drop)
+                            
+                    sel_index_name = current_name
+                    if is_custom:
+                        sel_index_name = "📝 Custom / Write-in"
+                        if "📝 Custom / Write-in" not in preset_options:
+                            preset_options.insert(0, "📝 Custom / Write-in")
+                            
+                    m_name_sel = st.selectbox("Preset", preset_options, index=preset_options.index(sel_index_name) if sel_index_name in preset_options else 0, key=f"m_name_sel_{i}", label_visibility="collapsed")
+                    
+                    slot_name_item = m_name_sel
+                    if m_name_sel == "📝 Custom / Write-in":
+                        init_val = current_name if is_custom else ""
+                        m_custom_name = st.text_input("Custom Name", value=init_val, key=f"m_custom_name_{i}", label_visibility="collapsed", placeholder="Type custom name...")
+                        slot_name_item = m_custom_name
                 
                 # Preset changed trigger
-                if m_name_sel != current_name:
+                is_real_preset_change = (m_name_sel != current_name)
+                if is_custom and m_name_sel == "📝 Custom / Write-in":
+                    is_real_preset_change = False
+                    
+                if is_real_preset_change:
                     new_slot = GameEngine.update_power_or_item_slot(slot, m_name_sel if m_name_sel.strip() != "" else "", magic_items)
                     magic_items_slots[i] = new_slot
                     sheet_data["magic_items"] = magic_items_slots
@@ -1338,7 +1390,7 @@ def main():
                     
                 updated_items_slots.append({
                     "select": slot.get("select", False),
-                    "name": m_name_sel if m_name_sel.strip() != "" else slot.get("name", ""),
+                    "name": slot_name_item if slot_name_item.strip() != "" else slot.get("name", ""),
                     "action": m_act,
                     "usage": m_use,
                     "effect": m_eff,
