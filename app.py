@@ -86,6 +86,69 @@ def rebuild_skilled_at_attributes(known_skillsets, skillsets):
         
     return skilled_at
 
+def get_current_slots(slots, prefix):
+    current = []
+    for i, slot in enumerate(slots):
+        name = st.session_state.get(f"{prefix}_name_sel_{i}", slot.get("name", ""))
+        action = st.session_state.get(f"{prefix}_act_{i}", slot.get("action", ""))
+        usage = st.session_state.get(f"{prefix}_use_{i}", slot.get("usage", ""))
+        effect = st.session_state.get(f"{prefix}_eff_{i}", slot.get("effect", ""))
+        current.append({
+            "select": slot.get("select", False),
+            "name": name,
+            "action": action,
+            "usage": usage,
+            "effect": effect
+        })
+    return current
+
+def sort_slots(slots, prefix):
+    current_slots = get_current_slots(slots, prefix)
+    
+    # Filter out empty slots
+    non_empty = []
+    for s in current_slots:
+        name_val = (s.get("name") or "").strip()
+        act_val = (s.get("action") or "").strip()
+        use_val = (s.get("usage") or "").strip()
+        eff_val = (s.get("effect") or "").strip()
+        if name_val or act_val or use_val or eff_val:
+            non_empty.append(s)
+            
+    def get_action_order(action_str):
+        if not action_str or action_str.strip() == "":
+            return 6
+        act_upper = action_str.strip().upper()
+        if act_upper == "AM":
+            return 0
+        elif act_upper == "A":
+            return 1
+        elif act_upper == "M":
+            return 2
+        elif act_upper == "P":
+            return 3
+        elif act_upper == "F":
+            return 4
+        else:
+            return 5
+            
+    sorted_non_empty = sorted(non_empty, key=lambda s: (get_action_order(s.get("action", "")), (s.get("name") or "").strip().lower()))
+    
+    grouped_slots = []
+    last_order = None
+    for s in sorted_non_empty:
+        curr_order = get_action_order(s.get("action", ""))
+        if last_order is not None and curr_order != last_order:
+            # Leave one blank row
+            grouped_slots.append({"select": False, "name": " ", "action": "", "usage": "", "effect": ""})
+        grouped_slots.append(s)
+        last_order = curr_order
+        
+    while len(grouped_slots) < 1:
+        grouped_slots.append({"select": False, "name": " ", "action": "", "usage": "", "effect": ""})
+        
+    return grouped_slots
+
 def main():
 
     if "dialog_to_show" in st.session_state:
@@ -895,7 +958,61 @@ def main():
         
         with col_bot1:
             st.markdown('<div class="compact-tables">', unsafe_allow_html=True)
-            st.markdown("#### ⚡ Powers")
+            col_p_title, col_p_sort = st.columns([8.5, 1.5], vertical_alignment="center")
+            with col_p_title:
+                st.markdown("#### ⚡ Powers")
+            with col_p_sort:
+                if st.button("⇅", key="sort_powers_btn", help="Sort Powers by Action and Name", use_container_width=True):
+                    sorted_powers = sort_slots(powers_slots, "p")
+                    current_items = get_current_slots(magic_items_slots, "m")
+                    sheet_data["powers"] = sorted_powers
+                    sheet_data["magic_items"] = current_items
+                    sheet_data["weapons"] = updated_weapons
+                    sheet_data["traits"] = {
+                        "positive_trait": new_pos_trait,
+                        "negative_trait": new_neg_trait,
+                        "flair": new_flair,
+                        "adventuring_goal": new_goal,
+                        "appearance": new_appearance,
+                        "hgt_wgt_age": new_hgt_wgt_age
+                    }
+                    sheet_data["money"] = {"gold": int(new_gold), "silver": int(new_silver)}
+                    sheet_data["armor_shield"] = new_armor_shield
+                    sheet_data["notes"] = new_notes
+                    sheet_data["vitals"] = {
+                        "level": int(new_level),
+                        "max_hp": int(new_max_hp),
+                        "current_hp": int(new_current_hp),
+                        "wounds": int(new_wounds),
+                        "mr_base": int(new_mr_base),
+                        "mr_armored": new_mr_armored,
+                        "mr_shield": new_mr_shield
+                    }
+                    
+                    for idx, s in enumerate(sorted_powers):
+                        st.session_state[f"p_name_sel_{idx}"] = s.get("name", " ")
+                        st.session_state[f"p_act_{idx}"] = s.get("action", "")
+                        st.session_state[f"p_use_{idx}"] = s.get("usage", "")
+                        st.session_state[f"p_eff_{idx}"] = s.get("effect", "")
+                        
+                    for idx in range(len(sorted_powers), len(powers_slots)):
+                        for prefix in ["p_name_sel", "p_act", "p_use", "p_eff"]:
+                            key = f"{prefix}_{idx}"
+                            if key in st.session_state:
+                                del st.session_state[key]
+                                
+                    repo.save_character(player_name, {
+                        "hp": int(new_max_hp),
+                        "might": new_might,
+                        "motion": new_motion,
+                        "mind": new_mind,
+                        "magic": new_magic,
+                        "moxie": new_moxie,
+                        "skills": new_skills,
+                        "sheet_data": sheet_data
+                    })
+                    st.toast("⚡ Sorted Powers by Action then Name!")
+                    st.rerun()
             col_p_h1, col_p_h2, col_p_h3, col_p_h4, col_p_h5 = st.columns([2.2, 0.7, 1.2, 5.1, 0.8])
             with col_p_h1:
                 st.write("**Power Preset Selection**")
@@ -1007,7 +1124,61 @@ def main():
 
         with col_bot2:
             st.markdown('<div class="compact-tables">', unsafe_allow_html=True)
-            st.markdown("#### ✨ Magic Items")
+            col_m_title, col_m_sort = st.columns([8.5, 1.5], vertical_alignment="center")
+            with col_m_title:
+                st.markdown("#### ✨ Magic Items")
+            with col_m_sort:
+                if st.button("⇅", key="sort_items_btn", help="Sort Magic Items by Action and Name", use_container_width=True):
+                    sorted_items = sort_slots(magic_items_slots, "m")
+                    current_powers = get_current_slots(powers_slots, "p")
+                    sheet_data["magic_items"] = sorted_items
+                    sheet_data["powers"] = current_powers
+                    sheet_data["weapons"] = updated_weapons
+                    sheet_data["traits"] = {
+                        "positive_trait": new_pos_trait,
+                        "negative_trait": new_neg_trait,
+                        "flair": new_flair,
+                        "adventuring_goal": new_goal,
+                        "appearance": new_appearance,
+                        "hgt_wgt_age": new_hgt_wgt_age
+                    }
+                    sheet_data["money"] = {"gold": int(new_gold), "silver": int(new_silver)}
+                    sheet_data["armor_shield"] = new_armor_shield
+                    sheet_data["notes"] = new_notes
+                    sheet_data["vitals"] = {
+                        "level": int(new_level),
+                        "max_hp": int(new_max_hp),
+                        "current_hp": int(new_current_hp),
+                        "wounds": int(new_wounds),
+                        "mr_base": int(new_mr_base),
+                        "mr_armored": new_mr_armored,
+                        "mr_shield": new_mr_shield
+                    }
+                    
+                    for idx, s in enumerate(sorted_items):
+                        st.session_state[f"m_name_sel_{idx}"] = s.get("name", " ")
+                        st.session_state[f"m_act_{idx}"] = s.get("action", "")
+                        st.session_state[f"m_use_{idx}"] = s.get("usage", "")
+                        st.session_state[f"m_eff_{idx}"] = s.get("effect", "")
+                        
+                    for idx in range(len(sorted_items), len(magic_items_slots)):
+                        for prefix in ["m_name_sel", "m_act", "m_use", "m_eff"]:
+                            key = f"{prefix}_{idx}"
+                            if key in st.session_state:
+                                del st.session_state[key]
+                                
+                    repo.save_character(player_name, {
+                        "hp": int(new_max_hp),
+                        "might": new_might,
+                        "motion": new_motion,
+                        "mind": new_mind,
+                        "magic": new_magic,
+                        "moxie": new_moxie,
+                        "skills": new_skills,
+                        "sheet_data": sheet_data
+                    })
+                    st.toast("✨ Sorted Magic Items by Action then Name!")
+                    st.rerun()
             col_m_h1, col_m_h2, col_m_h3, col_m_h4, col_m_h5 = st.columns([2.2, 0.7, 1.2, 5.1, 0.8])
             with col_m_h1:
                 st.write("**Item Preset Selection**")
