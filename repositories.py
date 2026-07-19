@@ -40,19 +40,9 @@ class GameRepository:
             "powers": [
                 {"select": False, "usage": "", "action": "", "name": "", "effect": ""},
                 {"select": False, "usage": "", "action": "", "name": "", "effect": ""},
-                {"select": False, "usage": "", "action": "", "name": "", "effect": ""},
-                {"select": False, "usage": "", "action": "", "name": "", "effect": ""},
-                {"select": False, "usage": "", "action": "", "name": "", "effect": ""},
-                {"select": False, "usage": "", "action": "", "name": "", "effect": ""},
-                {"select": False, "usage": "", "action": "", "name": "", "effect": ""},
-                {"select": False, "usage": "", "action": "", "name": "", "effect": ""},
-                {"select": False, "usage": "", "action": "", "name": "", "effect": ""},
                 {"select": False, "usage": "", "action": "", "name": "", "effect": ""}
             ],
             "magic_items": [
-                {"select": False, "usage": "", "action": "", "name": "", "effect": ""},
-                {"select": False, "usage": "", "action": "", "name": "", "effect": ""},
-                {"select": False, "usage": "", "action": "", "name": "", "effect": ""},
                 {"select": False, "usage": "", "action": "", "name": "", "effect": ""},
                 {"select": False, "usage": "", "action": "", "name": "", "effect": ""}
             ],

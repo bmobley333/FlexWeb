@@ -20,6 +20,12 @@ def show_error_dialog(message):
             del st.session_state.dialog_to_show
         st.rerun()
 
+@st.dialog("⚠️ Row Not Empty")
+def show_not_empty_warning(table_type):
+    st.markdown(f"The last row of the **{table_type}** table is not empty. It cannot be deleted until its contents are cleared.")
+    if st.button("OK", key="not_empty_ok_btn", use_container_width=True):
+        st.rerun()
+
 # Configure widescreen layout
 st.set_page_config(
     page_title="FlexWeb Playtest Console",
@@ -242,6 +248,48 @@ def main():
             white-space: normal !important;
             overflow: visible !important;
             word-break: break-word !important;
+        }
+
+        /* Scoped style for compact wrapped textareas in Effect Description column */
+        .compact-tables div[data-testid="stColumn"]:nth-child(4) textarea {
+            field-sizing: content !important;
+            min-height: 38px !important;
+            max-height: 250px !important;
+            height: auto !important;
+            padding-top: 6px !important;
+            padding-bottom: 6px !important;
+            line-height: 1.3 !important;
+            font-size: 0.9rem !important;
+            resize: none !important;
+            overflow-y: auto !important;
+        }
+
+        /* Scoped style for action column Add button (green border/text) */
+        .compact-tables div[data-testid="stColumn"]:nth-child(5) div[data-testid="stHorizontalBlock"] div[data-testid="stColumn"]:nth-child(1) button {
+            border-color: #28a745 !important;
+            color: #28a745 !important;
+            background-color: transparent !important;
+            height: 38px !important;
+            padding: 0px !important;
+        }
+        .compact-tables div[data-testid="stColumn"]:nth-child(5) div[data-testid="stHorizontalBlock"] div[data-testid="stColumn"]:nth-child(1) button:hover {
+            background-color: rgba(40, 167, 69, 0.15) !important;
+            color: #28a745 !important;
+            border-color: #28a745 !important;
+        }
+
+        /* Scoped style for action column Remove button (red border/text) */
+        .compact-tables div[data-testid="stColumn"]:nth-child(5) div[data-testid="stHorizontalBlock"] div[data-testid="stColumn"]:nth-child(2) button {
+            border-color: #dc3545 !important;
+            color: #dc3545 !important;
+            background-color: transparent !important;
+            height: 38px !important;
+            padding: 0px !important;
+        }
+        .compact-tables div[data-testid="stColumn"]:nth-child(5) div[data-testid="stHorizontalBlock"] div[data-testid="stColumn"]:nth-child(2) button:hover {
+            background-color: rgba(220, 53, 69, 0.15) !important;
+            color: #dc3545 !important;
+            border-color: #dc3545 !important;
         }
         </style>
     """, unsafe_allow_html=True)
@@ -516,9 +564,9 @@ def main():
         # Self-healing pad arrays
         while len(weapons) < 5:
             weapons.append({"sk": False, "m_h_s": "M", "name": "", "atk": "", "dmg": "", "max_block": ""})
-        while len(powers_slots) < 10:
+        while len(powers_slots) < 1:
             powers_slots.append({"select": False, "usage": "", "action": "", "name": "", "effect": ""})
-        while len(magic_items_slots) < 5:
+        while len(magic_items_slots) < 1:
             magic_items_slots.append({"select": False, "usage": "", "action": "", "name": "", "effect": ""})
 
 
@@ -753,22 +801,29 @@ def main():
             }
 
         st.markdown("---")
+        # Initialize flags for dynamic row additions/deletions
+        add_power_row = False
+        remove_power_row = False
+        add_item_row = False
+        remove_item_row = False
+
         # Bottom Layout: Powers (Left) & Magic Items (Right)
         col_bot1, col_bot2 = st.columns([1, 1])
         
         with col_bot1:
+            st.markdown('<div class="compact-tables">', unsafe_allow_html=True)
             st.markdown("#### ⚡ Powers & Special Abilities")
-            col_p_h1, col_p_h2, col_p_h3, col_p_h4, col_p_h5 = st.columns([0.8, 3, 1.2, 1.5, 3.5])
+            col_p_h1, col_p_h2, col_p_h3, col_p_h4, col_p_h5 = st.columns([2.2, 0.7, 1.2, 5.1, 0.8])
             with col_p_h1:
-                st.write("**Sel**")
-            with col_p_h2:
                 st.write("**Power Preset Selection**")
-            with col_p_h3:
+            with col_p_h2:
                 st.write("**Act**")
-            with col_p_h4:
+            with col_p_h3:
                 st.write("**Usage**")
-            with col_p_h5:
+            with col_p_h4:
                 st.write("**Effect Description**")
+            with col_p_h5:
+                st.write("")
                 
             updated_powers_slots = []
             selected_power_tables = sheet_data.get("selected_power_tables") or []
@@ -781,10 +836,8 @@ def main():
             filtered_powers_list = sorted(filtered_powers_list, key=lambda p: p.get("dropdown") or "")
             
             for i, slot in enumerate(powers_slots):
-                col_p1, col_p2, col_p3, col_p4, col_p5 = st.columns([0.8, 3, 1.2, 1.5, 3.5])
+                col_p1, col_p2, col_p3, col_p4, col_p5 = st.columns([2.2, 0.7, 1.2, 5.1, 0.8])
                 with col_p1:
-                    p_sel = st.checkbox("Sel", value=slot.get("select", False), key=f"p_sel_{i}", label_visibility="collapsed")
-                with col_p2:
                     current_name = slot.get("name") or " "
                     
                     # Construct preset options list showing short name for current selection and dropdown fields for other choices
@@ -844,43 +897,52 @@ def main():
                     st.toast(f"⚡ Loaded power: {p_name_sel}")
                     st.rerun()
                     
-                with col_p3:
+                with col_p2:
                     p_act = st.text_input("Act", value=slot.get("action", ""), key=f"p_act_{i}", label_visibility="collapsed")
-                with col_p4:
+                with col_p3:
                     p_use = st.text_input("Usage", value=slot.get("usage", ""), key=f"p_use_{i}", label_visibility="collapsed")
+                with col_p4:
+                    p_eff = st.text_area("Effect", value=slot.get("effect", ""), key=f"p_eff_{i}", label_visibility="collapsed")
                 with col_p5:
-                    p_eff = st.text_input("Effect", value=slot.get("effect", ""), key=f"p_eff_{i}", label_visibility="collapsed")
+                    if i == len(powers_slots) - 1:
+                        sub_p1, sub_p2 = st.columns([1, 1])
+                        with sub_p1:
+                            if st.button("➕", key=f"p_add_btn_{i}", help="Add a new row", use_container_width=True):
+                                add_power_row = True
+                        with sub_p2:
+                            if st.button("➖", key=f"p_rem_btn_{i}", help="Remove the last row", use_container_width=True):
+                                remove_power_row = True
                     
                 updated_powers_slots.append({
-                    "select": p_sel,
+                    "select": slot.get("select", False),
                     "name": p_name_sel if p_name_sel.strip() != "" else slot.get("name", ""),
                     "action": p_act,
                     "usage": p_use,
                     "effect": p_eff
                 })
+            st.markdown('</div>', unsafe_allow_html=True)
 
         with col_bot2:
+            st.markdown('<div class="compact-tables">', unsafe_allow_html=True)
             st.markdown("#### 🍺 Magic Items & Special Gear")
-            col_m_h1, col_m_h2, col_m_h3, col_m_h4, col_m_h5 = st.columns([0.8, 3, 1.2, 1.5, 3.5])
+            col_m_h1, col_m_h2, col_m_h3, col_m_h4, col_m_h5 = st.columns([2.2, 0.7, 1.2, 5.1, 0.8])
             with col_m_h1:
-                st.write("**Sel**")
-            with col_m_h2:
                 st.write("**Item Preset Selection**")
-            with col_m_h3:
+            with col_m_h2:
                 st.write("**Act**")
-            with col_m_h4:
+            with col_m_h3:
                 st.write("**Usage**")
-            with col_m_h5:
+            with col_m_h4:
                 st.write("**Effect Description**")
+            with col_m_h5:
+                st.write("")
                 
             updated_items_slots = []
             item_names = [" "] + [m["name"] for m in magic_items]
             
             for i, slot in enumerate(magic_items_slots):
-                col_m1, col_m2, col_m3, col_m4, col_m5 = st.columns([0.8, 3, 1.2, 1.5, 3.5])
+                col_m1, col_m2, col_m3, col_m4, col_m5 = st.columns([2.2, 0.7, 1.2, 5.1, 0.8])
                 with col_m1:
-                    m_sel = st.checkbox("Sel", value=slot.get("select", False), key=f"m_sel_{i}", label_visibility="collapsed")
-                with col_m2:
                     current_name = slot.get("name") or " "
                     preset_options = [current_name] + item_names if current_name not in item_names else item_names
                     m_name_sel = st.selectbox("Preset", preset_options, index=preset_options.index(current_name), key=f"m_name_sel_{i}", label_visibility="collapsed")
@@ -928,20 +990,74 @@ def main():
                     st.toast(f"🍺 Loaded item: {m_name_sel}")
                     st.rerun()
                     
-                with col_m3:
+                with col_m2:
                     m_act = st.text_input("Act", value=slot.get("action", ""), key=f"m_act_{i}", label_visibility="collapsed")
-                with col_m4:
+                with col_m3:
                     m_use = st.text_input("Usage", value=slot.get("usage", ""), key=f"m_use_{i}", label_visibility="collapsed")
+                with col_m4:
+                    m_eff = st.text_area("Effect", value=slot.get("effect", ""), key=f"m_eff_{i}", label_visibility="collapsed")
                 with col_m5:
-                    m_eff = st.text_input("Effect", value=slot.get("effect", ""), key=f"m_eff_{i}", label_visibility="collapsed")
+                    if i == len(magic_items_slots) - 1:
+                        sub_m1, sub_m2 = st.columns([1, 1])
+                        with sub_m1:
+                            if st.button("➕", key=f"m_add_btn_{i}", help="Add a new row", use_container_width=True):
+                                add_item_row = True
+                        with sub_m2:
+                            if st.button("➖", key=f"m_rem_btn_{i}", help="Remove the last row", use_container_width=True):
+                                remove_item_row = True
                     
                 updated_items_slots.append({
-                    "select": m_sel,
+                    "select": slot.get("select", False),
                     "name": m_name_sel if m_name_sel.strip() != "" else slot.get("name", ""),
                     "action": m_act,
                     "usage": m_use,
                     "effect": m_eff
                 })
+            st.markdown('</div>', unsafe_allow_html=True)
+
+        # Process dynamic row addition/deletion flags
+        force_save = False
+        if add_power_row:
+            updated_powers_slots.append({"select": False, "usage": "", "action": "", "name": "", "effect": ""})
+            force_save = True
+        if remove_power_row:
+            if updated_powers_slots:
+                last_slot = updated_powers_slots[-1]
+                is_empty = (
+                    not last_slot.get("name", "").strip() and
+                    not last_slot.get("action", "").strip() and
+                    not last_slot.get("usage", "").strip() and
+                    not last_slot.get("effect", "").strip()
+                )
+                if is_empty:
+                    if len(updated_powers_slots) > 1:
+                        updated_powers_slots.pop()
+                        force_save = True
+                    else:
+                        st.toast("Cannot delete the last remaining row.")
+                else:
+                    show_not_empty_warning("Powers")
+                    
+        if add_item_row:
+            updated_items_slots.append({"select": False, "usage": "", "action": "", "name": "", "effect": ""})
+            force_save = True
+        if remove_item_row:
+            if updated_items_slots:
+                last_slot = updated_items_slots[-1]
+                is_empty = (
+                    not last_slot.get("name", "").strip() and
+                    not last_slot.get("action", "").strip() and
+                    not last_slot.get("usage", "").strip() and
+                    not last_slot.get("effect", "").strip()
+                )
+                if is_empty:
+                    if len(updated_items_slots) > 1:
+                        updated_items_slots.pop()
+                        force_save = True
+                    else:
+                        st.toast("Cannot delete the last remaining row.")
+                else:
+                    show_not_empty_warning("Magic Items")
 
         # Save updates if changes made on other fields
         compiled_sheet_data = dict(sheet_data)
@@ -988,7 +1104,7 @@ def main():
         }
 
         # Check for diff before committing save
-        has_changes = False
+        has_changes = force_save
         for key, val in updated_db_data.items():
             if char_state.get(key) != val:
                 has_changes = True
