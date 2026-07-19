@@ -122,6 +122,12 @@ def main():
             padding-bottom: 2rem !important;
             min-width: 1200px !important;
         }
+        /* Help Tooltips styling */
+        div[data-baseweb="tooltip"] {
+            width: 600px !important;
+            max-height: 450px !important;
+            overflow-y: auto !important;
+        }
         /* Inline label styling for dense form layouts (2-column & 1-column) */
         div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:not(:has(> div[data-testid="stColumn"]:nth-child(3))) div[data-testid="stTextInput"],
         div.stElementContainer:has(.inline-inputs) ~ div div[data-testid="stHorizontalBlock"]:not(:has(> div[data-testid="stColumn"]:nth-child(3))) div[data-testid="stNumberInput"],
@@ -527,11 +533,12 @@ def main():
     with tab_char:
         # Load tooltips
         LEVEL_NOTE = (
-            "⭐ Step 1 — Level⭐ and AP🧩\n"
+            "⭐ **Step 1 — Level⭐ and AP🧩**  \n"
             "At the end of each large encounter at GM’s discretion, every player receives 1 Level⭐ and 1 Advancement Point (AP🧩). "
             "Thus, a character’s Level⭐ ALWAYS matches the total AP🧩 that character has ever received.\n\n"
-            "🎲 Step 2 — Vit💖 Roll And Atr🧩 Die\n"
+            "🎲 **Step 2 — Vit❤️ Roll And Atr🧩 Die**  \n"
             "All of step 2 below is AP🧩 free and costs no AP🧩.\n\n"
+            "```\n"
             "Level   Vit Max Roll                                    Atr Die\n"
             "1-3             10+1d(Moxie🫀)+(AP🧩*2)               d4, d4, d4, d6, d8\n"
             "4-8             10+2d(Moxie🫀)+(AP🧩*2)               d4, d4, d6, d6, d8\n"
@@ -547,12 +554,36 @@ def main():
             "144-168    10+12d(Moxie🫀)+(AP🧩*2)             d6, d8, d10, d10, d12\n"
             "169-195    10+13d(Moxie🫀)+(AP🧩*2)             d8, d8, d10, d10, d12\n"
             "196-224    10+14d(Moxie🫀)+(AP🧩*2)             d8, d8, d10, d12, d12\n"
-            "225+          10+15d(Moxie🫀)+(AP🧩*2)             d8, d10, d10, d12, d12"
+            "225+          10+15d(Moxie🫀)+(AP🧩*2)             d8, d10, d10, d12, d12\n"
+            "```\n\n"
+            "**Vit❤️ Max Roll**  \n"
+            "On each Level⭐, roll for new maximum Vit❤️  \n"
+            "* This is like \"Lucking 🍀\" Max Vit❤️ (roll a new number and keep the better of the old Vit❤️ or the new Vit❤️)  \n"
+            "* If your Moxie🫀 has increased you use the new Moxie🫀 number in the \"Vit❤️ Max Roll\" formula.\n\n"
+            "**Atr Die**  \n"
+            "On the indicated Levels⭐ your Atr die will change as per the \"Atr Die\" column above. You can assign these new numbers in any order to your attributes. All character sheet stats and abilities will immediately use these new attributes, so make all changes needed (e.g., Weapons Atk/Dmg, Armor Def, Next Vit Max Roll, all skills, powers, and magic items that reference Attributes.)\n\n"
+            "💲 **Step 3 — Spend AP🧩**  \n"
+            "Choose one of the 1 AP🧩 options from the table below, or save the AP🧩 for the single 2 AP🧩 option.\n\n"
+            "```\n"
+            "Category           AP    Options\n"
+            "Powers ⚡          *     * Gain 1 new Power (any listed or GM-approved custom)\n"
+            "                         * Randomly roll one Power on a GM-approved table. Get the Power at +1 to all typical rolls. If roll an existing Power (if not already so), otherwise, your AP is returned and you must spend it in another way.\n"
+            "                         * Upgrade an existing Power (stronger effect, extra use, or twist)\n"
+            "Skills 🎓          *     * Gain skill in any new SINGLE weapon, armor or skill\n"
+            "                   2     * Learn a new Skill Set (e.g., Dungeoneering, sailing) which includes all skills within that skill set.\n"
+            "Gear 🎒 & Magic ✨ *     * Gain or upgrade a Weapon, Armor, or Item (as if found)\n"
+            "                   *     * Acquire a Minor Magic Item (as if found)\n"
+            "                   *     * Upgrade a Magic Item Power (e.g., 1-Enc -> 2-Enc)\n"
+            "Vit 💖             *     * Gain +2 Vit per 1 AP\n"
+            "Atr ✅             *     * Reshuffle (e.g., swap some/all of your Atr dice)\n"
+            "```\n\n"
+            "All choices require GM approval. The GM may veto or suggest alternatives if a choice does not fit the campaign."
         )
         MONEY_NOTE = "1 Gold = 100 Silver"
         ATR_DIE_NOTE = (
-            "🎲 Step 2 — Atr🧩 Die Progression\n"
+            "🎲 **Step 2 — Atr🧩 Die Progression**  \n"
             "On the indicated Levels⭐ your Atr🧩 die will change:\n\n"
+            "```\n"
             "Level   Atr Die\n"
             "1-3             d4, d4, d4, d6, d8\n"
             "4-8             d4, d4, d6, d6, d8\n"
@@ -568,11 +599,13 @@ def main():
             "144-168     d6, d8, d10, d10, d12\n"
             "169-195     d8, d8, d10, d10, d12\n"
             "196-224     d8, d8, d10, d12, d12\n"
-            "225+           d8, d10, d10, d12, d12"
+            "225+           d8, d10, d10, d12, d12\n"
+            "```"
         )
         VIT_NOTE = (
-            "💖 Vit Max Roll Progression\n"
+            "💖 **Vit Max Roll Progression**  \n"
             "On each Level⭐, roll for new maximum Vit💖 (luck/keep the better roll).\n\n"
+            "```\n"
             "Level   Vit Max Roll\n"
             "1-3             10+1d(Moxie🫀)+(AP🧩*2)\n"
             "4-8             10+2d(Moxie🫀)+(AP🧩*2)\n"
@@ -588,13 +621,14 @@ def main():
             "144-168    10+12d(Moxie🫀)+(AP🧩*2)\n"
             "169-195    10+13d(Moxie🫀)+(AP🧩*2)\n"
             "196-224    10+14d(Moxie🫀)+(AP🧩*2)\n"
-            "225+          10+15d(Moxie🫀)+(AP🧩*2)"
+            "225+          10+15d(Moxie🫀)+(AP🧩*2)\n"
+            "```"
         )
         WNDS_NOTE = (
-            "💀 Wounds & Death Checks\n"
-            "Death Checks = Moxie🫀 roll vs Dif = 5 + (Wnd🩸 – Vit💖).\n"
+            "💀 **Wounds & Death Checks**  \n"
+            "Death Checks = Moxie🫀 roll vs Dif = 5 + (Wnd🩸 – Vit💖).  \n"
             "Example: Vit💖 20 with 23 Wnd🩸 ➡ Dif = 8.\n\n"
-            "🩸 Bleeding:\n"
+            "🩸 **Bleeding:**  \n"
             "After each Death Check, Wnd🩸 always increases by 1 unless you receive wound care or healing."
         )
 
@@ -623,7 +657,7 @@ def main():
         # Row 1: Traits & Vitals Block
         col_t1, col_t2 = st.columns([1, 1])
         with col_t1:
-            st.markdown("#### 👤 General Traits & Description")
+            st.markdown("#### 👤 Traits")
             st.markdown('<div class="inline-inputs">', unsafe_allow_html=True)
             col_sub1, col_sub2 = st.columns(2)
             with col_sub1:
@@ -669,7 +703,7 @@ def main():
 
 
         st.markdown("---")
-        st.markdown("### 🎲 Attributes & Proficiencies")
+        st.markdown("### 🎲 Attributes")
         
         # Header Row
         col_hdr1, col_hdr2, col_hdr3, col_hdr4 = st.columns([1.0, 0.6, 2.2, 4.0], vertical_alignment="center")
@@ -761,7 +795,7 @@ def main():
         col_mid1, col_mid2 = st.columns([7, 5])
         
         with col_mid1:
-            st.markdown("#### ⚔️ Weapons Grid")
+            st.markdown("#### ⚔️ Weapons")
             col_w_h1, col_w_h2, col_w_h3, col_w_h4, col_w_h5, col_w_h6 = st.columns([0.8, 1.2, 3.2, 1.8, 1.8, 1.8])
             with col_w_h1:
                 st.write("**Sk**")
@@ -861,7 +895,7 @@ def main():
         
         with col_bot1:
             st.markdown('<div class="compact-tables">', unsafe_allow_html=True)
-            st.markdown("#### ⚡ Powers & Special Abilities")
+            st.markdown("#### ⚡ Powers")
             col_p_h1, col_p_h2, col_p_h3, col_p_h4, col_p_h5 = st.columns([2.2, 0.7, 1.2, 5.1, 0.8])
             with col_p_h1:
                 st.write("**Power Preset Selection**")
@@ -973,7 +1007,7 @@ def main():
 
         with col_bot2:
             st.markdown('<div class="compact-tables">', unsafe_allow_html=True)
-            st.markdown("#### 🍺 Magic Items & Special Gear")
+            st.markdown("#### ✨ Magic Items")
             col_m_h1, col_m_h2, col_m_h3, col_m_h4, col_m_h5 = st.columns([2.2, 0.7, 1.2, 5.1, 0.8])
             with col_m_h1:
                 st.write("**Item Preset Selection**")
