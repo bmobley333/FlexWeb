@@ -160,8 +160,10 @@ def main():
     # Render logo at top of left sidebar
     st.sidebar.image("logo.png")
     
-    # Flex Rules Button
-    st.sidebar.link_button("Flex Rules 📜", "https://bmobley333.github.io/MetaScape-VitePress-GitHub-Pages/player-guide/moxie/rules.html", use_container_width=True)
+    # Flex Rules & NotebookLM Link Buttons
+    col_rules, col_notebook = st.sidebar.columns(2)
+    col_rules.link_button("Rules 📜", "https://bmobley333.github.io/MetaScape-VitePress-GitHub-Pages/player-guide/moxie/rules.html", use_container_width=True)
+    col_notebook.link_button("NotebookLM 🧠", "https://notebooklm.google.com/notebook/b6f07e02-de7d-427e-a32f-c5b3a00d5871", use_container_width=True)
     
     # Master Zoom UI Scale control
     zoom_level = st.sidebar.slider("UI Zoom Scale 🔍", min_value=0.75, max_value=1.25, value=1.0, step=0.05, key="master_zoom_slider")
