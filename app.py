@@ -11,6 +11,19 @@ from repositories import GameRepository
 import game_engine
 importlib.reload(game_engine)
 from game_engine import GameEngine
+import time
+
+# Infinite loop protection guard
+if "rerun_history" not in st.session_state:
+    st.session_state.rerun_history = []
+
+now = time.time()
+st.session_state.rerun_history = [t for t in st.session_state.rerun_history if now - t < 5.0]
+st.session_state.rerun_history.append(now)
+
+if len(st.session_state.rerun_history) > 10:
+    st.error("⚠️ Infinite reload loop detected! The application has been halted to protect database resources. Please refresh the page.")
+    st.stop()
 
 @st.dialog("⚠️ Character Creation Error")
 def show_error_dialog(message):
@@ -1091,6 +1104,9 @@ def main():
                     
                     # Add db presets
                     for p in filtered_powers_list:
+                        p_name = p.get("name")
+                        if p_name and p_name == current_name:
+                            continue
                         p_drop = p.get("dropdown") or p.get("name")
                         if p_drop and p_drop not in preset_options:
                             preset_options.append(p_drop)
@@ -1289,6 +1305,9 @@ def main():
                     
                     # Add db presets
                     for m in magic_items:
+                        m_name = m.get("name")
+                        if m_name and m_name == current_name:
+                            continue
                         m_drop = m.get("dropdown") or m.get("name")
                         if m_drop and m_drop not in preset_options:
                             preset_options.append(m_drop)
