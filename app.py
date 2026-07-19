@@ -900,22 +900,25 @@ def main():
             with col_arm2:
                 arm_name = st.text_input("Name", value=armor_shield.get("armor_name", ""), key="arm_name_input")
             
+            # Block and Dodge are read-only and clone/mirror Might and Motion respectively
             arm_ratings = ["4", "6", "8", "10", "12"]
-            current_block = armor_shield.get("block_active")
-            if current_block not in arm_ratings:
-                current_block = "4"
-            current_dodge = armor_shield.get("dodge_active")
-            if current_dodge not in arm_ratings:
-                current_dodge = "4"
+            might_str = str(new_might) if new_might is not None else "4"
+            block_act = "".join(c for c in might_str if c.isdigit()) or "4"
+            if block_act not in arm_ratings:
+                block_act = "4"
+            motion_str = str(new_motion) if new_motion is not None else "4"
+            dodge_act = "".join(c for c in motion_str if c.isdigit()) or "4"
+            if dodge_act not in arm_ratings:
+                dodge_act = "4"
             current_ar = armor_shield.get("armor_ar")
             if current_ar not in arm_ratings:
                 current_ar = "4"
                 
             col_a1, col_a2, col_a3 = st.columns([1, 1, 1], vertical_alignment="center")
             with col_a1:
-                block_act = st.selectbox("Block💪", arm_ratings, index=arm_ratings.index(current_block), key="arm_block_select")
+                st.text_input("Block💪", value=block_act, disabled=True, key="arm_block_input")
             with col_a2:
-                dodge_act = st.selectbox("Dodge🏃", arm_ratings, index=arm_ratings.index(current_dodge), key="arm_dodge_select")
+                st.text_input("Dodge🏃", value=dodge_act, disabled=True, key="arm_dodge_input")
             with col_a3:
                 arm_ar = st.selectbox("AR🧥", arm_ratings, index=arm_ratings.index(current_ar), key="arm_ar_select")
                 
