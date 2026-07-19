@@ -38,13 +38,13 @@ class GameRepository:
                 "dodge_active": ""
             },
             "powers": [
-                {"select": False, "usage": "", "action": "", "name": "", "effect": ""},
-                {"select": False, "usage": "", "action": "", "name": "", "effect": ""},
-                {"select": False, "usage": "", "action": "", "name": "", "effect": ""}
+                {"select": False, "usage": "", "action": "", "name": "", "effect": "", "checked": [False, False, False]},
+                {"select": False, "usage": "", "action": "", "name": "", "effect": "", "checked": [False, False, False]},
+                {"select": False, "usage": "", "action": "", "name": "", "effect": "", "checked": [False, False, False]}
             ],
             "magic_items": [
-                {"select": False, "usage": "", "action": "", "name": "", "effect": ""},
-                {"select": False, "usage": "", "action": "", "name": "", "effect": ""}
+                {"select": False, "usage": "", "action": "", "name": "", "effect": "", "checked": [False, False, False]},
+                {"select": False, "usage": "", "action": "", "name": "", "effect": "", "checked": [False, False, False]}
             ],
             "notes": "",
             "vitals": {

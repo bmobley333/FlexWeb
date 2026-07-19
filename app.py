@@ -86,6 +86,16 @@ def rebuild_skilled_at_attributes(known_skillsets, skillsets):
         
     return skilled_at
 
+def get_num_checkboxes(usage_str):
+    if not usage_str:
+        return 0
+    import re
+    match = re.search(r'\d+', usage_str)
+    if match:
+        val = int(match.group())
+        return max(0, min(3, val))
+    return 0
+
 def get_current_slots(slots, prefix):
     current = []
     for i, slot in enumerate(slots):
@@ -93,12 +103,27 @@ def get_current_slots(slots, prefix):
         action = st.session_state.get(f"{prefix}_act_{i}", slot.get("action", ""))
         usage = st.session_state.get(f"{prefix}_use_{i}", slot.get("usage", ""))
         effect = st.session_state.get(f"{prefix}_eff_{i}", slot.get("effect", ""))
+        
+        # Extract checkboxes list from session state or fall back to slot
+        checked = []
+        for b_idx in range(3):
+            val = st.session_state.get(f"{prefix}_check_{i}_{b_idx}", None)
+            if val is not None:
+                checked.append(val)
+            else:
+                slot_checked = slot.get("checked")
+                if slot_checked and b_idx < len(slot_checked):
+                    checked.append(slot_checked[b_idx])
+                else:
+                    checked.append(False)
+                    
         current.append({
             "select": slot.get("select", False),
             "name": name,
             "action": action,
             "usage": usage,
-            "effect": effect
+            "effect": effect,
+            "checked": checked
         })
     return current
 
@@ -140,12 +165,12 @@ def sort_slots(slots, prefix):
         curr_order = get_action_order(s.get("action", ""))
         if last_order is not None and curr_order != last_order:
             # Leave one blank row
-            grouped_slots.append({"select": False, "name": " ", "action": "", "usage": "", "effect": ""})
+            grouped_slots.append({"select": False, "name": " ", "action": "", "usage": "", "effect": "", "checked": [False, False, False]})
         grouped_slots.append(s)
         last_order = curr_order
         
     while len(grouped_slots) < 1:
-        grouped_slots.append({"select": False, "name": " ", "action": "", "usage": "", "effect": ""})
+        grouped_slots.append({"select": False, "name": " ", "action": "", "usage": "", "effect": "", "checked": [False, False, False]})
         
     return grouped_slots
 
@@ -713,9 +738,9 @@ def main():
         while len(weapons) < 5:
             weapons.append({"sk": False, "m_h_s": "M", "name": "", "atk": "", "dmg": "", "max_block": ""})
         while len(powers_slots) < 1:
-            powers_slots.append({"select": False, "usage": "", "action": "", "name": "", "effect": ""})
+            powers_slots.append({"select": False, "usage": "", "action": "", "name": "", "effect": "", "checked": [False, False, False]})
         while len(magic_items_slots) < 1:
-            magic_items_slots.append({"select": False, "usage": "", "action": "", "name": "", "effect": ""})
+            magic_items_slots.append({"select": False, "usage": "", "action": "", "name": "", "effect": "", "checked": [False, False, False]})
 
 
 
@@ -1115,6 +1140,24 @@ def main():
                     p_act = st.text_input("Act", value=slot.get("action", ""), key=f"p_act_{i}", label_visibility="collapsed")
                 with col_p3:
                     p_use = st.text_input("Usage", value=slot.get("usage", ""), key=f"p_use_{i}", label_visibility="collapsed")
+                    num_boxes = get_num_checkboxes(p_use)
+                    checked_state = slot.get("checked") or [False, False, False]
+                    if not isinstance(checked_state, list):
+                        checked_state = [False, False, False]
+                    while len(checked_state) < 3:
+                        checked_state.append(False)
+                        
+                    new_checked = list(checked_state)
+                    if num_boxes > 0:
+                        box_cols = st.columns(num_boxes)
+                        for b_idx in range(num_boxes):
+                            with box_cols[b_idx]:
+                                new_checked[b_idx] = st.checkbox(
+                                    "",
+                                    value=checked_state[b_idx],
+                                    key=f"p_check_{i}_{b_idx}",
+                                    label_visibility="collapsed"
+                                )
                 with col_p4:
                     p_eff = st.text_area("Effect", value=slot.get("effect", ""), key=f"p_eff_{i}", label_visibility="collapsed")
                 with col_p5:
@@ -1132,7 +1175,8 @@ def main():
                     "name": p_name_sel if p_name_sel.strip() != "" else slot.get("name", ""),
                     "action": p_act,
                     "usage": p_use,
-                    "effect": p_eff
+                    "effect": p_eff,
+                    "checked": new_checked
                 })
             st.markdown('</div>', unsafe_allow_html=True)
 
@@ -1262,6 +1306,24 @@ def main():
                     m_act = st.text_input("Act", value=slot.get("action", ""), key=f"m_act_{i}", label_visibility="collapsed")
                 with col_m3:
                     m_use = st.text_input("Usage", value=slot.get("usage", ""), key=f"m_use_{i}", label_visibility="collapsed")
+                    num_boxes = get_num_checkboxes(m_use)
+                    checked_state = slot.get("checked") or [False, False, False]
+                    if not isinstance(checked_state, list):
+                        checked_state = [False, False, False]
+                    while len(checked_state) < 3:
+                        checked_state.append(False)
+                        
+                    new_checked_item = list(checked_state)
+                    if num_boxes > 0:
+                        box_cols = st.columns(num_boxes)
+                        for b_idx in range(num_boxes):
+                            with box_cols[b_idx]:
+                                new_checked_item[b_idx] = st.checkbox(
+                                    "",
+                                    value=checked_state[b_idx],
+                                    key=f"m_check_{i}_{b_idx}",
+                                    label_visibility="collapsed"
+                                )
                 with col_m4:
                     m_eff = st.text_area("Effect", value=slot.get("effect", ""), key=f"m_eff_{i}", label_visibility="collapsed")
                 with col_m5:
@@ -1279,14 +1341,15 @@ def main():
                     "name": m_name_sel if m_name_sel.strip() != "" else slot.get("name", ""),
                     "action": m_act,
                     "usage": m_use,
-                    "effect": m_eff
+                    "effect": m_eff,
+                    "checked": new_checked_item
                 })
             st.markdown('</div>', unsafe_allow_html=True)
 
         # Process dynamic row addition/deletion flags
         force_save = False
         if add_power_row:
-            updated_powers_slots.append({"select": False, "usage": "", "action": "", "name": "", "effect": ""})
+            updated_powers_slots.append({"select": False, "usage": "", "action": "", "name": "", "effect": "", "checked": [False, False, False]})
             force_save = True
         if remove_power_row:
             if updated_powers_slots:
@@ -1307,7 +1370,7 @@ def main():
                     show_not_empty_warning("Powers")
                     
         if add_item_row:
-            updated_items_slots.append({"select": False, "usage": "", "action": "", "name": "", "effect": ""})
+            updated_items_slots.append({"select": False, "usage": "", "action": "", "name": "", "effect": "", "checked": [False, False, False]})
             force_save = True
         if remove_item_row:
             if updated_items_slots:
