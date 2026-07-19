@@ -208,6 +208,7 @@ class GameEngine:
         """
         Looks up selected_name in db_items list (from Supabase) and populates 
         usage, action, name, and effect in the slot dict. Clears the slot if empty.
+        Supports ad-libbed custom write-ins by retaining selected_name and existing fields.
         """
         # Clear slot first
         updated_slot = {
@@ -217,7 +218,10 @@ class GameEngine:
             "name": "",
             "effect": ""
         }
-        if selected_name:
+        if "checked" in slot:
+            updated_slot["checked"] = slot["checked"]
+            
+        if selected_name and selected_name.strip() != "":
             # Check by dropdown first, then by name
             match = next((item for item in db_items if item.get("dropdown") == selected_name), None)
             if not match:
@@ -228,5 +232,10 @@ class GameEngine:
                 updated_slot["usage"] = match.get("usage") or ""
                 updated_slot["action"] = match.get("action") or ""
                 updated_slot["effect"] = match.get("effect") or ""
+            else:
+                updated_slot["name"] = selected_name
+                updated_slot["usage"] = slot.get("usage") or ""
+                updated_slot["action"] = slot.get("action") or ""
+                updated_slot["effect"] = slot.get("effect") or ""
         return updated_slot
 
